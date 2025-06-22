@@ -23,14 +23,19 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
     var loginState by mutableStateOf<LoginState>(LoginState.Idle)
         private set
 
+    var loggedInUsername by mutableStateOf<String?>(null)
+        private set
+
     fun login(username: String, password: String) {
         viewModelScope.launch {
             loginState = LoginState.Loading
             val result = repository.login(username, password)
-            loginState = if (result.isSuccess) {
-                LoginState.Success(result.getOrNull()?.message ?: "Logged in")
+            if (result.isSuccess) {
+                val response = result.getOrNull()
+                loggedInUsername = response?.username
+                loginState = LoginState.Success(response?.message ?: "Logged in")
             } else {
-                LoginState.Error(result.exceptionOrNull()?.message ?: "Login failed")
+                loginState = LoginState.Error(result.exceptionOrNull()?.message ?: "Login failed")
             }
         }
     }
@@ -38,7 +43,6 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
     fun logout() {
         loginState = LoginState.Idle
     }
-
 
 }
 

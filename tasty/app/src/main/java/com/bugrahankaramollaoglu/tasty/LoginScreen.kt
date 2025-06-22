@@ -65,7 +65,7 @@ fun HomeScreen(authViewModel: AuthViewModel) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Welcome Home!")
+        Text("Welcome Home, ${authViewModel.loggedInUsername}")
 
         Spacer(modifier = Modifier.height(16.dp))
 

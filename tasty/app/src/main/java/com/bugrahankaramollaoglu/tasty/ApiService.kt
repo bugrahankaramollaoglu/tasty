@@ -6,7 +6,10 @@ import retrofit2.http.POST
 
 
 data class LoginRequest(val username: String, val password: String)
-data class LoginResponse(val message: String)
+data class LoginResponse(
+    val message: String,
+    val username: String  // Add this
+)
 
 interface ApiService {
     @POST("api/login/")
