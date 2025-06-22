@@ -12,7 +12,7 @@ class LoginView(APIView):
         if user is not None:
             return Response({
                 "message": "Login successful",
-                "username": user.username,   # <-- add this line
+                "username": user.username,
             }, status=status.HTTP_200_OK)
         else:
             return Response({"message": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)

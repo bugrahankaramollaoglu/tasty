@@ -11,16 +11,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.bugrahankaramollaoglu.tasty.ui.theme.TastyTheme
 
-
 class MainActivity : ComponentActivity() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
         val prefManager = PreferencesManager(applicationContext)
+
         val repository = AuthRepository(RetrofitClient.apiService)
+
         val authViewModel: AuthViewModel by viewModels {
             AuthViewModelFactory(repository, prefManager)
         }
@@ -33,5 +33,5 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
+}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 
