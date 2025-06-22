@@ -32,6 +32,10 @@ class AuthViewModel(
     var loggedInUsername by mutableStateOf<String?>(null)
         private set
 
+    fun resetLoginState() {
+        loginState = LoginState.Idle // or some neutral state with no error
+    }
+
     init {
         if (prefManager.isLoggedIn()) {
             loggedInUsername = prefManager.getUsername()

@@ -55,6 +55,13 @@ fun SignInScreen(
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+//    val loginState = viewModel.loginState
+
+    // Reset the login state whenever the screen is entered
+    LaunchedEffect(Unit) {
+        viewModel.resetLoginState()
+    }
+
     val loginState = viewModel.loginState
 
     LaunchedEffect(loginState) {
@@ -166,7 +173,13 @@ fun SignInScreen(
 
                 when (loginState) {
                     is LoginState.Loading -> {
-                        CircularProgressIndicator(modifier = Modifier.padding(top = 16.dp))
+                        CircularProgressIndicator(
+                            modifier = Modifier
+                                .padding(top = 16.dp)
+                                .size(48.dp),
+                            color = CustomColors.CustomRed,
+                            strokeWidth = 4.dp
+                        )
                     }
 
                     is LoginState.Error -> {

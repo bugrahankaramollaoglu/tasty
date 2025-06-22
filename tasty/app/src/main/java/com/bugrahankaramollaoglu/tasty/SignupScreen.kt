@@ -134,6 +134,9 @@ fun SignUpScreen(
                     CustomTextField(
                         value = email,
                         onValueChange = { email = it },
+                        modifier = Modifier.padding(
+                            horizontal = 30.dp
+                        ),
                         placeholder = "Enter email",
                         backgroundColor = CustomColors.CustomWhite2,
                         contentColor = Color.DarkGray,
@@ -148,6 +151,9 @@ fun SignUpScreen(
                         placeholder = "Enter password",
                         backgroundColor = CustomColors.CustomWhite2,
                         isPassword = true,
+                        modifier = Modifier.padding(
+                            horizontal = 30.dp
+                        ),
                         contentColor = Color.DarkGray,
                         leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) })
 
@@ -161,6 +167,9 @@ fun SignUpScreen(
                         placeholder = "Confirm password",
                         backgroundColor = CustomColors.CustomWhite2,
                         contentColor = Color.DarkGray,
+                        modifier = Modifier.padding(
+                            horizontal = 30.dp
+                        ),
                         leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) })
 
                     Spacer(Modifier.height(30.dp))
