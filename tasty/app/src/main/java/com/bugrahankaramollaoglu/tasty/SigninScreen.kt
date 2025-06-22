@@ -136,6 +136,7 @@ fun SignInScreen(
                     placeholder = "Enter password",
                     backgroundColor = CustomColors.CustomWhite2,
                     contentColor = Color.DarkGray,
+                    isPassword = true,
                     modifier = Modifier.padding(
                         horizontal = 30.dp
                     ),

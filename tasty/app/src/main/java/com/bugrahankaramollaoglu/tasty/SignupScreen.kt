@@ -147,6 +147,7 @@ fun SignUpScreen(
                         onValueChange = { password = it },
                         placeholder = "Enter password",
                         backgroundColor = CustomColors.CustomWhite2,
+                        isPassword = true,
                         contentColor = Color.DarkGray,
                         leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) })
 
@@ -156,6 +157,7 @@ fun SignUpScreen(
                     CustomTextField(
                         value = confirmPassword,
                         onValueChange = { confirmPassword = it },
+                        isPassword = true,
                         placeholder = "Confirm password",
                         backgroundColor = CustomColors.CustomWhite2,
                         contentColor = Color.DarkGray,
@@ -173,7 +175,6 @@ fun SignUpScreen(
                                     "Please fill all the fields"
 
                                 password != confirmPassword -> message = "Passwords do not match"
-
                                 else -> viewModel.login(email, password) // değiştir as signup()
                             }
                         },
