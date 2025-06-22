@@ -19,9 +19,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        val prefManager = PreferencesManager(applicationContext)
         val repository = AuthRepository(RetrofitClient.apiService)
         val authViewModel: AuthViewModel by viewModels {
-            AuthViewModelFactory(repository)
+            AuthViewModelFactory(repository, prefManager)
         }
 
         setContent {
