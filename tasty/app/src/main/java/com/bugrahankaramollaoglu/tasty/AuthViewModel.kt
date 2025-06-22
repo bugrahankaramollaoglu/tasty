@@ -12,14 +12,14 @@ import kotlinx.coroutines.launch
 class AuthViewModelFactory(private val repository: AuthRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(AuthViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return AuthViewModel(repository) as T
+            @Suppress("UNCHECKED_CAST") return AuthViewModel(repository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
 
-class AuthViewModel(private val repository: AuthRepository): ViewModel() {
+
+class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
     var loginState by mutableStateOf<LoginState>(LoginState.Idle)
         private set
 
@@ -34,6 +34,12 @@ class AuthViewModel(private val repository: AuthRepository): ViewModel() {
             }
         }
     }
+
+    fun logout() {
+        loginState = LoginState.Idle
+    }
+
+
 }
 
 sealed class LoginState {
