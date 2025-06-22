@@ -22,66 +22,40 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 
 
 @Composable
 fun LoginScreen() {
+
+    val repository = remember { AuthRepository(RetrofitClient.apiService) }
+    val authViewModel: AuthViewModel = viewModel(factory = AuthViewModelFactory(repository))
+
+    val loginState = authViewModel.loginState
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var message by remember { mutableStateOf("") }
-    val coroutineScope = rememberCoroutineScope()
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        TextField(
-            value = username,
-            onValueChange = { username = it },
-            label = { Text("Username") },
-            modifier = Modifier.fillMaxWidth()
-        )
+        TextField(value = username, onValueChange = { username = it }, label = { Text("Username") })
+        TextField(value = password, onValueChange = { password = it }, label = { Text("Password") }, visualTransformation = PasswordVisualTransformation())
 
-        Spacer(modifier = Modifier.height(8.dp))
-
-        TextField(
-            value = password,
-            onValueChange = { password = it },
-            label = { Text("Password") },
-            modifier = Modifier.fillMaxWidth(),
-            visualTransformation = PasswordVisualTransformation()
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Button(
-            onClick = {
-                coroutineScope.launch {
-                    try {
-                        val response = RetrofitClient.apiService.login(LoginRequest(username, password))
-                        if (response.isSuccessful) {
-                            message = response.body()?.message ?: "Login success"
-                        } else {
-                            message = "Login failed: Invalid credentials"
-                        }
-                    } catch (e: Exception) {
-                        message = "Error: ${e.message}"
-                    }
-                }
-            },
-            modifier = Modifier.fillMaxWidth()
-        ) {
+        Button(onClick = { authViewModel.login(username, password) }) {
             Text("Login")
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text(text = message)
+        when (loginState) {
+            is LoginState.Loading -> Text("Loading...")
+            is LoginState.Success -> Text(loginState.message)
+            is LoginState.Error -> Text("Error: ${loginState.error}")
+            else -> {}
+        }
     }
 }
