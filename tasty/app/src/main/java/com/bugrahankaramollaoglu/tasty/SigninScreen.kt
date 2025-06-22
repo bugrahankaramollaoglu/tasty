@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomSheetScaffold
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -54,12 +55,11 @@ fun SignInScreen(
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    val loginResult = viewModel.isLoggedIn()
+    val loginState = viewModel.loginState
 
-    LaunchedEffect(loginResult) {
-        if (loginResult == true) {
+    LaunchedEffect(loginState) {
+        if (loginState is LoginState.Success) {
             onLoginSuccess()
-        } else {
         }
     }
 
@@ -82,6 +82,8 @@ fun SignInScreen(
                         .height(4.dp)
                         .background(color = Color.Gray, shape = RoundedCornerShape(2.dp))
                 )
+
+
 
                 Box(
                     modifier = Modifier
@@ -161,6 +163,23 @@ fun SignInScreen(
 
                     modifier = Modifier.padding(horizontal = 30.dp)
                 )
+
+                when (loginState) {
+                    is LoginState.Loading -> {
+                        CircularProgressIndicator(modifier = Modifier.padding(top = 16.dp))
+                    }
+
+                    is LoginState.Error -> {
+                        Text(
+                            text = loginState.error,
+                            color = Color.Red,
+                            fontSize = 16.sp,
+                            modifier = Modifier.padding(top = 16.dp)
+                        )
+                    }
+
+                    else -> {}
+                }
 
                 Spacer(Modifier.height(15.dp))
 
