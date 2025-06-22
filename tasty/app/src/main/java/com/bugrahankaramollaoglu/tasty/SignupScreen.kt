@@ -50,19 +50,17 @@ import com.bugrahankaramollaoglu.tasty.util.myFontJomhuria
 @Composable
 fun SignUpScreen(
     viewModel: AuthViewModel,
-    registerViewModel: RegisterViewModel,
     navController: NavController,
     onRegisterSuccess: () -> Unit
 ) {
 
-    val registerState by registerViewModel.registerState.collectAsState()
+    val registerState by viewModel.registerState.collectAsState()
 
     /* ---------- UI state ---------- */
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
     var message by remember { mutableStateOf("") }
-//    val signUpResult = viewModel.signUpResult.value
 
     /* ---------- Observe sign‑up outcome ---------- *//*LaunchedEffect(signUpResult) {
         signUpResult?.let { result ->
@@ -74,9 +72,13 @@ fun SignUpScreen(
             }
         }
     }
+
+
+
 *//* ---------- Bottom‑sheet scaffold ---------- */
     val scaffoldState = rememberBottomSheetScaffoldState()
     val scope = rememberCoroutineScope()
+
 
     BottomSheetScaffold(
         scaffoldState = scaffoldState,
@@ -193,7 +195,7 @@ fun SignUpScreen(
 
                                 password != confirmPassword -> message = "Passwords do not match"
                                 else -> {
-                                    registerViewModel.registerUser(email, email, password, password)
+                                    viewModel.register(email, email, password, password)
                                 } // değiştir as signup()
                             }
                         },
@@ -223,7 +225,7 @@ fun SignUpScreen(
                             // Optionally, navigate or call success callback here
                             LaunchedEffect(Unit) {
                                 onRegisterSuccess()
-                                registerViewModel.resetState()
+//                                viewModel.resetRegisterState()
                             }
                         }
 

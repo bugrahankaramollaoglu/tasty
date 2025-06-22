@@ -6,6 +6,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 
@@ -20,21 +22,20 @@ class AuthViewModelFactory(
     }
 }
 
-
 class AuthViewModel(
     private val repository: AuthRepository, private val prefManager: PreferencesManager
 ) : ViewModel() {
 
-
+    // Login states
     var loginState by mutableStateOf<LoginState>(LoginState.Idle)
         private set
-
+    
     var loggedInUsername by mutableStateOf<String?>(null)
         private set
 
-    fun resetLoginState() {
-        loginState = LoginState.Idle // or some neutral state with no error
-    }
+    // Register states
+    private val _registerState = MutableStateFlow<RegisterState>(RegisterState.Idle)
+    val registerState: StateFlow<RegisterState> = _registerState
 
     init {
         if (prefManager.isLoggedIn()) {
@@ -45,14 +46,15 @@ class AuthViewModel(
 
     fun isLoggedIn(): Boolean = prefManager.isLoggedIn()
 
+    // Login function
     fun login(username: String, password: String) {
         viewModelScope.launch {
             loginState = LoginState.Loading
             val result = repository.login(username, password)
             loginState = if (result.isSuccess) {
                 prefManager.setLoggedIn(true)
-                prefManager.setUsername(username) // Save username here
-                loggedInUsername = username  // <-- ADD THIS LINE to update state
+                prefManager.setUsername(username)
+                loggedInUsername = username
                 LoginState.Success(result.getOrNull()?.message ?: "Logged in")
             } else {
                 LoginState.Error(result.exceptionOrNull()?.message ?: "Login failed")
@@ -60,12 +62,50 @@ class AuthViewModel(
         }
     }
 
+    // Register function
+    fun register(username: String, email: String, password: String, password2: String) {
+        _registerState.value = RegisterState.Loading
+
+        viewModelScope.launch {
+            try {
+                val response = RetrofitInstance.apiService.registerUser(
+                    RegisterRequest(username, email, password, password2)
+                )
+                if (response.isSuccessful) {
+                    prefManager.setLoggedIn(true)
+                    prefManager.setUsername(username ?: email)
+                    _registerState.value = RegisterState.Success("Registration successful")
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    _registerState.value = RegisterState.Error(errorBody ?: "Unknown error")
+                }
+            } catch (e: Exception) {
+                _registerState.value = RegisterState.Error("Network error: ${e.localizedMessage}")
+            }
+        }
+    }
+
+    fun resetLoginState() {
+        loginState = LoginState.Idle
+    }
+
+    fun resetRegisterState() {
+        _registerState.value = RegisterState.Idle
+    }
+
     fun logout() {
         prefManager.setLoggedIn(false)
         loggedInUsername = null
         loginState = LoginState.Idle
     }
+}
 
+
+sealed class RegisterState {
+    object Idle : RegisterState()
+    object Loading : RegisterState()
+    data class Success(val message: String) : RegisterState()
+    data class Error(val error: String) : RegisterState()
 }
 
 sealed class LoginState {
