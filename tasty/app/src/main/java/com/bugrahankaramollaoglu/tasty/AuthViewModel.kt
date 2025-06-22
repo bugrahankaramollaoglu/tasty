@@ -43,7 +43,6 @@ class AuthViewModel(
         }
     }
 
-
     fun isLoggedIn(): Boolean = prefManager.isLoggedIn()
 
     fun login(username: String, password: String) {

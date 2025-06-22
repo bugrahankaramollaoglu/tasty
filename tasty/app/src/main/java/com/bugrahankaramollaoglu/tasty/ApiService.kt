@@ -10,7 +10,26 @@ data class LoginResponse(
     val username: String  // Add this
 )
 
+data class RegisterRequest(
+    val username: String,
+    val email: String,
+    val password: String,
+    val password2: String
+)
+
+data class RegisterResponse(
+    val id: Int,
+    val username: String,
+    val email: String
+)
+
 interface ApiService {
-    @POST("api/login/")
+
+    // login
+    @POST("api/token/")
     suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
+
+    // register
+    @POST("api/register/")
+    suspend fun registerUser(@Body registerRequest: RegisterRequest): Response<RegisterResponse>
 }

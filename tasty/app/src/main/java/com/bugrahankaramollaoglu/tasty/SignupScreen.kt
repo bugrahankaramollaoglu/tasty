@@ -15,13 +15,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomSheetScaffold
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -45,8 +49,15 @@ import com.bugrahankaramollaoglu.tasty.util.myFontJomhuria
 
 @Composable
 fun SignUpScreen(
-    viewModel: AuthViewModel, navController: NavController, onLoginSuccess: () -> Unit
-) {/* ---------- UI state ---------- */
+    viewModel: AuthViewModel,
+    registerViewModel: RegisterViewModel,
+    navController: NavController,
+    onRegisterSuccess: () -> Unit
+) {
+
+    val registerState by registerViewModel.registerState.collectAsState()
+
+    /* ---------- UI state ---------- */
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
@@ -99,17 +110,14 @@ fun SignUpScreen(
                         contentDescription = "Go Back",
                         tint = Color.Black,
                         modifier = Modifier
-                            .size(40.dp)
-                            /*.background(
+                            .size(40.dp)/*.background(
                                 color = CustomColors.CustomWhite2,
                                 shape = RoundedCornerShape(50)
-                            )*/
-                            .padding(6.dp)
+                            )*/.padding(6.dp)
                             .align(Alignment.CenterStart)
                             .clickable {
                                 navController.navigate("login")
-                            }
-                    )
+                            })
 
                     Text(
                         text = "Sign Up",
@@ -184,7 +192,9 @@ fun SignUpScreen(
                                     "Please fill all the fields"
 
                                 password != confirmPassword -> message = "Passwords do not match"
-                                else -> viewModel.login(email, password) // değiştir as signup()
+                                else -> {
+                                    registerViewModel.registerUser(email, email, password, password)
+                                } // değiştir as signup()
                             }
                         },
                         backgroundColor = CustomColors.CustomRed,
@@ -195,6 +205,35 @@ fun SignUpScreen(
                     )
 
                     Spacer(Modifier.height(15.dp))
+
+                    when (registerState) {
+                        is RegisterState.Loading -> CircularProgressIndicator(
+                            modifier = Modifier
+                                .padding(top = 16.dp)
+                                .size(28.dp),
+                            color = CustomColors.CustomRed,
+                            strokeWidth = 4.dp
+                        )
+
+                        is RegisterState.Success -> {
+                            Text(
+                                text = (registerState as RegisterState.Success).message,
+                                color = MaterialTheme.colors.primary
+                            )
+                            // Optionally, navigate or call success callback here
+                            LaunchedEffect(Unit) {
+                                onRegisterSuccess()
+                                registerViewModel.resetState()
+                            }
+                        }
+
+                        is RegisterState.Error -> Text(
+                            text = (registerState as RegisterState.Error).error,
+                            color = MaterialTheme.colors.error
+                        )
+
+                        else -> {}
+                    }
 
                     /* back to sign‑in link */
                     Text(

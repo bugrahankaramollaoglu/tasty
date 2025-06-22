@@ -16,10 +16,11 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from tasty.views import LoginView
+from tasty.views import LoginView, RegisterView
 from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/login/', LoginView.as_view(), name='login'),
+    path('api/', include('tasty.urls')),  # include tasty urls under /api/
+    # path('', include('tasty.urls')), # what is the diff?
 ]

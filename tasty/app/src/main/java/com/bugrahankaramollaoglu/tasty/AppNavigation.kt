@@ -39,6 +39,7 @@ fun AppNavigation(authViewModel: AuthViewModel) {
         composable("sign_up") {
             SignUpScreen(
                 viewModel = authViewModel,
+                registerViewModel = RegisterViewModel(),
                 navController = navController,
             ) {
                 // clear login & sign-in screens from the back-stack
