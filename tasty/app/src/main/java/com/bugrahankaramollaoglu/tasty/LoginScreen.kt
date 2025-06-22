@@ -39,9 +39,7 @@ import com.bugrahankaramollaoglu.tasty.util.myFontJomhuria
 
 @Composable
 fun LoginScreen(
-    viewModel: AuthViewModel,
-    navController: NavController,
-    onLoginSuccess: () -> Unit
+    viewModel: AuthViewModel, navController: NavController, onLoginSuccess: () -> Unit
 ) {
     val scaffoldState = rememberBottomSheetScaffoldState()
     val scope = rememberCoroutineScope()
@@ -197,18 +195,18 @@ fun LoginScreen(
                     .matchParentSize()
                     .alpha(0.1f)
             )
-    
+
             Column(
                 modifier = Modifier.align(Alignment.TopCenter),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "TASTY\nNOW",
-                    fontSize = 60.sp,
+                    text = "TASTY APP",
+                    fontSize = 75.sp,
                     textAlign = TextAlign.Center,
                     color = CustomColors.CustomRed,
                     fontFamily = myFontJomhuria,
-                    modifier = Modifier.padding(top = 30.dp)
+                    modifier = Modifier.padding(top = 60.dp)
                 )
 
                 Image(
@@ -221,50 +219,3 @@ fun LoginScreen(
         }
     }
 }
-
-/*
-
-@Composable
-fun LoginScreen(authViewModel: AuthViewModel, navController: NavHostController) {
-    val loginState = authViewModel.loginState
-
-    var username by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        TextField(value = username, onValueChange = { username = it }, label = { Text("Username") })
-        TextField(
-            value = password,
-            onValueChange = { password = it },
-            label = { Text("Password") },
-            visualTransformation = PasswordVisualTransformation()
-        )
-        Button(onClick = {
-            authViewModel.login(username, password)
-        }) {
-            Text("Login")
-        }
-
-        when (loginState) {
-            is LoginState.Loading -> Text("Loading...")
-            is LoginState.Error -> Text("Error: ${loginState.error}")
-            is LoginState.Success -> {
-                // Navigate to home screen once login is successful
-                LaunchedEffect(Unit) {
-                    navController.navigate("home") {
-                        // Clear login screen from backstack so user cannot go back with back button
-                        popUpTo("login") { inclusive = true }
-                    }
-                }
-            }
-
-            else -> {}
-        }
-    }
-}
-*/
-

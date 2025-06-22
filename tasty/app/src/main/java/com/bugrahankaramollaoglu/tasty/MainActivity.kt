@@ -8,7 +8,6 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import com.bugrahankaramollaoglu.tasty.ui.theme.TastyTheme
 
 class MainActivity : ComponentActivity() {
@@ -27,7 +26,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             TastyTheme {
-                Surface(modifier = Modifier.fillMaxSize(), color = Color.Red) {
+                Surface(modifier = Modifier.fillMaxSize()) {
                     AppNavigation(authViewModel)
                 }
             }

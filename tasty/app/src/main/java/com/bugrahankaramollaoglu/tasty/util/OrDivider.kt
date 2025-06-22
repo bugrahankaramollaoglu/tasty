@@ -9,20 +9,26 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun OrDivider(text: String = "OR WITH") {
+fun OrDivider(text: String = "Or With") {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 16.dp, horizontal = 30.dp)
+            .padding(vertical = 16.dp, horizontal = 60.dp)
     ) {
         Divider(
-            color = CustomColors.CustomWhite2, thickness = 2.dp, modifier = Modifier.weight(1f)
+            color = CustomColors.CustomWhite2,
+            thickness = 2.dp,
+            modifier = Modifier
+                .weight(1f)
+                .shadow(elevation = 2.dp)
         )
         Text(
             text = text,
@@ -30,10 +36,14 @@ fun OrDivider(text: String = "OR WITH") {
             style = MaterialTheme.typography.body2.copy(
                 fontWeight = FontWeight.Bold
             ),
-            color = CustomColors.CustomWhite2
+            color = Color.White
         )
         Divider(
-            color = CustomColors.CustomWhite2, thickness = 2.dp, modifier = Modifier.weight(1f)
+            color = CustomColors.CustomWhite2,
+            thickness = 2.dp,
+            modifier = Modifier
+                .weight(1f)
+                .shadow(elevation = 2.dp)
         )
     }
 }

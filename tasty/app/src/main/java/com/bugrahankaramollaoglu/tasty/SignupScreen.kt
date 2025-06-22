@@ -1,6 +1,4 @@
-/*
 package com.bugrahankaramollaoglu.tasty
-
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -18,13 +16,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.Icon
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.rememberBottomSheetScaffoldState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -45,26 +42,18 @@ import com.bugrahankaramollaoglu.tasty.util.CustomColors
 import com.bugrahankaramollaoglu.tasty.util.CustomTextField
 import com.bugrahankaramollaoglu.tasty.util.myFontJomhuria
 
+
 @Composable
 fun SignUpScreen(
-    viewModel: AuthViewModel,
-    navController: NavController,
-    onSignUpSuccess: () -> Unit
-) {
-
-    */
-/* ---------- UI state ---------- *//*
-
+    viewModel: AuthViewModel, navController: NavController, onLoginSuccess: () -> Unit
+) {/* ---------- UI state ---------- */
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
     var message by remember { mutableStateOf("") }
-    val signUpResult = viewModel.signUpResult.value
+//    val signUpResult = viewModel.signUpResult.value
 
-    */
-/* ---------- Observe sign‑up outcome ---------- *//*
-
-    LaunchedEffect(signUpResult) {
+    /* ---------- Observe sign‑up outcome ---------- *//*LaunchedEffect(signUpResult) {
         signUpResult?.let { result ->
             if (result.isSuccess) {
                 message = "Sign‑up successful!"
@@ -74,29 +63,24 @@ fun SignUpScreen(
             }
         }
     }
-
-    */
-/* ---------- Bottom‑sheet scaffold ---------- *//*
-
+*//* ---------- Bottom‑sheet scaffold ---------- */
     val scaffoldState = rememberBottomSheetScaffoldState()
     val scope = rememberCoroutineScope()
 
     BottomSheetScaffold(
         scaffoldState = scaffoldState,
         sheetShape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
-        sheetPeekHeight = 430.dp,
+        sheetPeekHeight = 450.dp,
         sheetContent = {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(430.dp)
+                    .height(450.dp)
                     .background(CustomColors.CustomYellow),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top
             ) {
-                */
-/* top grabber *//*
-
+                /* top grabber */
                 Box(
                     modifier = Modifier
                         .padding(vertical = 15.dp)
@@ -105,85 +89,92 @@ fun SignUpScreen(
                         .background(Color.Gray, RoundedCornerShape(2.dp))
                 )
 
-//                Spacer(Modifier.height(15.dp))
-
-                Column(
+                Box(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Top
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp) // optional padding
                 ) {
-
-                    */
-/* title *//*
+                    Icon(
+                        painter = painterResource(id = R.drawable.go_back), // replace with your actual back icon
+                        contentDescription = "Go Back",
+                        tint = Color.Black,
+                        modifier = Modifier
+                            .size(40.dp)
+                            /*.background(
+                                color = CustomColors.CustomWhite2,
+                                shape = RoundedCornerShape(50)
+                            )*/
+                            .padding(6.dp)
+                            .align(Alignment.CenterStart)
+                            .clickable {
+                                navController.navigate("login")
+                            }
+                    )
 
                     Text(
                         text = "Sign Up",
                         fontSize = 50.sp,
                         fontFamily = myFontJomhuria,
                         color = CustomColors.CustomRed,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.align(Alignment.Center)
                     )
+                }
 
-                    */
-/* email *//*
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(10.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Top
+                ) {
 
+
+                    /* email */
                     CustomTextField(
                         value = email,
                         onValueChange = { email = it },
                         placeholder = "Enter email",
                         backgroundColor = CustomColors.CustomWhite2,
                         contentColor = Color.DarkGray,
-                        leadingIcon = { Icon(Icons.Default.Email, contentDescription = null) }
-                    )
+                        leadingIcon = { Icon(Icons.Default.Email, contentDescription = null) })
 
                     Spacer(Modifier.height(16.dp))
 
-                    */
-/* password *//*
-
+                    /* password */
                     CustomTextField(
                         value = password,
                         onValueChange = { password = it },
                         placeholder = "Enter password",
                         backgroundColor = CustomColors.CustomWhite2,
                         contentColor = Color.DarkGray,
-                        leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) }
-                    )
+                        leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) })
 
                     Spacer(Modifier.height(16.dp))
 
-                    */
-/* confirm password *//*
-
+                    /* confirm password */
                     CustomTextField(
                         value = confirmPassword,
                         onValueChange = { confirmPassword = it },
                         placeholder = "Confirm password",
                         backgroundColor = CustomColors.CustomWhite2,
                         contentColor = Color.DarkGray,
-                        leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) }
-                    )
+                        leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) })
 
                     Spacer(Modifier.height(30.dp))
 
-                    */
-/* sign‑up button *//*
-
+                    /* sign‑up button */
                     CustomButton(
                         text = "Sign Up",
                         onClick = {
                             message = ""
                             when {
-                                email.isBlank() || password.isBlank() || confirmPassword.isBlank() ->
-                                    message = "Please fill all the fields"
+                                email.isBlank() || password.isBlank() || confirmPassword.isBlank() -> message =
+                                    "Please fill all the fields"
 
-                                password != confirmPassword ->
-                                    message = "Passwords do not match"
+                                password != confirmPassword -> message = "Passwords do not match"
 
-                                else ->
-                                    viewModel.signUp(email, password, confirmPassword)
+                                else -> viewModel.login(email, password) // değiştir as signup()
                             }
                         },
                         backgroundColor = CustomColors.CustomRed,
@@ -193,11 +184,9 @@ fun SignUpScreen(
                             .padding(horizontal = 30.dp)
                     )
 
-                    Spacer(Modifier.height(25.dp))
+                    Spacer(Modifier.height(15.dp))
 
-                    */
-/* back to sign‑in link *//*
-
+                    /* back to sign‑in link */
                     Text(
                         text = "Already have an account? Sign in.",
                         fontSize = 30.sp,
@@ -212,11 +201,8 @@ fun SignUpScreen(
                     )
                 }
             }
-        }
-    ) {
-        */
-/* ---------- Main screen background ---------- *//*
-
+        }) {
+        /* ---------- Main screen background ---------- */
         Box(modifier = Modifier.fillMaxSize()) {
             Image(
                 painter = painterResource(id = R.drawable.login_background),
@@ -245,11 +231,10 @@ fun SignUpScreen(
                 Image(
                     painter = painterResource(id = R.drawable.login_logo),
                     contentDescription = null,
-                    contentScale = ContentScale.Crop,
+                    contentScale = ContentScale.Fit,
                     modifier = Modifier.size(250.dp)
                 )
             }
         }
     }
 }
-*/

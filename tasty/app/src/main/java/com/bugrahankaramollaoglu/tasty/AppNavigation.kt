@@ -15,12 +15,22 @@ fun AppNavigation(authViewModel: AuthViewModel) {
 
         composable("login") {
             LoginScreen(authViewModel, navController) {
-                
+
             }
         }
 
         composable("home") {
             HomeScreen(authViewModel, navController)
         }
+
+
+        composable("sign_in") {
+            SignInScreen(authViewModel, navController) { }
+        }
+
+        composable("sign_up") {
+            SignUpScreen(authViewModel, navController) { }
+        }
+
     }
 }
