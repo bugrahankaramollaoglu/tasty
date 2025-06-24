@@ -29,7 +29,7 @@ class AuthViewModel(
     // Login states
     var loginState by mutableStateOf<LoginState>(LoginState.Idle)
         private set
-    
+
     var loggedInUsername by mutableStateOf<String?>(null)
         private set
 
@@ -97,6 +97,7 @@ class AuthViewModel(
         prefManager.setLoggedIn(false)
         loggedInUsername = null
         loginState = LoginState.Idle
+
     }
 }
 
