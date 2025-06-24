@@ -1,4 +1,4 @@
-package com.bugrahankaramollaoglu.tasty
+package com.bugrahankaramollaoglu.tasty.api
 
 import retrofit2.Response
 import retrofit2.http.Body

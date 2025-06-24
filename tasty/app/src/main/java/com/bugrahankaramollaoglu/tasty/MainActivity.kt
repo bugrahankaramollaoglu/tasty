@@ -8,7 +8,11 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import com.bugrahankaramollaoglu.tasty.api.RetrofitInstance
+import com.bugrahankaramollaoglu.tasty.navigation.AppNavigation
 import com.bugrahankaramollaoglu.tasty.ui.theme.TastyTheme
+import com.bugrahankaramollaoglu.tasty.viewModel.AuthViewModel
+import com.bugrahankaramollaoglu.tasty.viewModel.AuthViewModelFactory
 
 class MainActivity : ComponentActivity() {
 

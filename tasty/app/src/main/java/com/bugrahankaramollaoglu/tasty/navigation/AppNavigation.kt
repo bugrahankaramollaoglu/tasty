@@ -1,9 +1,14 @@
-package com.bugrahankaramollaoglu.tasty
+package com.bugrahankaramollaoglu.tasty.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.bugrahankaramollaoglu.tasty.view.app_screens.HomeScreen
+import com.bugrahankaramollaoglu.tasty.view.login_screens.LoginScreen
+import com.bugrahankaramollaoglu.tasty.view.login_screens.SignInScreen
+import com.bugrahankaramollaoglu.tasty.view.login_screens.SignUpScreen
+import com.bugrahankaramollaoglu.tasty.viewModel.AuthViewModel
 
 @Composable
 fun AppNavigation(authViewModel: AuthViewModel) {

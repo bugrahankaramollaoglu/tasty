@@ -1,6 +1,9 @@
 package com.bugrahankaramollaoglu.tasty
 
 import android.util.Log
+import com.bugrahankaramollaoglu.tasty.api.ApiService
+import com.bugrahankaramollaoglu.tasty.api.LoginRequest
+import com.bugrahankaramollaoglu.tasty.api.LoginResponse
 
 class AuthRepository(private val api: ApiService) {
     suspend fun login(username: String, password: String): Result<LoginResponse> {

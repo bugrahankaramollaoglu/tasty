@@ -1,4 +1,4 @@
-package com.bugrahankaramollaoglu.tasty
+package com.bugrahankaramollaoglu.tasty.view.login_screens
 
 
 import androidx.compose.foundation.Image
@@ -40,10 +40,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.bugrahankaramollaoglu.tasty.R
 import com.bugrahankaramollaoglu.tasty.util.CustomButton
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
 import com.bugrahankaramollaoglu.tasty.util.CustomTextField
 import com.bugrahankaramollaoglu.tasty.util.myFontJomhuria
+import com.bugrahankaramollaoglu.tasty.viewModel.AuthViewModel
+import com.bugrahankaramollaoglu.tasty.viewModel.LoginState
 
 
 @Composable

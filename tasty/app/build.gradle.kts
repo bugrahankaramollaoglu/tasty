@@ -44,6 +44,8 @@ android {
 
 dependencies {
 
+    implementation("com.github.0xRahad:RioBottomNavigation:1.0.2")
+
     implementation("androidx.datastore:datastore-preferences:1.1.7")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
