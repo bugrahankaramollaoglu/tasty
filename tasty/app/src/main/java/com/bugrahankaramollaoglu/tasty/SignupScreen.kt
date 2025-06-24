@@ -222,10 +222,9 @@ fun SignUpScreen(
                                 text = (registerState as RegisterState.Success).message,
                                 color = MaterialTheme.colors.primary
                             )
-                            // Optionally, navigate or call success callback here
                             LaunchedEffect(Unit) {
                                 onRegisterSuccess()
-//                                viewModel.resetRegisterState()
+                                viewModel.resetRegisterState()
                             }
                         }
 
@@ -253,6 +252,7 @@ fun SignUpScreen(
                 }
             }
         }) {
+
         /* ---------- Main screen background ---------- */
         Box(modifier = Modifier.fillMaxSize()) {
             Image(

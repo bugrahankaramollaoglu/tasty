@@ -89,6 +89,7 @@ class AuthViewModel(
         loginState = LoginState.Idle
     }
 
+
     fun resetRegisterState() {
         _registerState.value = RegisterState.Idle
     }
