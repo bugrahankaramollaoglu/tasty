@@ -44,6 +44,9 @@ android {
 
 dependencies {
 
+    implementation("com.google.android.gms:play-services-maps:19.2.0")
+    implementation("com.google.maps.android:maps-compose:4.2.0")
+
     implementation("com.github.0xRahad:RioBottomNavigation:1.0.2")
 
     implementation("androidx.datastore:datastore-preferences:1.1.7")
