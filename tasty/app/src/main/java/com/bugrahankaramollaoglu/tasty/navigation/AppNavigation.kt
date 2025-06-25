@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.bugrahankaramollaoglu.tasty.view.app_screens.BottomNavScreens.CourierScreen
 import com.bugrahankaramollaoglu.tasty.view.app_screens.HomeScreen
 import com.bugrahankaramollaoglu.tasty.view.login_screens.LoginScreen
 import com.bugrahankaramollaoglu.tasty.view.login_screens.SignInScreen
@@ -22,6 +23,10 @@ fun AppNavigation(authViewModel: AuthViewModel) {
             LoginScreen(authViewModel, navController) {
                 navController.navigate("home")
             }
+        }
+
+        composable("courier") {
+            CourierScreen(navController)
         }
 
         composable("home") {

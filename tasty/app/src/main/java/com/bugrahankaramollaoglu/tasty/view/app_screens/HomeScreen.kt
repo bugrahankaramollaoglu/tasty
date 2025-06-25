@@ -10,12 +10,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.bugrahankaramollaoglu.tasty.R
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
 import com.bugrahankaramollaoglu.tasty.view.app_screens.BottomNavScreens.BasketScreen
 import com.bugrahankaramollaoglu.tasty.view.app_screens.BottomNavScreens.FavouritesScreen
-import com.bugrahankaramollaoglu.tasty.view.app_screens.BottomNavScreens.ProfileScreen
+import com.bugrahankaramollaoglu.tasty.view.app_screens.BottomNavScreens.FoodsScreen
 import com.bugrahankaramollaoglu.tasty.viewModel.AuthViewModel
 import com.rahad.riobottomnavigation.composables.RioBottomNavItemData
 import com.rahad.riobottomnavigation.composables.RioBottomNavigation
@@ -28,14 +29,14 @@ fun HomeScreen(authViewModel: AuthViewModel, navController: NavHostController) {
 @Composable
 fun HomeScreen(authViewModel: AuthViewModel, navController: NavHostController) {
     val items = listOf(
-        R.drawable.profile,
+        R.drawable.hamburger,
         R.drawable.favourite,
         R.drawable.basket,
         R.drawable.setting
     )
 
     val labels = listOf(
-        "Profile",
+        "Foods",
         "Favourite",
         "Basket",
         "Settings"
@@ -57,7 +58,7 @@ fun HomeScreen(authViewModel: AuthViewModel, navController: NavHostController) {
     // Main Scaffold setup
     Scaffold(
         bottomBar = {
-            BottomNavigationBar(buttons = buttons)
+            BottomNavigationBar(buttons = buttons, navController)
         },
         modifier = Modifier.fillMaxSize()
 
@@ -71,7 +72,7 @@ fun HomeScreen(authViewModel: AuthViewModel, navController: NavHostController) {
 @Composable
 fun ScreenContent(selectedIndex: Int, modifier: Modifier = Modifier) {
     when (selectedIndex) {
-        0 -> ProfileScreen()
+        0 -> FoodsScreen()
         1 -> FavouritesScreen()
         2 -> BasketScreen()
         3 -> SettingsScreen()
@@ -79,13 +80,15 @@ fun ScreenContent(selectedIndex: Int, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun BottomNavigationBar(buttons: List<RioBottomNavItemData>) {
+fun BottomNavigationBar(buttons: List<RioBottomNavItemData>, navController: NavController) {
     RioBottomNavigation(
         fabIcon = ImageVector.vectorResource(id = R.drawable.food_delivery),
         buttons = buttons,
         fabSize = 70.dp,
         barHeight = 70.dp,
         onFabClick = {
+
+            navController.navigate("courier")
 
         },
         selectedItemColor = CustomColors.CustomRed,

@@ -20,11 +20,8 @@ fun SettingsScreen() {
     ) {
         Column() {
             Image(
-
                 painter = painterResource(id = R.drawable.login_logo),
-
                 contentDescription = null
-
             )
         }
     }
