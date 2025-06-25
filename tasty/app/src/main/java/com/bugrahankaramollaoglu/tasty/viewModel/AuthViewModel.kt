@@ -102,7 +102,6 @@ class AuthViewModel(
         prefManager.setLoggedIn(false)
         loggedInUsername = null
         loginState = LoginState.Idle
-
     }
 }
 

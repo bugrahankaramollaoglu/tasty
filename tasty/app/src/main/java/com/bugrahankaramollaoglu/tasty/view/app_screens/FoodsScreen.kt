@@ -35,18 +35,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.bugrahankaramollaoglu.tasty.R
+import com.bugrahankaramollaoglu.tasty.model.Food
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
+import com.bugrahankaramollaoglu.tasty.util.myFontJomhuria
 
-data class Food(
-    val id: Int,
-    val name: String,
-    val imageRes: Int,
-    val isFavourite: Boolean,
-    val isFreeDelivery: Boolean,
-    val price: Double
-)
 
 @Composable
 fun FoodItem(food: Food) {
@@ -55,7 +51,8 @@ fun FoodItem(food: Food) {
             .padding(8.dp)
             .fillMaxWidth(),
         shape = RoundedCornerShape(8.dp),
-        elevation = 4.dp
+        elevation = 10.dp,
+        backgroundColor = CustomColors.CustomWhite
     ) {
         Column(
             modifier = Modifier.padding(8.dp)
@@ -92,8 +89,9 @@ fun FoodItem(food: Food) {
                 if (food.isFreeDelivery) {
                     Text(
                         text = "Free Delivery",
-                        style = MaterialTheme.typography.body1,
-                        color = Color.Green
+
+                        style = TextStyle(fontFamily = myFontJomhuria, fontSize = 35.sp),
+                        color = Color.Black,
                     )
                 }
             }
@@ -110,21 +108,21 @@ fun FoodsScreen() {
 
     val foods = listOf(
         Food(1, "Pizza", R.drawable.login_logo, true, true, 12.99),
-        Food(2, "Burger", R.drawable.login_logo, false, false, 8.99),
+        Food(2, "Burger", R.drawable.login_logo, true, false, 8.99),
         Food(3, "Sushi", R.drawable.login_logo, true, false, 15.99),
         Food(4, "Pasta", R.drawable.login_logo, false, true, 11.99),
         Food(4, "Pasta", R.drawable.login_logo, false, true, 11.99),
+        Food(4, "Pasta", R.drawable.login_logo, true, true, 11.99),
         Food(4, "Pasta", R.drawable.login_logo, false, true, 11.99),
         Food(4, "Pasta", R.drawable.login_logo, false, true, 11.99),
         Food(4, "Pasta", R.drawable.login_logo, false, true, 11.99),
+        Food(4, "Pasta", R.drawable.login_logo, true, true, 11.99),
+        Food(4, "Pasta", R.drawable.login_logo, true, true, 11.99),
         Food(4, "Pasta", R.drawable.login_logo, false, true, 11.99),
         Food(4, "Pasta", R.drawable.login_logo, false, true, 11.99),
-        Food(4, "Pasta", R.drawable.login_logo, false, true, 11.99),
-        Food(4, "Pasta", R.drawable.login_logo, false, true, 11.99),
-        Food(4, "Pasta", R.drawable.login_logo, false, true, 11.99),
-        Food(4, "Pasta", R.drawable.login_logo, false, true, 11.99),
-        Food(4, "Pasta", R.drawable.login_logo, false, true, 11.99),
-        Food(4, "Pasta", R.drawable.login_logo, false, true, 11.99),
+        Food(4, "Pasta", R.drawable.login_logo, true, true, 11.99),
+        Food(4, "Pasta", R.drawable.login_logo, true, true, 11.99),
+        Food(4, "Pasta", R.drawable.login_logo, true, true, 11.99),
         Food(4, "Pasta", R.drawable.login_logo, false, true, 11.99),
         Food(4, "Pasta", R.drawable.login_logo, false, true, 11.99),
         Food(4, "Pasta", R.drawable.login_logo, false, true, 11.99),
