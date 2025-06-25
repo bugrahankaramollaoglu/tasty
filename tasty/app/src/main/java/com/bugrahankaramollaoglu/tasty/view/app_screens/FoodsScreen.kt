@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bugrahankaramollaoglu.tasty.R
 import com.bugrahankaramollaoglu.tasty.model.Food
+import com.bugrahankaramollaoglu.tasty.util.CanvasHeader
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
 import com.bugrahankaramollaoglu.tasty.util.myFontJomhuria
 
@@ -54,6 +55,9 @@ fun FoodItem(food: Food) {
         elevation = 10.dp,
         backgroundColor = CustomColors.CustomWhite
     ) {
+
+//        CanvasHeader()
+
         Column(
             modifier = Modifier.padding(8.dp)
         ) {
@@ -99,6 +103,11 @@ fun FoodItem(food: Food) {
     }
 }
 
+@Composable
+fun CanvasHeader() {
+    TODO("Not yet implemented")
+}
+
 
 @Composable
 fun FoodsScreen() {
@@ -134,15 +143,19 @@ fun FoodsScreen() {
         it.name.contains(searchQuery, ignoreCase = true)
     }
 
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(CustomColors.CustomRed)
     ) {
 
+        CanvasHeader()
+
+
         Column {
 
-            Spacer(Modifier.height(100.dp))
+            Spacer(Modifier.height(150.dp))
 
             TextField(
                 value = searchQuery,
