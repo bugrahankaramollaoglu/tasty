@@ -272,12 +272,12 @@ fun SignUpScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "TASTY\nNOW",
+                    text = "TASTY NOW",
                     fontSize = 60.sp,
                     textAlign = TextAlign.Center,
                     color = CustomColors.CustomRed,
                     fontFamily = myFontJomhuria,
-                    modifier = Modifier.padding(top = 30.dp)
+                    modifier = Modifier.padding(top = 60.dp)
                 )
 
                 Spacer(Modifier.height(10.dp))
