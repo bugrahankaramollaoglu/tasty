@@ -72,7 +72,7 @@ class AuthViewModel(
 
         viewModelScope.launch {
             try {
-                val response = RetrofitInstance.apiService.registerUser(
+                val response = RetrofitInstance.authService.registerUser(
                     RegisterRequest(username, email, password, password2)
                 )
                 if (response.isSuccessful) {

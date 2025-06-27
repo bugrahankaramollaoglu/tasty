@@ -1,11 +1,11 @@
 package com.bugrahankaramollaoglu.tasty.data
 
 import android.util.Log
-import com.bugrahankaramollaoglu.tasty.api.ApiService
+import com.bugrahankaramollaoglu.tasty.api.AuthService
 import com.bugrahankaramollaoglu.tasty.api.LoginRequest
 import com.bugrahankaramollaoglu.tasty.api.LoginResponse
 
-class AuthRepository(private val api: ApiService) {
+class AuthRepository(private val api: AuthService) {
     suspend fun login(username: String, password: String): Result<LoginResponse> {
         return try {
             val response = api.login(LoginRequest(username, password))

@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
 
         val prefManager = PreferencesManager(applicationContext)
 
-        val authRepository = AuthRepository(RetrofitInstance.apiService)
+        val authRepository = AuthRepository(RetrofitInstance.authService)
 
         val authViewModel: AuthViewModel by viewModels {
             AuthViewModelFactory(authRepository, prefManager)

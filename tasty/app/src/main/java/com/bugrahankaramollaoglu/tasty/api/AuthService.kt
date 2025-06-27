@@ -4,7 +4,11 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-data class LoginRequest(val username: String, val password: String)
+data class LoginRequest(
+    val username: String,
+    val password: String
+)
+
 data class LoginResponse(
     val message: String,
     val username: String  // Add this
@@ -23,7 +27,7 @@ data class RegisterResponse(
     val email: String
 )
 
-interface ApiService {
+interface AuthService {
 
     // login
     @POST("api/token/")

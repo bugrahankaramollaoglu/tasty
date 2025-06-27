@@ -95,7 +95,6 @@ fun FoodsScreen(foodViewModel: FoodViewModel = viewModel()) {
                     FoodItem(food = food)
                 }
             }
-
         }
         Spacer(Modifier.height(50.dp))
 
