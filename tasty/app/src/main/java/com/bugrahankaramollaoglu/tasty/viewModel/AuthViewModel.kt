@@ -15,6 +15,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 
+// normalde viewModel constructerlari boş olur
+// ama bizimki almak zorunda. direkt
 class AuthViewModelFactory(
     private val repository: AuthRepository, private val prefManager: PreferencesManager
 ) : ViewModelProvider.Factory {
@@ -26,6 +28,8 @@ class AuthViewModelFactory(
     }
 }
 
+// login ve register işlerimizi yapacağımız viewModel.
+// PreferencesManager helps us save the credentials.
 class AuthViewModel(
     private val repository: AuthRepository, private val prefManager: PreferencesManager
 ) : ViewModel() {
@@ -114,8 +118,8 @@ sealed class RegisterState {
 }
 
 sealed class LoginState {
-    object Idle : LoginState()
-    object Loading : LoginState()
+    object Idle : LoginState() // before user clicks login
+    object Loading : LoginState() // when it waits for api response
     data class Success(val message: String) : LoginState()
     data class Error(val error: String) : LoginState()
 }

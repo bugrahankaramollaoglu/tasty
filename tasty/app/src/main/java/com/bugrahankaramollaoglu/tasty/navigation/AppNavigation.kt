@@ -20,26 +20,14 @@ fun AppNavigation(authViewModel: AuthViewModel) {
     NavHost(navController = navController, startDestination = startDestination) {
 
         composable("login") {
-            LoginScreen(authViewModel, navController) {
-                navController.navigate("home")
-            }
+            LoginScreen(navController)
         }
-
-        composable("courier") {
-            CourierScreen(navController)
-        }
-
-        composable("home") {
-            HomeScreen(authViewModel, navController)
-        }
-
 
         composable("sign_in") {
             SignInScreen(
-                viewModel = authViewModel,
+                authViewModel = authViewModel,
                 navController = navController,
             ) {
-                // clear login & sign-in screens from the back-stack
                 navController.navigate("home") {
                     popUpTo("login") { inclusive = true }
                 }
@@ -51,12 +39,18 @@ fun AppNavigation(authViewModel: AuthViewModel) {
                 viewModel = authViewModel,
                 navController = navController,
             ) {
-                // clear login & sign-in screens from the back-stack
                 navController.navigate("home") {
                     popUpTo("login") { inclusive = true }
                 }
             }
         }
 
+        composable("home") {
+            HomeScreen(authViewModel, navController)
+        }
+
+        composable("courier") {
+            CourierScreen(navController)
+        }
     }
 }

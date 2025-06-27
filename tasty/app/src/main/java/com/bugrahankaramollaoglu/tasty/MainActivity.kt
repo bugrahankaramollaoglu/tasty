@@ -32,6 +32,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             TastyTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
+                    // navigation mekanizmasi buradan oluyor
                     AppNavigation(authViewModel)
                 }
             }

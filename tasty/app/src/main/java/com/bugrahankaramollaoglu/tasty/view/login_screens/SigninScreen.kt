@@ -28,7 +28,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,21 +50,18 @@ import com.bugrahankaramollaoglu.tasty.viewModel.LoginState
 
 @Composable
 fun SignInScreen(
-    viewModel: AuthViewModel, navController: NavController, onLoginSuccess: () -> Unit
+    authViewModel: AuthViewModel, navController: NavController, onLoginSuccess: () -> Unit
 ) {
     val scaffoldState = rememberBottomSheetScaffoldState()
-    val scope = rememberCoroutineScope()
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-//    val loginState = viewModel.loginState
 
-    // Reset the login state whenever the screen is entered
     LaunchedEffect(Unit) {
-        viewModel.resetLoginState()
+        authViewModel.resetLoginState()
     }
 
-    val loginState = viewModel.loginState
+    val loginState = authViewModel.loginState
 
     LaunchedEffect(loginState) {
         if (loginState is LoginState.Success) {
@@ -80,7 +76,7 @@ fun SignInScreen(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(400.dp)  // Set desired height
+                    .height(400.dp)
                     .background(CustomColors.CustomYellow),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top
@@ -93,26 +89,24 @@ fun SignInScreen(
                         .background(color = Color.Gray, shape = RoundedCornerShape(2.dp))
                 )
 
-
-
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp) // optional padding
+                        .padding(horizontal = 16.dp)
                 ) {
+
                     Icon(
-                        painter = painterResource(id = R.drawable.go_back), // replace with your actual back icon
+                        painter = painterResource(id = R.drawable.go_back),
                         contentDescription = "Go Back",
                         tint = Color.Black,
                         modifier = Modifier
-                            .size(40.dp)/*.background(
-                                color = CustomColors.CustomWhite2,
-                                shape = RoundedCornerShape(50)
-                            )*/.padding(6.dp)
+                            .size(40.dp)
+                            .padding(6.dp)
                             .align(Alignment.CenterStart)
                             .clickable {
                                 navController.navigate("login")
-                            })
+                            }
+                    )
 
                     Text(
                         text = "Login!",
@@ -163,7 +157,7 @@ fun SignInScreen(
                     text = "Sign in", onClick = {
                         if (email.isNotEmpty() && password.isNotEmpty()) {
 
-                            viewModel.login(email, password)
+                            authViewModel.login(email, password)
 
                         } else {
 

@@ -36,15 +36,14 @@ import com.bugrahankaramollaoglu.tasty.util.CustomColors
 import com.bugrahankaramollaoglu.tasty.util.OrDivider
 import com.bugrahankaramollaoglu.tasty.util.SocialMediaButton
 import com.bugrahankaramollaoglu.tasty.util.myFontJomhuria
-import com.bugrahankaramollaoglu.tasty.viewModel.AuthViewModel
 
 
 @Composable
 fun LoginScreen(
-    viewModel: AuthViewModel, navController: NavController, onLoginSuccess: () -> Unit
+    navController: NavController
 ) {
     val scaffoldState = rememberBottomSheetScaffoldState()
-    val scope = rememberCoroutineScope()
+    rememberCoroutineScope()
 
     BottomSheetScaffold(
         scaffoldState = scaffoldState,
@@ -53,7 +52,7 @@ fun LoginScreen(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(400.dp)  // Set desired height
+                    .height(400.dp)
                     .background(CustomColors.CustomYellow),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top
@@ -105,42 +104,28 @@ fun LoginScreen(
                 Spacer(Modifier.height(15.dp))
 
                 Row {
+
                     SocialMediaButton(
-
                         onClick = { /* handle Google sign-in */ },
-
                         backgroundColor = CustomColors.CustomWhite,
-
                         contentColor = Color.Black,
-
                         icon = {
-
                             Icon(
-
                                 painter = painterResource(id = R.drawable.google_icon),
-
                                 contentDescription = "Google Sign-In",
-
                                 tint = Color.Unspecified,
-
                                 modifier = Modifier.size(24.dp)
-
                             )
-
-                        })
+                        }
+                    )
 
                     Spacer(Modifier.width(30.dp))
 
                     SocialMediaButton(
-
                         onClick = { /* handle Apple sign-in */ },
-
                         backgroundColor = CustomColors.CustomWhite,
-
                         contentColor = Color.Black,
-
                         icon = {
-
                             Icon(
 
                                 painter = painterResource(id = R.drawable.apple_icon),
@@ -158,27 +143,16 @@ fun LoginScreen(
                     Spacer(Modifier.width(30.dp))
 
                     SocialMediaButton(
-
                         onClick = { /* handle Facebook sign-in */ },
-
                         backgroundColor = CustomColors.CustomWhite,
-
                         contentColor = Color.Black,
-
                         icon = {
-
                             Icon(
-
                                 painter = painterResource(id = R.drawable.facebook_icon),
-
                                 contentDescription = "Facebook Sign-In",
-
                                 tint = Color.Unspecified,
-
                                 modifier = Modifier.size(24.dp)
-
                             )
-
                         })
 
                     Spacer(modifier = Modifier.height(46.dp))
@@ -186,13 +160,13 @@ fun LoginScreen(
                 }
             }
         },
-        sheetPeekHeight = 400.dp // Decide how much is shown initially
+        sheetPeekHeight = 400.dp // baslangıcta ne kadar bottomSheet gösterilecek
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             Image(
                 painter = painterResource(id = R.drawable.login_background),
                 contentDescription = null,
-                contentScale = ContentScale.Crop,
+                contentScale = ContentScale.FillHeight,
                 modifier = Modifier
                     .matchParentSize()
                     .alpha(0.1f)
@@ -215,7 +189,7 @@ fun LoginScreen(
                     painter = painterResource(id = R.drawable.login_logo),
                     contentDescription = null,
                     contentScale = ContentScale.Fit,
-                    modifier = Modifier.size(250.dp)
+                    modifier = Modifier.size(300.dp)
                 )
             }
         }
