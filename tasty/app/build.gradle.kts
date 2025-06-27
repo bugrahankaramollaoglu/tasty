@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("kotlin-kapt")  // add this line if missing
 }
 
 android {
@@ -43,6 +44,17 @@ android {
 }
 
 dependencies {
+
+
+    implementation("io.coil-kt:coil-compose:2.4.0") // latest as of mid-2025
+
+//    implementation(libs.moshi)
+//    implementation(libs.moshi.kotlin)
+
+    implementation("com.squareup.moshi:moshi-kotlin:1.15.0")
+    kapt("com.squareup.moshi:moshi-kotlin-codegen:1.15.0")
+
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
 
     implementation("com.google.android.gms:play-services-location:21.3.0")
     implementation("com.google.android.gms:play-services-maps:19.2.0")
