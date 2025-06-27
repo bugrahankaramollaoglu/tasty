@@ -1,4 +1,4 @@
-package com.bugrahankaramollaoglu.tasty
+package com.bugrahankaramollaoglu.tasty.data
 
 import android.util.Log
 import com.bugrahankaramollaoglu.tasty.api.ApiService
@@ -23,4 +23,3 @@ class AuthRepository(private val api: ApiService) {
         }
     }
 }
-

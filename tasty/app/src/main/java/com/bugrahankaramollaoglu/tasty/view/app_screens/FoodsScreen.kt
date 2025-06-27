@@ -39,28 +39,12 @@ fun FoodsScreen() {
     var searchQuery by remember { mutableStateOf("") }
 
     val foods = listOf(
-        Food(1, "Pizza", R.drawable.login_logo, true, true, 12.99),
-        Food(2, "Burger", R.drawable.login_logo, true, false, 8.99),
-        Food(3, "Sushi", R.drawable.login_logo, true, false, 15.99),
-        Food(4, "Pasta", R.drawable.login_logo, false, true, 11.99),
-        Food(4, "Pasta", R.drawable.login_logo, false, true, 11.99),
-        Food(4, "Pasta", R.drawable.login_logo, true, true, 11.99),
-        Food(4, "Pasta", R.drawable.login_logo, false, true, 11.99),
-        Food(4, "Pasta", R.drawable.login_logo, false, true, 11.99),
-        Food(4, "Pasta", R.drawable.login_logo, false, true, 11.99),
         Food(4, "Pasta", R.drawable.login_logo, true, true, 11.99),
         Food(4, "Pasta", R.drawable.login_logo, true, true, 11.99),
-        Food(4, "Pasta", R.drawable.login_logo, false, true, 11.99),
-        Food(4, "Pasta", R.drawable.login_logo, false, true, 11.99),
-        Food(4, "Pasta", R.drawable.login_logo, true, true, 11.99),
-        Food(4, "Pasta", R.drawable.login_logo, true, true, 11.99),
-        Food(4, "Pasta", R.drawable.login_logo, true, true, 11.99),
-        Food(4, "Pasta", R.drawable.login_logo, false, true, 11.99),
-        Food(4, "Pasta", R.drawable.login_logo, false, true, 11.99),
-        Food(4, "Pasta", R.drawable.login_logo, false, true, 11.99),
+        Food(4, "Makarna", R.drawable.login_logo, false, true, 11.99),
+        Food(4, "Lazanya", R.drawable.login_logo, false, true, 11.99),
         // add more food objects
     )
-
 
     val filteredFoods = foods.filter {
         it.name.contains(searchQuery, ignoreCase = true)
