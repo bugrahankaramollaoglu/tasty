@@ -14,9 +14,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-
 // normalde viewModel constructerlari boş olur
-// ama bizimki almak zorunda. direkt
+// ama bizimki almak zorunda. o yüzden Factory + VModel teknigini kullaniyoruz
+// hilt kullansaydin factory'e gerek kalmayacaktı
 class AuthViewModelFactory(
     private val repository: AuthRepository, private val prefManager: PreferencesManager
 ) : ViewModelProvider.Factory {
@@ -56,11 +56,20 @@ class AuthViewModel(
 
     // Login function
     fun login(username: String, password: String) {
+
+        // neden launch (coroutine) kullandik burada?
+        // cunku bu islemin async olmasini istiyoruz
+        // tipki internetle alakalı butun isler gibi (suspending func)
+        // cunku zaman aliyor ve mainThreadi bloklasın istemiyoruz
         viewModelScope.launch {
+            // loginState'i yükleniyor'a aliyoruz.
             loginState = LoginState.Loading
             val result = repository.login(username, password)
             loginState = if (result.isSuccess) {
+                // eğer giriş yapmışsa girişYapti flagini true yap
                 prefManager.setLoggedIn(true)
+
+                // giriş yapan kullanıcının bilgisini kaydet
                 prefManager.setUsername(username)
                 loggedInUsername = username
                 LoginState.Success(result.getOrNull()?.message ?: "Logged in")
@@ -76,6 +85,7 @@ class AuthViewModel(
 
         viewModelScope.launch {
             try {
+                // bir RegisterResponse objesi aliyor
                 val response = RetrofitInstance.authService.registerUser(
                     RegisterRequest(username, email, password, password2)
                 )

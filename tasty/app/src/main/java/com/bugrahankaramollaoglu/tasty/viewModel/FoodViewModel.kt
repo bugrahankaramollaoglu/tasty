@@ -1,23 +1,41 @@
 package com.bugrahankaramollaoglu.tasty.viewModel
 
-/*
-class FoodViewModel : ViewModel() {
-    var foods by mutableStateOf<List<FoodItemDto>>(emptyList())
-        private set
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.bugrahankaramollaoglu.tasty.data.FoodRepository
+import com.bugrahankaramollaoglu.tasty.model.FoodNetworkItem
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+
+class FoodViewModel(
+    private val repository: FoodRepository = FoodRepository()
+) : ViewModel() {
+
+    private val _foods = MutableStateFlow<List<FoodNetworkItem>>(emptyList())
+    val foods: StateFlow<List<FoodNetworkItem>> = _foods
+
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading
+
+    private val _errorMessage = MutableStateFlow<String?>(null)
+    val errorMessage: StateFlow<String?> = _errorMessage
 
     init {
-        getFoods()
+        fetchFoods()
     }
 
-    fun getFoods() {
+    private fun fetchFoods() {
         viewModelScope.launch {
+            _isLoading.value = true
             try {
-                val response = FoodsInstance.api.getAllFoods()
-                foods = response.foods
+                val foodList = repository.getFoods()
+                _foods.value = foodList
+                _errorMessage.value = null
             } catch (e: Exception) {
-                Log.d("mesaj", "Error: ${e.message}")
+                _errorMessage.value = e.message
             }
+            _isLoading.value = false
         }
     }
 }
-*/

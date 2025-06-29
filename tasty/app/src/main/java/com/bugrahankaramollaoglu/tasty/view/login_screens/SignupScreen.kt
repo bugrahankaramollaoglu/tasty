@@ -29,7 +29,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -65,7 +64,9 @@ fun SignUpScreen(
     var confirmPassword by remember { mutableStateOf("") }
     var message by remember { mutableStateOf("") }
 
-    /* ---------- Observe sign‑up outcome ---------- *//*LaunchedEffect(signUpResult) {
+    /* ---------- Observe sign‑up outcome ---------- *//*
+
+    LaunchedEffect(signUpResult) {
         signUpResult?.let { result ->
             if (result.isSuccess) {
                 message = "Sign‑up successful!"
@@ -76,11 +77,8 @@ fun SignUpScreen(
         }
     }
 
-
-
 *//* ---------- Bottom‑sheet scaffold ---------- */
     val scaffoldState = rememberBottomSheetScaffoldState()
-    val scope = rememberCoroutineScope()
 
 
     BottomSheetScaffold(

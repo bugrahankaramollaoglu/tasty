@@ -1,28 +1,42 @@
 package com.bugrahankaramollaoglu.tasty.model
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
-import com.squareup.moshi.Json
+import com.bugrahankaramollaoglu.tasty.util.myFontJomhuria
 
+/*
 data class FoodItemDto(
     @Json(name = "yemek_id") val id: Int,
     @Json(name = "yemek_adi") val name: String,
     @Json(name = "yemek_resim_adi") val imageName: String,
     @Json(name = "yemek_fiyat") val price: Double
 )
+*/
 
 @Composable
 fun FoodItem(food: FoodNetworkItem) {
@@ -30,87 +44,79 @@ fun FoodItem(food: FoodNetworkItem) {
 
     Card(
         modifier = Modifier
-            .padding(8.dp)
+            .padding(6.dp)
             .fillMaxWidth(),
         shape = RoundedCornerShape(8.dp),
-        elevation = 10.dp,
+        elevation = 20.dp,
         backgroundColor = CustomColors.CustomWhite
     ) {
-        Column(modifier = Modifier.padding(8.dp)) {
+        Column(modifier = Modifier.padding(12.dp)) {
+
+            Row(
+                modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
+
+            ) {
+
+                Text(
+                    "#${food.id}", style = TextStyle(
+                        fontFamily = myFontJomhuria,
+                        fontSize = 30.sp,
+                    )
+                )
+                Icon(
+                    imageVector = Icons.Default.FavoriteBorder,
+                    contentDescription = "Add to Favourites",
+                    tint = CustomColors.CustomYellow,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
             AsyncImage(
                 model = imageUrl,
                 contentDescription = food.name,
                 modifier = Modifier
-                    .height(120.dp)
+                    .height(100.dp)
                     .fillMaxWidth(),
                 contentScale = ContentScale.Crop
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = food.name, style = MaterialTheme.typography.subtitle2)
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(text = "$${food.price}", style = MaterialTheme.typography.body2)
-        }
-    }
-}
+            Spacer(modifier = Modifier.height(15.dp))
+            Spacer(modifier = Modifier.height(6.dp))
+            Row(
 
-/*
+                modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
 
-@Composable
-fun FoodItem(food: Food) {
-    Card(
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth(),
-        shape = RoundedCornerShape(8.dp),
-        elevation = 10.dp,
-        backgroundColor = CustomColors.CustomWhite
-    ) {
-
-        Column(
-            modifier = Modifier.padding(8.dp)
-        ) {
-
-            AsyncImage(
-                model = food.imageUrl,
-                contentDescription = food.name,
-                modifier = Modifier
-                    .height(120.dp)
-                    .fillMaxWidth(),
-                contentScale = ContentScale.Crop
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Text(text = food.name, style = MaterialTheme.typography.subtitle2)
-
-            Spacer(modifier = Modifier.height(4.dp))
-
-            Text(text = "$${food.price}", style = MaterialTheme.typography.body2)
-
-            Spacer(modifier = Modifier.height(4.dp))
-
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                */
-/*   if (food.isFavourite) {
-                       Icon(
-                           imageVector = Icons.Default.Favorite,
-                           contentDescription = "Favourite",
-                           tint = Color.Red,
-                           modifier = Modifier.size(20.dp)
-                       )
-                   }
-                   Spacer(modifier = Modifier.width(8.dp))
-                   if (food.isFreeDelivery) {
-                       Text(
-                           text = "Free Delivery",
-
-                           style = TextStyle(fontFamily = myFontJomhuria, fontSize = 35.sp),
-                           color = Color.Black,
-                       )
-                   }*//*
+            ) {
+                Column {
+                    Text(
+                        text = food.name, style = TextStyle(
+                            fontSize = 30.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = myFontJomhuria
+                        )
+                    )
+                    Text(text = "${food.price}₺", style = MaterialTheme.typography.button)
+                }
+                Button(
+                    modifier = Modifier
+                        .size(
+                            width = 50.dp, height = 35.dp
+                        )
+                        .align(Alignment.CenterVertically), colors = ButtonDefaults.buttonColors(
+                        backgroundColor = CustomColors.CustomYellow,
+                        contentColor = CustomColors.CustomBlack
+                    ), onClick = {}) {
+                    Text(
+                        text = "+", style = TextStyle(
+//                            fontSize = 20.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                        )
+                    )
+                }
 
             }
         }
     }
-}*/
+}

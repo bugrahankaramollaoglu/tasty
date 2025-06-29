@@ -31,9 +31,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bugrahankaramollaoglu.tasty.model.FoodItem
-import com.bugrahankaramollaoglu.tasty.model.FoodViewModel
 import com.bugrahankaramollaoglu.tasty.util.CanvasHeader
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
+import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
 
 @Composable
 fun FoodsScreen(foodViewModel: FoodViewModel = viewModel()) {

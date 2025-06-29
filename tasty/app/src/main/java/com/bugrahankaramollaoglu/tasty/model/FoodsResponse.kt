@@ -1,16 +1,39 @@
 package com.bugrahankaramollaoglu.tasty.model
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.bugrahankaramollaoglu.tasty.data.FoodRepository
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 
+// gelen "yemekler" api tablosunu temsil ediyor
+//
+// {
+//    "yemekler": [
+//    {
+//        "yemek_id": "1",
+//        "yemek_adi": "Ayran",
+//        "yemek_resim_adi": "ayran.png",
+//        "yemek_fiyat": "30"
+//    },
+//    {
+//        "yemek_id": "2",
+//        "yemek_adi": "Baklava",
+//        "yemek_resim_adi": "baklava.png",
+//        "yemek_fiyat": "250"
+//    },
+//    (...)
+//   ],
+//   "success": 1
+// }
+//
+// moshi bu tabloyu parse edecek ve bu apinin elemanlarıyla
+// bir 'foods' listesi oluşturacak
+// @JsonClass satırı sayesinde Moshi custom adapter yazmadan
+// otomatik olarak bir adapter yaratacak ve bu adapter json'i
+// kotlin objelerine otomatik olarak çevirecek (FoodResponseJsonAdapter gibi)
+//
 @JsonClass(generateAdapter = true)
 data class FoodResponse(
+    // Moshi now understands that the JSON "yemekler" corresponds
+    // to the Kotlin property "foods".
     @Json(name = "yemekler")
     val foods: List<FoodNetworkItem>
 )
@@ -18,6 +41,9 @@ data class FoodResponse(
 
 @JsonClass(generateAdapter = true)
 data class FoodNetworkItem(
+
+    // api'deki adlarla bu adlar aynı olsaydi
+    // @json satırlarına gerek kalmayacaktı
     @Json(name = "yemek_id")
     val id: Int,
     @Json(name = "yemek_adi")
@@ -27,36 +53,3 @@ data class FoodNetworkItem(
     @Json(name = "yemek_fiyat")
     val price: Double
 )
-
-
-class FoodViewModel(
-    private val repository: FoodRepository = FoodRepository()
-) : ViewModel() {
-
-    private val _foods = MutableStateFlow<List<FoodNetworkItem>>(emptyList())
-    val foods: StateFlow<List<FoodNetworkItem>> = _foods
-
-    private val _isLoading = MutableStateFlow(false)
-    val isLoading: StateFlow<Boolean> = _isLoading
-
-    private val _errorMessage = MutableStateFlow<String?>(null)
-    val errorMessage: StateFlow<String?> = _errorMessage
-
-    init {
-        fetchFoods()
-    }
-
-    private fun fetchFoods() {
-        viewModelScope.launch {
-            _isLoading.value = true
-            try {
-                val foodList = repository.getFoods()
-                _foods.value = foodList
-                _errorMessage.value = null
-            } catch (e: Exception) {
-                _errorMessage.value = e.message
-            }
-            _isLoading.value = false
-        }
-    }
-}

@@ -11,6 +11,7 @@ data class Food(
     val price: Double
 )
 
+/*
 fun FoodItemDto.toFood(): Food {
     val baseImageUrl = "http://kasimadalan.pe.hu/yemekler/resimler/"
     return Food(
@@ -22,4 +23,4 @@ fun FoodItemDto.toFood(): Food {
         isFavourite = false,
         isFreeDelivery = true
     )
-}
+}*/
