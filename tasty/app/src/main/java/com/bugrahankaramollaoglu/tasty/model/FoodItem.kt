@@ -26,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -83,7 +84,7 @@ fun FoodItem(food: FoodNetworkItem) {
                     Icon(
                         imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                         contentDescription = if (isFavorite) "Remove from Favorites" else "Add to Favorites",
-                        tint = if (isFavorite) CustomColors.CustomYellow else CustomColors.CustomBlack
+                        tint = if (isFavorite) Color.Red else CustomColors.CustomBlack
                     )
                 }
 
