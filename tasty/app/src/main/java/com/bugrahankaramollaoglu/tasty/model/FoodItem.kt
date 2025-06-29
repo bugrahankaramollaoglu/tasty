@@ -13,11 +13,17 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -41,6 +47,7 @@ data class FoodItemDto(
 @Composable
 fun FoodItem(food: FoodNetworkItem) {
     val imageUrl = "http://kasimadalan.pe.hu/yemekler/resimler/${food.imageName}"
+    var isFavorite by remember { mutableStateOf(false) }
 
     Card(
         modifier = Modifier
@@ -50,7 +57,14 @@ fun FoodItem(food: FoodNetworkItem) {
         elevation = 20.dp,
         backgroundColor = CustomColors.CustomWhite
     ) {
-        Column(modifier = Modifier.padding(12.dp)) {
+        Column(
+            modifier = Modifier.padding(
+                top = 0.dp,
+                start = 10.dp,
+                end = 10.dp,
+                bottom = 12.dp
+            )
+        ) {
 
             Row(
                 modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
@@ -61,14 +75,18 @@ fun FoodItem(food: FoodNetworkItem) {
                     "#${food.id}", style = TextStyle(
                         fontFamily = myFontJomhuria,
                         fontSize = 30.sp,
+                    ), modifier = Modifier.padding(top = 10.dp)
+                )
+//                var isFavorite by remember { mutableStateOf(false) }
+
+                IconButton(onClick = { isFavorite = !isFavorite }) {
+                    Icon(
+                        imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                        contentDescription = if (isFavorite) "Remove from Favorites" else "Add to Favorites",
+                        tint = if (isFavorite) CustomColors.CustomYellow else CustomColors.CustomBlack
                     )
-                )
-                Icon(
-                    imageVector = Icons.Default.FavoriteBorder,
-                    contentDescription = "Add to Favourites",
-                    tint = CustomColors.CustomYellow,
-                    modifier = Modifier.size(24.dp)
-                )
+                }
+
             }
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -110,7 +128,7 @@ fun FoodItem(food: FoodNetworkItem) {
                     ), onClick = {}) {
                     Text(
                         text = "+", style = TextStyle(
-//                            fontSize = 20.sp,
+                            fontSize = 20.sp,
                             fontWeight = FontWeight.ExtraBold,
                         )
                     )
