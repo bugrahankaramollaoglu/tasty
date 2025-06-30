@@ -1,8 +1,8 @@
 package com.bugrahankaramollaoglu.tasty.view.app_screens
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,7 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -20,7 +23,6 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -32,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -49,102 +52,210 @@ fun DetailsScreen(
     navController: NavController,
     foodViewModel: FoodViewModel = viewModel()
 ) {
-
-    var isFavorite by remember { mutableStateOf(false) }
-    var rating by remember { mutableIntStateOf(2) }
     val foods by foodViewModel.foods.collectAsState()
+    val food = foods.find { it.id == foodId }
 
-    var chosenFoodId by remember { mutableStateOf(foodId) }
+    food?.let { food ->
 
-//    val imageUrl = "http://kasimadalan.pe.hu/yemekler/resimler/${food.imageName}"
+        val imageUrl = "http://kasimadalan.pe.hu/yemekler/resimler/${food.imageName}"
 
-    LaunchedEffect(foodId) {
-        Log.d("mesaj", "DetailsScreen received foodId = $foodId")
-        chosenFoodId = foodId
-    }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(CustomColors.CustomRed),
-        horizontalAlignment = Alignment.CenterHorizontally
-
-    ) {
-
-        CanvasHeader()
-
-        Spacer(Modifier.height(20.dp))
-
-
-        Row(
-            modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(CustomColors.CustomRed),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
+            CanvasHeader()
 
-            IconButton(
-                onClick = {
+            Spacer(Modifier.height(20.dp))
 
-                    navController.popBackStack()
-                },
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
 
-
+                IconButton(
+                    onClick = {
+                        navController.popBackStack()
+                    },
                 ) {
-                Icon(
-                    imageVector = Icons.Default.Close,
+                    Icon(
+                        imageVector = Icons.Default.Close,
+                        tint = Color.Black,
+                        modifier = Modifier.size(30.dp),
+                        contentDescription = "Go Back"
+                    )
+                }
 
-                    tint = Color.Black,
+                Text(
+                    text = "Food Details",
+                    style = TextStyle(
+                        fontSize = 40.sp,
+                        fontFamily = myFontJomhuria,
+                        color = Color.Black,
+                    ),
+                    modifier = Modifier.padding(top = 5.dp)
+                )
 
-                    modifier = Modifier.size(30.dp),
+                var isFavorite by remember { mutableStateOf(false) }
+                IconButton(onClick = { isFavorite = !isFavorite }) {
+                    Icon(
+                        modifier = Modifier.size(30.dp),
+                        imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                        contentDescription = if (isFavorite) "Remove from Favorites" else "Add to Favorites",
+                    )
+                }
+            }
 
-                    contentDescription = "Go Back"
+            Spacer(Modifier.height(30.dp))
+
+            var rating by remember { mutableIntStateOf(2) }
+            CustomRatingBar(
+                rating = rating,
+                onRatingChanged = {
+                    rating = it
+                }
+            )
+
+
+            Box(
+                modifier = Modifier.size(250.dp)
+            ) {
+                AsyncImage(
+                    model = imageUrl,
+                    contentDescription = food.name,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Fit
                 )
             }
 
             Text(
-                text = "Food Details", style = TextStyle(
-                    fontSize = 40.sp,
-                    fontFamily = myFontJomhuria,
-                    color = Color.Black,
-                ), modifier = Modifier.padding(top = 5.dp)
+                text = "${food?.price ?: "N/A"} ₺",
+                fontSize = 35.sp,
+                fontWeight = FontWeight.Bold,
+                style = TextStyle(color = CustomColors.CustomYellow),
             )
 
-            IconButton(onClick = { isFavorite = !isFavorite }) {
-                Icon(
-                    modifier = Modifier.size(30.dp),
-                    imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                    contentDescription = if (isFavorite) "Remove from Favorites" else "Add to Favorites",
-                    tint = if (isFavorite) CustomColors.CustomBlack else CustomColors.CustomBlack
+            Text(
+                text = "${food?.name ?: "UNKNOWN"}",
+                fontSize = 65.sp,
+                fontFamily = myFontJomhuria,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(8.dp)
+            )
+
+            Row(
+            ) {
+                Button(
+                    modifier = Modifier
+                        .size(
+                            width = 50.dp, height = 50.dp
+                        )
+
+                        .align(Alignment.CenterVertically),
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = CustomColors.CustomYellow,
+                        contentColor = CustomColors.CustomBlack
+                    ), onClick = {}, shape = RoundedCornerShape(12.dp)
+                ) {
+                    Text(
+                        text = "-", style = TextStyle(
+                            fontSize = 30.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                        )
+                    )
+                }
+
+                Spacer(Modifier.width(20.dp))
+
+                Text(
+                    text = "2", style = TextStyle(
+                        fontSize = 80.sp,
+                        fontFamily = myFontJomhuria
+                    ),
+                    modifier = Modifier.padding(horizontal = 10.dp)
                 )
+
+
+                Spacer(Modifier.width(20.dp))
+
+                Button(
+                    modifier = Modifier
+                        .size(
+                            width = 50.dp, height = 50.dp
+                        )
+                        .align(Alignment.CenterVertically),
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = CustomColors.CustomYellow,
+                        contentColor = CustomColors.CustomBlack
+                    ), onClick = {}, shape = RoundedCornerShape(12.dp)
+                ) {
+                    Text(
+                        text = "+", style = TextStyle(
+                            fontSize = 25.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                        )
+                    )
+                }
             }
 
+            Spacer(Modifier.height(10.dp))
+
+
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.Center
+            ) {
+
+                Button(
+                    modifier = Modifier
+                        .size(
+                            width = 250.dp, height = 50.dp
+                        )
+                        .align(Alignment.CenterHorizontally),
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = CustomColors.CustomBlack,
+                        contentColor = CustomColors.CustomWhite2
+                    ), onClick = {}, shape = RoundedCornerShape(6.dp)
+                ) {
+                    Text(
+                        text = "Add to Basket", style = TextStyle(
+                            fontSize = 35.sp,
+                            color = CustomColors.CustomYellow,
+                            fontFamily = myFontJomhuria,
+                            fontWeight = FontWeight.ExtraBold,
+                        )
+                    )
+                }
+
+                Spacer(Modifier.height(20.dp))
+
+
+                Text(
+                    text = "410 ₺",
+                    style = TextStyle(
+                        fontSize = 35.sp,
+                        color = CustomColors.CustomWhite2,
+                    ),
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                )
+
+
+            }
 
         }
 
-        Button(
-            onClick = {
-                Log.d("mesaj", foods.size.toString())
-            }) {
-            Text("gelen id: $chosenFoodId")
-        }
-
-//        Spacer(Modifier.height(30.dp))
-
-        CustomRatingBar(
-            rating = rating, onRatingChanged = {
-                Log.d("mesaj", "changed to ${rating}")
-                rating = it
-            })
-
-        AsyncImage(
-            model = null,
-//            contentDescription = food.name,
-            contentDescription = "nameee",
+    } ?: run {
+        Column(
             modifier = Modifier
-                .height(100.dp)
-                .fillMaxWidth(),
-            contentScale = ContentScale.Crop
-        )
-
+                .fillMaxSize()
+                .background(Color.LightGray),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(text = "Loading food details...", color = Color.Black)
+        }
     }
 }
 

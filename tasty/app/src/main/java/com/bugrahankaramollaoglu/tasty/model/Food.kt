@@ -19,5 +19,5 @@ data class Food(
     @Json(name = "yemek_id") val id: Int,
     @Json(name = "yemek_adi") val name: String,
     @Json(name = "yemek_resim_adi") val imageName: String,
-    @Json(name = "yemek_fiyat") val price: Double
+    @Json(name = "yemek_fiyat") val price: Int
 )
