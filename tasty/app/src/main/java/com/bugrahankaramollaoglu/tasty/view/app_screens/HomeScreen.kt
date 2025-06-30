@@ -18,6 +18,7 @@ import com.bugrahankaramollaoglu.tasty.R
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
 import com.bugrahankaramollaoglu.tasty.view.app_screens.BottomNavScreens.BasketScreen
 import com.bugrahankaramollaoglu.tasty.view.app_screens.BottomNavScreens.FavouritesScreen
+import com.bugrahankaramollaoglu.tasty.view.app_screens.BottomNavScreens.FoodsScreen
 import com.bugrahankaramollaoglu.tasty.viewModel.AuthViewModel
 import com.rahad.riobottomnavigation.composables.RioBottomNavItemData
 import com.rahad.riobottomnavigation.composables.RioBottomNavigation
@@ -37,6 +38,7 @@ fun HomeScreen(authViewModel: AuthViewModel, navController: NavHostController) {
 
     // Use rememberSaveable to retain state across configuration changes
     var selectedIndex = rememberSaveable { mutableIntStateOf(0) }
+
 
     // Create RioBottomNavItemData for the bottom navigation buttons
     val buttons = items.mapIndexed { index, iconData ->
@@ -71,12 +73,12 @@ fun HomeScreen(authViewModel: AuthViewModel, navController: NavHostController) {
 @Composable
 fun ScreenContent(
     selectedIndex: Int,
-    modifier: Modifier = Modifier,
+    modifier: Modifier,
     navController: NavHostController,
     authViewModel: AuthViewModel,
 ) {
     when (selectedIndex) {
-        0 -> DetailsScreen() // foods degistir
+        0 -> FoodsScreen(navController) // foods degistir
         1 -> FavouritesScreen()
         2 -> BasketScreen()
         3 -> SettingsScreen(authViewModel, navController)

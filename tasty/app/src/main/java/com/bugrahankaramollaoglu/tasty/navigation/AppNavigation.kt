@@ -1,10 +1,13 @@
 package com.bugrahankaramollaoglu.tasty.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.bugrahankaramollaoglu.tasty.view.app_screens.BottomNavScreens.CourierScreen
+import com.bugrahankaramollaoglu.tasty.view.app_screens.DetailsScreen
 import com.bugrahankaramollaoglu.tasty.view.app_screens.HomeScreen
 import com.bugrahankaramollaoglu.tasty.view.login_screens.LoginScreen
 import com.bugrahankaramollaoglu.tasty.view.login_screens.SignInScreen
@@ -44,6 +47,16 @@ fun AppNavigation(authViewModel: AuthViewModel) {
                     popUpTo("login") { inclusive = true }
                 }
             }
+        }
+
+        composable(
+            route = "details/{foodId}",
+            arguments = listOf(navArgument("foodId") {
+                type = NavType.IntType  // <-- Important: specify argument type as Int
+            })
+        ) { backStackEntry ->
+            val foodId = backStackEntry.arguments?.getInt("foodId") ?: 0
+            DetailsScreen(foodId = foodId, navController = navController)
         }
 
         composable("home") {

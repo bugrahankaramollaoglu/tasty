@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -38,8 +39,9 @@ import com.bugrahankaramollaoglu.tasty.util.myFontJomhuria
 
 
 // her bir food kartını temsil eden UI widgeti
+@ExperimentalMaterialApi
 @Composable
-fun FoodItem(food: Food) {
+fun FoodItem(food: Food, onClick: () -> Unit) {
     val imageUrl = "http://kasimadalan.pe.hu/yemekler/resimler/${food.imageName}"
     var isFavorite by remember { mutableStateOf(false) }
 
@@ -49,6 +51,8 @@ fun FoodItem(food: Food) {
             .fillMaxWidth(),
         shape = RoundedCornerShape(8.dp),
         elevation = 20.dp,
+
+        onClick = onClick,
         backgroundColor = CustomColors.CustomWhite
     ) {
         Column(

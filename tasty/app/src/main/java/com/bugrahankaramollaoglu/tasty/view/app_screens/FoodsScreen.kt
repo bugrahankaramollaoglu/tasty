@@ -1,5 +1,6 @@
 package com.bugrahankaramollaoglu.tasty.view.app_screens.BottomNavScreens
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -30,21 +31,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.bugrahankaramollaoglu.tasty.model.FoodItem
 import com.bugrahankaramollaoglu.tasty.util.CanvasHeader
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
 import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
 
 @Composable
-fun FoodsScreen(foodViewModel: FoodViewModel = viewModel()) {
+fun FoodsScreen(navController: NavController) {
 
+    val foodViewModel: FoodViewModel = viewModel()
     val foods by foodViewModel.foods.collectAsState()
     val isLoading by foodViewModel.isLoading.collectAsState()
     val errorMessage by foodViewModel.errorMessage.collectAsState()
 
     var searchQuery by remember { mutableStateOf("") }
 
-    val filteredFoods = foods.filter {
+    val filteredFoods = foods.filter { it ->
         it.name.contains(searchQuery, ignoreCase = true)
     }
 
@@ -92,7 +95,10 @@ fun FoodsScreen(foodViewModel: FoodViewModel = viewModel()) {
                 contentPadding = PaddingValues(bottom = 100.dp)
             ) {
                 items(filteredFoods) { food ->
-                    FoodItem(food = food)
+                    FoodItem(food = food) {
+                        Log.d("mesaj", "clicked on: ${food.id}")
+                        navController.navigate("details/${food.id}")
+                    }
                 }
             }
         }
