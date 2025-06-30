@@ -23,8 +23,7 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
         }
     }
@@ -44,7 +43,6 @@ android {
 }
 
 dependencies {
-
 
     implementation("io.coil-kt:coil-compose:2.4.0") // latest as of mid-2025
 

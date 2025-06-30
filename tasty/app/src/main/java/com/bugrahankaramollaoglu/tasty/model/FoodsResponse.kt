@@ -35,21 +35,7 @@ data class FoodResponse(
     // Moshi now understands that the JSON "yemekler" corresponds
     // to the Kotlin property "foods".
     @Json(name = "yemekler")
-    val foods: List<FoodNetworkItem>
+    val foods: List<Food>
 )
 
 
-@JsonClass(generateAdapter = true)
-data class FoodNetworkItem(
-
-    // api'deki adlarla bu adlar aynı olsaydi
-    // @json satırlarına gerek kalmayacaktı
-    @Json(name = "yemek_id")
-    val id: Int,
-    @Json(name = "yemek_adi")
-    val name: String,
-    @Json(name = "yemek_resim_adi")
-    val imageName: String,
-    @Json(name = "yemek_fiyat")
-    val price: Double
-)

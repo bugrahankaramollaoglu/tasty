@@ -11,6 +11,7 @@ import com.bugrahankaramollaoglu.tasty.view.login_screens.SignInScreen
 import com.bugrahankaramollaoglu.tasty.view.login_screens.SignUpScreen
 import com.bugrahankaramollaoglu.tasty.viewModel.AuthViewModel
 
+// page routingleri düzenleyen fonksiyon
 @Composable
 fun AppNavigation(authViewModel: AuthViewModel) {
     val navController = rememberNavController()

@@ -30,8 +30,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.bugrahankaramollaoglu.tasty.R
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
 import com.bugrahankaramollaoglu.tasty.util.RequestLocationPermission
 import com.google.android.gms.location.LocationCallback
@@ -50,7 +52,7 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 
-@SuppressLint("MissingPermission") // permission is handled manually
+@SuppressLint("MissingPermission")
 @Composable
 fun CourierScreen(navController: NavController) {
     var customIcon by remember { mutableStateOf<BitmapDescriptor?>(null) }
@@ -61,6 +63,8 @@ fun CourierScreen(navController: NavController) {
     var userLocation by remember { mutableStateOf<LatLng?>(null) }
 
     val cameraPositionState = rememberCameraPositionState()
+
+    val removeIcon = painterResource(id = R.drawable.remove)
 
     val restaurantLocation = LatLng(41.273844, 36.345401)
 
@@ -85,11 +89,12 @@ fun CourierScreen(navController: NavController) {
                         val latLng = LatLng(location.latitude, location.longitude)
                         userLocation = latLng
                         cameraPositionState.position = CameraPosition.fromLatLngZoom(latLng, 15f)
-                        fusedLocationClient.removeLocationUpdates(this) // Stop updates after first result
+                        fusedLocationClient.removeLocationUpdates(this) // sürekli mapi updatelemesini onluyor
                     }
                 }, Looper.getMainLooper()
             )
         } else {
+            navController.navigate("home")
             Log.d("mesaj", "lokasyon izni verilmedi")
         }
         Log.d("mesaj", "location: ${userLocation}")
@@ -110,8 +115,8 @@ fun CourierScreen(navController: NavController) {
                 properties = MapProperties(isMyLocationEnabled = true),
                 uiSettings = MapUiSettings(
                     compassEnabled = true,
-                    myLocationButtonEnabled = false, // Disable default My Location button
-                    zoomControlsEnabled = false // Disable default zoom controls
+                    myLocationButtonEnabled = false,
+                    zoomControlsEnabled = false
                 ),
                 onMapLoaded = {
                     customIcon =
@@ -136,8 +141,8 @@ fun CourierScreen(navController: NavController) {
             // Custom My Location Button
             Box(
                 modifier = Modifier
-                    .align(Alignment.TopEnd) // Position at top-right
-                    .padding(top = 50.dp, end = 20.dp) // Adjust for status bar
+                    .align(Alignment.TopEnd)
+                    .padding(top = 50.dp, end = 20.dp)
                     .size(30.dp)
                     .clip(RoundedCornerShape(8.dp))
                     .shadow(elevation = 4.dp)
@@ -159,8 +164,8 @@ fun CourierScreen(navController: NavController) {
             // Custom Zoom Controls
             Column(
                 modifier = Modifier
-                    .align(Alignment.BottomEnd) // Position at bottom-right
-                    .padding(bottom = 50.dp, end = 20.dp) // Adjust for navigation bar
+                    .align(Alignment.BottomEnd)
+                    .padding(bottom = 50.dp, end = 20.dp)
                     .clip(RoundedCornerShape(8.dp))
                     .shadow(elevation = 4.dp)
                     .background(CustomColors.CustomRed),
@@ -187,10 +192,11 @@ fun CourierScreen(navController: NavController) {
                     color = CustomColors.CustomWhite2,
                 )
                 Icon(
-                    imageVector = Icons.Default.Add, // Represents a minus sign
+                    painter = removeIcon,
                     contentDescription = "Zoom Out",
                     modifier = Modifier
                         .size(35.dp)
+                        .padding(horizontal = 5.dp)
                         .clickable {
                             val currentZoom = cameraPositionState.position.zoom
                             cameraPositionState.position = CameraPosition.fromLatLngZoom(

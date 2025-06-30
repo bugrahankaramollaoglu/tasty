@@ -41,16 +41,14 @@ fun CanvasHeader(modifier: Modifier = Modifier) {
             val path = Path().apply {
                 moveTo(0f, height * 0.75f)
 
-                // Narrow, deep dip on the left side
                 quadraticBezierTo(
-                    width * 0.25f, height * 1.15f,  // Control point (steep curve down)
-                    width * 0.45f, height * 0.75f   // End point of first curve
+                    width * 0.25f, height * 1.15f,
+                    width * 0.45f, height * 0.75f
                 )
 
-                // Wider, higher wave on the right side
                 quadraticBezierTo(
-                    width * 0.75f, height * 0.05f,  // Control point (high up)
-                    width, height * 0.6f            // End point
+                    width * 0.75f, height * 0.05f,
+                    width, height * 0.6f
                 )
 
                 // Complete the shape
@@ -60,11 +58,10 @@ fun CanvasHeader(modifier: Modifier = Modifier) {
             }
 
             drawPath(
-                path = path, color = CustomColors.CustomYellow // or your custom color
+                path = path, color = CustomColors.CustomYellow
             )
         }
 
-        // Now the composable UI content goes here — **outside** the Canvas drawing lambda
         Row(
             modifier = Modifier
                 .fillMaxSize(), horizontalArrangement = Arrangement.SpaceBetween,
@@ -95,7 +92,7 @@ fun CanvasHeader(modifier: Modifier = Modifier) {
                     tint = CustomColors.CustomWhite,
                     modifier = Modifier
                         .size(32.dp)
-                        .clickable { /* handle click */ })
+                        .clickable { })
             }
         }
     }

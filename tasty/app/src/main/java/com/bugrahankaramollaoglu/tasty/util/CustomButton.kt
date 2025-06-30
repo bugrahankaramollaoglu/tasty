@@ -14,7 +14,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-
 @Composable
 fun CustomButton(
     text: String,
@@ -48,7 +47,7 @@ fun SocialMediaButton(
     backgroundColor: Color,
     contentColor: Color,
     icon: @Composable () -> Unit,
-    size: Dp = 50.dp // You can customize the size if needed
+    size: Dp = 50.dp
 ) {
     Button(
         onClick = onClick,
@@ -57,9 +56,9 @@ fun SocialMediaButton(
             contentColor = contentColor
         ),
         modifier = Modifier
-            .size(size), // Circular button
+            .size(size),
         shape = CircleShape,
-        contentPadding = PaddingValues(0.dp), // So the icon is centered
+        contentPadding = PaddingValues(0.dp),
         elevation = ButtonDefaults.elevation(4.dp)
     ) {
         icon()

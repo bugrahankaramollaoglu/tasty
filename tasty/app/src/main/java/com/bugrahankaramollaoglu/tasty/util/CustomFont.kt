@@ -8,7 +8,6 @@ import com.bugrahankaramollaoglu.tasty.R
 val myFontJomhuria = FontFamily(
 
     Font(R.font.jomhuria),
-
     Font(R.font.jomhuria, FontWeight.Bold)
 
 )

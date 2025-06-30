@@ -36,18 +36,10 @@ import coil.compose.AsyncImage
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
 import com.bugrahankaramollaoglu.tasty.util.myFontJomhuria
 
-/*
-data class FoodItemDto(
-    @Json(name = "yemek_id") val id: Int,
-    @Json(name = "yemek_adi") val name: String,
-    @Json(name = "yemek_resim_adi") val imageName: String,
-    @Json(name = "yemek_fiyat") val price: Double
-)
-*/
 
 // her bir food kartını temsil eden UI widgeti
 @Composable
-fun FoodItem(food: FoodNetworkItem) {
+fun FoodItem(food: Food) {
     val imageUrl = "http://kasimadalan.pe.hu/yemekler/resimler/${food.imageName}"
     var isFavorite by remember { mutableStateOf(false) }
 

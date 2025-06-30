@@ -3,7 +3,7 @@ package com.bugrahankaramollaoglu.tasty.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bugrahankaramollaoglu.tasty.data.FoodRepository
-import com.bugrahankaramollaoglu.tasty.model.FoodNetworkItem
+import com.bugrahankaramollaoglu.tasty.model.Food
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -12,8 +12,8 @@ class FoodViewModel(
     private val repository: FoodRepository = FoodRepository()
 ) : ViewModel() {
 
-    private val _foods = MutableStateFlow<List<FoodNetworkItem>>(emptyList())
-    val foods: StateFlow<List<FoodNetworkItem>> = _foods
+    private val _foods = MutableStateFlow<List<Food>>(emptyList())
+    val foods: StateFlow<List<Food>> = _foods
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading

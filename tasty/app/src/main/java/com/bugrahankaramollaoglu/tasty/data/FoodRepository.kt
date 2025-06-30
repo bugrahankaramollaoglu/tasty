@@ -1,7 +1,7 @@
 package com.bugrahankaramollaoglu.tasty.data
 
 import com.bugrahankaramollaoglu.tasty.api.FoodsInstance
-import com.bugrahankaramollaoglu.tasty.model.FoodNetworkItem
+import com.bugrahankaramollaoglu.tasty.model.Food
 
 
 // hem burada, hem FoodService'de getFoods()/getAllFoods() fonksiyonu var
@@ -17,7 +17,7 @@ import com.bugrahankaramollaoglu.tasty.model.FoodNetworkItem
 // gidiyor o da @GET ile json verisini cekiyor url'den, finally.
 //
 class FoodRepository {
-    suspend fun getFoods(): List<FoodNetworkItem> {
+    suspend fun getFoods(): List<Food> {
         return FoodsInstance.api.getAllFoods().foods
     }
 }

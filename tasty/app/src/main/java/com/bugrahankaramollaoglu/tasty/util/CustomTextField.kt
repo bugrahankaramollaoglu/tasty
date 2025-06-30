@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.bugrahankaramollaoglu.tasty.R
 
+// login/register sayfalarında kullanilacak textfield
 @Composable
 fun CustomTextField(
     value: String,
@@ -36,7 +37,7 @@ fun CustomTextField(
     height: Dp = 50.dp,
     elevation: Dp = 8.dp,
     leadingIcon: (@Composable () -> Unit)? = null,
-    isPassword: Boolean = false,  // ← New flag
+    isPassword: Boolean = false,
 ) {
     var passwordVisible by remember { mutableStateOf(false) }
 
