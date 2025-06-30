@@ -36,6 +36,8 @@ import androidx.navigation.NavController
 import com.bugrahankaramollaoglu.tasty.R
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
 import com.bugrahankaramollaoglu.tasty.util.RequestLocationPermission
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberPermissionState
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
@@ -53,20 +55,22 @@ import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 
 @SuppressLint("MissingPermission")
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun CourierScreen(navController: NavController) {
-    var customIcon by remember { mutableStateOf<BitmapDescriptor?>(null) }
-
+    val locationPermissionState =
+        rememberPermissionState(android.Manifest.permission.ACCESS_FINE_LOCATION)
     val context = LocalContext.current
+
+    var customIcon by remember { mutableStateOf<BitmapDescriptor?>(null) }
     var isMapLoaded by remember { mutableStateOf(false) }
-    var locationPermissionGranted by remember { mutableStateOf(false) }
     var userLocation by remember { mutableStateOf<LatLng?>(null) }
 
+    var locationPermissionGranted by remember { mutableStateOf(false) }
+
     val cameraPositionState = rememberCameraPositionState()
-
-    val removeIcon = painterResource(id = R.drawable.remove)
-
     val restaurantLocation = LatLng(41.273844, 36.345401)
+    val removeIcon = painterResource(id = R.drawable.remove)
 
     RequestLocationPermission(onPermissionGranted = {
         locationPermissionGranted = true

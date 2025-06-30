@@ -44,6 +44,9 @@ android {
 
 dependencies {
 
+    // lib for easier permission handling
+    implementation("com.google.accompanist:accompanist-permissions:0.37.3")
+
     implementation("io.coil-kt:coil-compose:2.4.0") // latest as of mid-2025
 
 //    implementation(libs.moshi)
