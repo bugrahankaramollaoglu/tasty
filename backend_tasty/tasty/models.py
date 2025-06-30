@@ -17,6 +17,7 @@ class Food(models.Model):
     food_id = models.IntegerField(unique=True)
     name = models.CharField(max_length=100)
     image_name = models.CharField(max_length=100)
+    isFavourite = models.BooleanField(False)
     price = models.DecimalField(max_digits=8, decimal_places=2)
 
     def __str__(self):
