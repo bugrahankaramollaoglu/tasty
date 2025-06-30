@@ -1,7 +1,6 @@
 package com.bugrahankaramollaoglu.tasty.model
 
-
-// Your UI model
+/*// Food modelin
 data class Food(
     val id: Int,
     val name: String,
@@ -9,7 +8,7 @@ data class Food(
     val isFavourite: Boolean = false,
     val isFreeDelivery: Boolean = false,
     val price: Double
-)
+)*/
 
 /*
 fun FoodItemDto.toFood(): Food {

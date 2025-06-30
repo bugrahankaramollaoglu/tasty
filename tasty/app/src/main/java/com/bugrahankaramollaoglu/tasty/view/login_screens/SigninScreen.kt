@@ -157,6 +157,13 @@ fun SignInScreen(
                     text = "Sign in", onClick = {
                         if (email.isNotEmpty() && password.isNotEmpty()) {
 
+                            // login() fonksiyonu calıstıgında ne olur?
+                            // login(username, password) calıstırılır
+                            // retrofit bunu POST requeste cevirir, url'yi belirler
+                            // django bunu bu url adresine yollar
+                            // geri dönüt alır, bunu retrofite geri yollar
+                            // retrofit bu dönütü (loginResponse) kotlin objesine çevirir
+                            // appin bu objeye göre ya devam eder ya hata verir
                             authViewModel.login(email, password)
 
                         } else {

@@ -45,6 +45,7 @@ data class FoodItemDto(
 )
 */
 
+// her bir food kartını temsil eden UI widgeti
 @Composable
 fun FoodItem(food: FoodNetworkItem) {
     val imageUrl = "http://kasimadalan.pe.hu/yemekler/resimler/${food.imageName}"
@@ -60,10 +61,7 @@ fun FoodItem(food: FoodNetworkItem) {
     ) {
         Column(
             modifier = Modifier.padding(
-                top = 0.dp,
-                start = 10.dp,
-                end = 10.dp,
-                bottom = 12.dp
+                top = 0.dp, start = 10.dp, end = 10.dp, bottom = 12.dp
             )
         ) {
 
@@ -78,7 +76,6 @@ fun FoodItem(food: FoodNetworkItem) {
                         fontSize = 30.sp,
                     ), modifier = Modifier.padding(top = 10.dp)
                 )
-//                var isFavorite by remember { mutableStateOf(false) }
 
                 IconButton(onClick = { isFavorite = !isFavorite }) {
                     Icon(
@@ -102,7 +99,7 @@ fun FoodItem(food: FoodNetworkItem) {
             )
 
             Spacer(modifier = Modifier.height(15.dp))
-            Spacer(modifier = Modifier.height(6.dp))
+
             Row(
 
                 modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
@@ -121,15 +118,15 @@ fun FoodItem(food: FoodNetworkItem) {
                 Button(
                     modifier = Modifier
                         .size(
-                            width = 50.dp, height = 35.dp
+                            width = 40.dp, height = 35.dp
                         )
                         .align(Alignment.CenterVertically), colors = ButtonDefaults.buttonColors(
-                        backgroundColor = CustomColors.CustomYellow,
-                        contentColor = CustomColors.CustomBlack
+                        backgroundColor = CustomColors.CustomBlack2,
+                        contentColor = CustomColors.CustomWhite
                     ), onClick = {}) {
                     Text(
                         text = "+", style = TextStyle(
-                            fontSize = 20.sp,
+                            fontSize = 15.sp,
                             fontWeight = FontWeight.ExtraBold,
                         )
                     )

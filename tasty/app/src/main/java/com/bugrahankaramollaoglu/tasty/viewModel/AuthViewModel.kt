@@ -1,5 +1,6 @@
 package com.bugrahankaramollaoglu.tasty.viewModel
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -68,12 +69,13 @@ class AuthViewModel(
             loginState = if (result.isSuccess) {
                 // eğer giriş yapmışsa girişYapti flagini true yap
                 prefManager.setLoggedIn(true)
-
                 // giriş yapan kullanıcının bilgisini kaydet
                 prefManager.setUsername(username)
                 loggedInUsername = username
+                Log.d("mesaj", "basarili")
                 LoginState.Success(result.getOrNull()?.message ?: "Logged in")
             } else {
+                Log.d("mesaj", "hata")
                 LoginState.Error(result.exceptionOrNull()?.message ?: "Login failed")
             }
         }
