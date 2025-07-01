@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -31,7 +32,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -48,15 +51,14 @@ import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
 
 @Composable
 fun DetailsScreen(
-    foodId: Int?,
-    navController: NavController,
-    foodViewModel: FoodViewModel = viewModel()
+    foodId: Int?, navController: NavController, foodViewModel: FoodViewModel = viewModel()
 ) {
     val foods by foodViewModel.foods.collectAsState()
     val food = foods.find { it.id == foodId }
 
     food?.let { food ->
 
+        // pe.hu free hosting servis url adresidir
         val imageUrl = "http://kasimadalan.pe.hu/yemekler/resimler/${food.imageName}"
 
         Column(
@@ -71,8 +73,7 @@ fun DetailsScreen(
             Spacer(Modifier.height(20.dp))
 
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
+                modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly
             ) {
 
                 IconButton(
@@ -89,13 +90,11 @@ fun DetailsScreen(
                 }
 
                 Text(
-                    text = "Food Details",
-                    style = TextStyle(
+                    text = "Food Details", style = TextStyle(
                         fontSize = 40.sp,
                         fontFamily = myFontJomhuria,
                         color = Color.Black,
-                    ),
-                    modifier = Modifier.padding(top = 5.dp)
+                    ), modifier = Modifier.padding(top = 5.dp)
                 )
 
                 var isFavorite by remember { mutableStateOf(false) }
@@ -112,11 +111,9 @@ fun DetailsScreen(
 
             var rating by remember { mutableIntStateOf(2) }
             CustomRatingBar(
-                rating = rating,
-                onRatingChanged = {
+                rating = rating, onRatingChanged = {
                     rating = it
-                }
-            )
+                })
 
 
             Box(
@@ -153,8 +150,7 @@ fun DetailsScreen(
                             width = 50.dp, height = 50.dp
                         )
 
-                        .align(Alignment.CenterVertically),
-                    colors = ButtonDefaults.buttonColors(
+                        .align(Alignment.CenterVertically), colors = ButtonDefaults.buttonColors(
                         backgroundColor = CustomColors.CustomYellow,
                         contentColor = CustomColors.CustomBlack
                     ), onClick = {}, shape = RoundedCornerShape(12.dp)
@@ -171,10 +167,8 @@ fun DetailsScreen(
 
                 Text(
                     text = "2", style = TextStyle(
-                        fontSize = 80.sp,
-                        fontFamily = myFontJomhuria
-                    ),
-                    modifier = Modifier.padding(horizontal = 10.dp)
+                        fontSize = 80.sp, fontFamily = myFontJomhuria
+                    ), modifier = Modifier.padding(horizontal = 10.dp)
                 )
 
 
@@ -185,8 +179,7 @@ fun DetailsScreen(
                         .size(
                             width = 50.dp, height = 50.dp
                         )
-                        .align(Alignment.CenterVertically),
-                    colors = ButtonDefaults.buttonColors(
+                        .align(Alignment.CenterVertically), colors = ButtonDefaults.buttonColors(
                         backgroundColor = CustomColors.CustomYellow,
                         contentColor = CustomColors.CustomBlack
                     ), onClick = {}, shape = RoundedCornerShape(12.dp)
@@ -204,8 +197,7 @@ fun DetailsScreen(
 
 
             Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.Center
+                modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.Center
             ) {
 
                 Button(
@@ -213,8 +205,7 @@ fun DetailsScreen(
                         .size(
                             width = 250.dp, height = 50.dp
                         )
-                        .align(Alignment.CenterHorizontally),
-                    colors = ButtonDefaults.buttonColors(
+                        .align(Alignment.CenterHorizontally), colors = ButtonDefaults.buttonColors(
                         backgroundColor = CustomColors.CustomBlack,
                         contentColor = CustomColors.CustomWhite2
                     ), onClick = {}, shape = RoundedCornerShape(6.dp)
@@ -232,14 +223,36 @@ fun DetailsScreen(
                 Spacer(Modifier.height(20.dp))
 
 
-                Text(
-                    text = "410 ₺",
-                    style = TextStyle(
-                        fontSize = 35.sp,
-                        color = CustomColors.CustomWhite2,
-                    ),
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "410", style = TextStyle(
+                            fontSize = 60.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                            fontFamily = myFontJomhuria,
+                            color = CustomColors.CustomYellow,
+                            shadow = Shadow(
+                                color = CustomColors.CustomYellow.copy(alpha = 0.7f),
+                                offset = Offset(0f, 0f),
+                                blurRadius = 20f
+                            )
+                        )
+                    )
+                    Text(
+                        text = " ₺",
+                        style = TextStyle(
+                            fontSize = 40.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                            color = CustomColors.CustomYellow,
+                            shadow = Shadow(
+                                color = CustomColors.CustomYellow.copy(alpha = 0.7f),
+                                offset = Offset(0f, 0f),
+                                blurRadius = 20f
+                            )
+                        ),
+                    )
+                }
 
 
             }
@@ -250,11 +263,13 @@ fun DetailsScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.LightGray),
+                .background(CustomColors.CustomRed),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(text = "Loading food details...", color = Color.Black)
+            CircularProgressIndicator(
+                color = CustomColors.CustomYellow
+            )
         }
     }
 }

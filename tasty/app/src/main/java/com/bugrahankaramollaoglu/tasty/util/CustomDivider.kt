@@ -15,7 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun OrDivider(text: String = "Or With") {
+fun CustomDivider(text: String) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier

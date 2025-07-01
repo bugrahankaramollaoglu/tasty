@@ -222,7 +222,7 @@ fun CourierScreen(navController: NavController) {
             }
         }
 
-        // Back button (always shown)
+        // geritusu
         Box(
             modifier = Modifier
                 .padding(top = 50.dp, start = 20.dp)

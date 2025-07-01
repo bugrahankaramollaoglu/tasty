@@ -33,7 +33,7 @@ import androidx.navigation.NavController
 import com.bugrahankaramollaoglu.tasty.R
 import com.bugrahankaramollaoglu.tasty.util.CustomButton
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
-import com.bugrahankaramollaoglu.tasty.util.OrDivider
+import com.bugrahankaramollaoglu.tasty.util.CustomDivider
 import com.bugrahankaramollaoglu.tasty.util.SocialMediaButton
 import com.bugrahankaramollaoglu.tasty.util.myFontJomhuria
 
@@ -99,7 +99,7 @@ fun LoginScreen(
 
                 Spacer(Modifier.height(15.dp))
 
-                OrDivider()
+                CustomDivider("Or with")
 
                 Spacer(Modifier.height(15.dp))
 
