@@ -72,8 +72,7 @@ fun FoodsScreen(authViewModel: AuthViewModel, navController: NavController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp),
-//            placeholder = { Text("Search foods...") },
-            placeholder = { Text(username.toString()) },
+            placeholder = { Text("Search foods...") },
             shape = RoundedCornerShape(12.dp),
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = CustomColors.CustomWhite2,
@@ -109,8 +108,5 @@ fun FoodsScreen(authViewModel: AuthViewModel, navController: NavController) {
             }
         }
         Spacer(Modifier.height(50.dp))
-
     }
 }
-
-
