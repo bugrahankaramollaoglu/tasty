@@ -3,9 +3,9 @@ package com.bugrahankaramollaoglu.tasty.viewModel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bugrahankaramollaoglu.tasty.api.FoodsInstance
 import com.bugrahankaramollaoglu.tasty.data.FoodRepository
 import com.bugrahankaramollaoglu.tasty.model.Food
+import com.bugrahankaramollaoglu.tasty.retrofit.FoodsInstance
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -63,7 +63,6 @@ class FoodViewModel(
                         if (basketResponse.success == 1) {
                             Log.d("mesaj", "Added ${food.name} to basket")
                         } else {
-                            // failure with message from backend
                             Log.d("mesaj", basketResponse.message)
                         }
                     }

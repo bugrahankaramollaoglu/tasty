@@ -1,7 +1,7 @@
 package com.bugrahankaramollaoglu.tasty.data
 
-import com.bugrahankaramollaoglu.tasty.api.FoodsInstance
 import com.bugrahankaramollaoglu.tasty.model.Food
+import com.bugrahankaramollaoglu.tasty.retrofit.FoodsInstance
 
 
 // hem burada, hem FoodService'de getFoods()/getAllFoods() fonksiyonu var

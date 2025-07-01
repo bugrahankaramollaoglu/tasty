@@ -5,7 +5,7 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
-data class BasketResponse(
+data class AddBasketResponse(
     val success: Int, val message: String
 )
 
@@ -19,6 +19,7 @@ interface BasketApiService {
         @Field("yemek_fiyat") foodPrice: Int,
         @Field("yemek_siparis_adet") foodQuantity: Int,
         @Field("kullanici_adi") username: String,
-    ): Response<BasketResponse>
+    ): Response<AddBasketResponse>
+
 }
 

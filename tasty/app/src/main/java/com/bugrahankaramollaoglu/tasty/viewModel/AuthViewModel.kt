@@ -9,8 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.bugrahankaramollaoglu.tasty.PreferencesManager
 import com.bugrahankaramollaoglu.tasty.api.RegisterRequest
-import com.bugrahankaramollaoglu.tasty.api.RetrofitInstance
 import com.bugrahankaramollaoglu.tasty.data.AuthRepository
+import com.bugrahankaramollaoglu.tasty.retrofit.RetrofitInstance
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch

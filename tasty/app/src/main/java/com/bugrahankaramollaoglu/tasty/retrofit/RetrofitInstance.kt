@@ -1,5 +1,8 @@
-package com.bugrahankaramollaoglu.tasty.api
+package com.bugrahankaramollaoglu.tasty.retrofit
 
+import com.bugrahankaramollaoglu.tasty.api.AuthService
+import com.bugrahankaramollaoglu.tasty.api.BasketApiService
+import com.bugrahankaramollaoglu.tasty.api.FoodsApiService
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit
