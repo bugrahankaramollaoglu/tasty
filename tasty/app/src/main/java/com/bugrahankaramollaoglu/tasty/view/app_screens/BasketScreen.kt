@@ -1,6 +1,7 @@
 package com.bugrahankaramollaoglu.tasty.view.app_screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -50,6 +51,9 @@ fun BasketScreen(
 
             Text(
                 text = "My Basket",
+                Modifier.clickable(onClick = {
+                    foodViewModel.getBasket(authViewModel.loggedInUsername!!)
+                }),
                 style = TextStyle(
                     fontSize = 40.sp,
                     fontFamily = myFontJomhuria,

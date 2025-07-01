@@ -43,19 +43,13 @@ class FoodViewModel(
 
 
     fun addFoodToBasket(
-        food: Food,
-        quantity: Int,
-        username: String
+        food: Food, quantity: Int, username: String
     ) {
 
         viewModelScope.launch {
             try {
                 val response = FoodsInstance.basketApi.addFoodToBasket(
-                    food.name,
-                    food.imageName,
-                    food.price,
-                    quantity,
-                    username
+                    food.name, food.imageName, food.price, quantity, username
                 )
                 if (response.isSuccessful) {
                     val basketResponse = response.body()
@@ -71,6 +65,24 @@ class FoodViewModel(
                 }
             } catch (e: Exception) {
                 Log.d("mesaj", "Exception: ${e.localizedMessage}")
+            }
+        }
+    }
+
+    fun getBasket(username: String) {
+        viewModelScope.launch {
+            try {
+                val response = FoodsInstance.basketApi.getBasketItems("cemre_kara")
+                if (response.isSuccessful) {
+                    val basketItems = response.body()?.basketItems
+                   
+
+                    // safe access
+                } else {
+                    // handle server error
+                }
+            } catch (e: Exception) {
+                Log.d("mesaj", e.toString())
             }
         }
     }

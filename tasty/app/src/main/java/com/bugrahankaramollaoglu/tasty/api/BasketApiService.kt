@@ -1,5 +1,7 @@
 package com.bugrahankaramollaoglu.tasty.api
 
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -21,5 +23,28 @@ interface BasketApiService {
         @Field("kullanici_adi") username: String,
     ): Response<AddBasketResponse>
 
+    @FormUrlEncoded
+    @POST("yemekler/sepettekiYemekleriGetir.php")
+    suspend fun getBasketItems(
+        @Field("kullanici_adi") kullaniciAdi: String
+    ): Response<BasketResponse>
 }
 
+@JsonClass(generateAdapter = true)
+data class FoodInBasket(
+    @Json(name = "sepet_yemek_id") val basketFoodId: String,
+    @Json(name = "yemek_adi") val name: String,
+    @Json(name = "yemek_resim_adi") val imageName: String,
+    @Json(name = "yemek_fiyat") val price: String,
+    @Json(name = "yemek_siparis_adet") val quantity: String,
+    @Json(name = "kullanici_adi") val username: String
+)
+
+@JsonClass(generateAdapter = true)
+data class BasketResponse(
+    @Json(name = "sepet_yemekler")
+    val basketItems: List<FoodInBasket>?,
+
+    @Json(name = "success")
+    val success: Int
+)
