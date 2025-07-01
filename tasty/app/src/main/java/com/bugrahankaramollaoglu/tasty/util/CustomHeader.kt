@@ -79,7 +79,7 @@ fun CanvasHeader(modifier: Modifier = Modifier) {
                 modifier = Modifier.padding(end = 40.dp, top = 50.dp)
             ) {
                 Text(
-                    text = "Address", style = MaterialTheme.typography.h6.copy(
+                    text = "Home", style = MaterialTheme.typography.h6.copy(
                         color = CustomColors.CustomWhite,
                         fontFamily = myFontJomhuria,
                         fontSize = 25.sp,

@@ -1,6 +1,7 @@
 package com.bugrahankaramollaoglu.tasty.view.login_screens
 
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -34,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -46,6 +48,7 @@ import com.bugrahankaramollaoglu.tasty.util.CustomTextField
 import com.bugrahankaramollaoglu.tasty.util.myFontJomhuria
 import com.bugrahankaramollaoglu.tasty.viewModel.AuthViewModel
 import com.bugrahankaramollaoglu.tasty.viewModel.LoginState
+import kotlinx.coroutines.delay
 
 
 @Composable
@@ -57,6 +60,8 @@ fun SignInScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
+    val context = LocalContext.current
+
     LaunchedEffect(Unit) {
         authViewModel.resetLoginState()
     }
@@ -65,6 +70,8 @@ fun SignInScreen(
 
     LaunchedEffect(loginState) {
         if (loginState is LoginState.Success) {
+            Toast.makeText(context, "Sign in Successfull!", Toast.LENGTH_SHORT).show()
+            delay(1500L)
             onLoginSuccess()
         }
     }
@@ -105,8 +112,7 @@ fun SignInScreen(
                             .align(Alignment.CenterStart)
                             .clickable {
                                 navController.navigate("login")
-                            }
-                    )
+                            })
 
                     Text(
                         text = "Login!",
@@ -245,7 +251,7 @@ fun SignInScreen(
                     painter = painterResource(id = R.drawable.login_logo),
                     contentDescription = null,
                     contentScale = ContentScale.Fit,
-                    modifier = Modifier.size(250.dp)
+                    modifier = Modifier.size(300.dp)
                 )
             }
         }

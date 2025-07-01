@@ -97,11 +97,11 @@ fun LoginScreen(
                     modifier = Modifier.padding(horizontal = 30.dp)
                 )
 
-                Spacer(Modifier.height(15.dp))
+                Spacer(Modifier.height(10.dp))
 
-                CustomDivider("Or with")
+                CustomDivider("Or With")
 
-                Spacer(Modifier.height(15.dp))
+                Spacer(Modifier.height(5.dp))
 
                 Row {
 

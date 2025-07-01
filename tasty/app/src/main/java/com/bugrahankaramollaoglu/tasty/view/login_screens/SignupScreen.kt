@@ -1,5 +1,6 @@
 package com.bugrahankaramollaoglu.tasty.view.login_screens
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -35,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -47,16 +49,17 @@ import com.bugrahankaramollaoglu.tasty.util.CustomTextField
 import com.bugrahankaramollaoglu.tasty.util.myFontJomhuria
 import com.bugrahankaramollaoglu.tasty.viewModel.AuthViewModel
 import com.bugrahankaramollaoglu.tasty.viewModel.RegisterState
+import kotlinx.coroutines.delay
 
 
 @Composable
 fun SignUpScreen(
-    viewModel: AuthViewModel,
-    navController: NavController,
-    onRegisterSuccess: () -> Unit
+    viewModel: AuthViewModel, navController: NavController, onRegisterSuccess: () -> Unit
 ) {
 
     val registerState by viewModel.registerState.collectAsState()
+
+    val context = LocalContext.current
 
     /* ---------- UI state ---------- */
     var email by remember { mutableStateOf("") }
@@ -94,7 +97,6 @@ fun SignUpScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top
             ) {
-                /* top grabber */
                 Box(
                     modifier = Modifier
                         .padding(vertical = 15.dp)
@@ -106,17 +108,15 @@ fun SignUpScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp) // optional padding
+                        .padding(horizontal = 16.dp)
                 ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.go_back), // replace with your actual back icon
+                        painter = painterResource(id = R.drawable.go_back),
                         contentDescription = "Go Back",
                         tint = Color.Black,
                         modifier = Modifier
-                            .size(40.dp)/*.background(
-                                color = CustomColors.CustomWhite2,
-                                shape = RoundedCornerShape(50)
-                            )*/.padding(6.dp)
+                            .size(40.dp)
+                            .padding(6.dp)
                             .align(Alignment.CenterStart)
                             .clickable {
                                 navController.navigate("login")
@@ -151,7 +151,13 @@ fun SignUpScreen(
                         placeholder = "Enter email",
                         backgroundColor = CustomColors.CustomWhite2,
                         contentColor = Color.DarkGray,
-                        leadingIcon = { Icon(Icons.Default.Email, contentDescription = null) })
+                        leadingIcon = {
+                            Icon(
+                                Icons.Default.Email,
+                                contentDescription = null,
+                                tint = CustomColors.CustomBlack
+                            )
+                        })
 
                     Spacer(Modifier.height(16.dp))
 
@@ -166,7 +172,13 @@ fun SignUpScreen(
                             horizontal = 30.dp
                         ),
                         contentColor = Color.DarkGray,
-                        leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) })
+                        leadingIcon = {
+                            Icon(
+                                Icons.Default.Lock,
+                                contentDescription = null,
+                                tint = CustomColors.CustomBlack
+                            )
+                        })
 
                     Spacer(Modifier.height(16.dp))
 
@@ -181,7 +193,13 @@ fun SignUpScreen(
                         modifier = Modifier.padding(
                             horizontal = 30.dp
                         ),
-                        leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) })
+                        leadingIcon = {
+                            Icon(
+                                Icons.Default.Lock,
+                                contentDescription = null,
+                                tint = CustomColors.CustomBlack
+                            )
+                        })
 
                     Spacer(Modifier.height(30.dp))
 
@@ -224,6 +242,9 @@ fun SignUpScreen(
                                 color = MaterialTheme.colors.primary
                             )
                             LaunchedEffect(Unit) {
+                                Toast.makeText(context, "You have signed up!", Toast.LENGTH_SHORT)
+                                    .show()
+                                delay(1500L)
                                 onRegisterSuccess()
                                 viewModel.resetRegisterState()
                             }
