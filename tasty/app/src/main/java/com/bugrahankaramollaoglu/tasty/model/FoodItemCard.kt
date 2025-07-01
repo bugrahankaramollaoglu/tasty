@@ -1,5 +1,6 @@
 package com.bugrahankaramollaoglu.tasty.model
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -36,14 +38,21 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
 import com.bugrahankaramollaoglu.tasty.util.myFontJomhuria
+import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
 
 
 // her bir food kartını temsil eden UI widgeti
 @ExperimentalMaterialApi
 @Composable
-fun FoodItem(food: Food, onClick: () -> Unit) {
+fun FoodItemCard(
+    food: Food,
+    username: String,
+    viewModel: FoodViewModel,
+    onClick: () -> Unit
+) {
     val imageUrl = "http://kasimadalan.pe.hu/yemekler/resimler/${food.imageName}"
     var isFavorite by remember { mutableStateOf(false) }
+    var context = LocalContext.current
 
     Card(
         modifier = Modifier
@@ -119,7 +128,22 @@ fun FoodItem(food: Food, onClick: () -> Unit) {
                         .align(Alignment.CenterVertically), colors = ButtonDefaults.buttonColors(
                         backgroundColor = CustomColors.CustomBlack2,
                         contentColor = CustomColors.CustomWhite
-                    ), onClick = {}) {
+                    ), onClick = {
+
+
+                        Toast.makeText(
+                            context,
+                            "You clicked on item: ${food.id} of ${food.name}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        viewModel.addFoodToBasket(
+                            food,
+                            1,
+                            username
+                        )
+
+                    }) {
                     Text(
                         text = "+", style = TextStyle(
                             fontSize = 15.sp,
@@ -127,7 +151,6 @@ fun FoodItem(food: Food, onClick: () -> Unit) {
                         )
                     )
                 }
-
             }
         }
     }

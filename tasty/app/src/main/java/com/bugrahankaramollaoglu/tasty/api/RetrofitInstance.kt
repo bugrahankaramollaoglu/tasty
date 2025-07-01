@@ -46,18 +46,19 @@ object FoodsInstance {
 
     // moshi json'i kotlin diline ceviren bir kütüphane
     // burada onu ilklendiriyoruz
-    val moshi =
+    val moshi: Moshi? =
         Moshi.Builder().add(KotlinJsonAdapterFactory()) // bu sayede daha kotlinvari calısıyor
             .build()
 
     // retrofit androidde en sık kullanılan http-clienti
-    val retrofit =
+    val retrofit: Retrofit =
         Retrofit.Builder().baseUrl("http://kasimadalan.pe.hu/") // base url for our backend
             .addConverterFactory(MoshiConverterFactory.create(moshi)) // says: "use moshi"
             .build()
 
     // api cagrıları yaparken kullandıgın obje
-    val api: FoodApiService = retrofit.create(FoodApiService::class.java)
+    val foodsApi: FoodsApiService = retrofit.create(FoodsApiService::class.java)
+    val basketApi: BasketApiService = retrofit.create(BasketApiService::class.java)
 }
 
 
@@ -73,8 +74,7 @@ object RetrofitInstance {
 
     // by lazy means don't create it untill it is accessed.
     val authService: AuthService by lazy {
-        Retrofit.Builder().baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create()).build()
-            .create(AuthService::class.java)
+        Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create())
+            .build().create(AuthService::class.java)
     }
 }

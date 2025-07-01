@@ -9,7 +9,7 @@ import retrofit2.http.GET
 // bu arayüz backendden yemeklerin bilgisini alan bir API
 // cagrısını temsil ediyor. bu arayüz sayesinde uygulaman
 // internetle iletisime geciyor.
-interface FoodApiService {
+interface FoodsApiService {
     // GET http metoduyla bilgileri aliyor
     @GET("yemekler/tumYemekleriGetir.php")
     // suspend olma sebebi async olmasi

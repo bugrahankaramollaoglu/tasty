@@ -18,6 +18,6 @@ import com.bugrahankaramollaoglu.tasty.model.Food
 //
 class FoodRepository {
     suspend fun getFoods(): List<Food> {
-        return FoodsInstance.api.getAllFoods().foods
+        return FoodsInstance.foodsApi.getAllFoods().foods
     }
 }

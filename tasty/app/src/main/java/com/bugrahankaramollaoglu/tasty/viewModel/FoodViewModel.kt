@@ -1,7 +1,9 @@
 package com.bugrahankaramollaoglu.tasty.viewModel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bugrahankaramollaoglu.tasty.api.FoodsInstance
 import com.bugrahankaramollaoglu.tasty.data.FoodRepository
 import com.bugrahankaramollaoglu.tasty.model.Food
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -9,7 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class FoodViewModel(
-    private val repository: FoodRepository = FoodRepository()
+    private val foodRepository: FoodRepository = FoodRepository(),
 ) : ViewModel() {
 
     private val _foods = MutableStateFlow<List<Food>>(emptyList())
@@ -29,7 +31,7 @@ class FoodViewModel(
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                val foodList = repository.getFoods()
+                val foodList = foodRepository.getFoods()
                 _foods.value = foodList
                 _errorMessage.value = null
             } catch (e: Exception) {
@@ -38,4 +40,40 @@ class FoodViewModel(
             _isLoading.value = false
         }
     }
+
+
+    fun addFoodToBasket(
+        food: Food,
+        quantity: Int,
+        username: String
+    ) {
+
+        viewModelScope.launch {
+            try {
+                val response = FoodsInstance.basketApi.addFoodToBasket(
+                    food.name,
+                    food.imageName,
+                    food.price,
+                    quantity,
+                    username
+                )
+                if (response.isSuccessful) {
+                    val basketResponse = response.body()
+                    if (basketResponse != null) {
+                        if (basketResponse.success == 1) {
+                            Log.d("mesaj", "Added ${food.name} to basket")
+                        } else {
+                            // failure with message from backend
+                            Log.d("mesaj", basketResponse.message)
+                        }
+                    }
+                } else {
+                    Log.d("mesaj", "HATA: ${response.code()}")
+                }
+            } catch (e: Exception) {
+                Log.d("mesaj", "Exception: ${e.localizedMessage}")
+            }
+        }
+    }
+
 }

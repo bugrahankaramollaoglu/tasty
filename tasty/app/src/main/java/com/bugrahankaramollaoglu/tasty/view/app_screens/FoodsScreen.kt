@@ -1,6 +1,5 @@
 package com.bugrahankaramollaoglu.tasty.view.app_screens.BottomNavScreens
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -33,7 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.bugrahankaramollaoglu.tasty.model.FoodItem
+import com.bugrahankaramollaoglu.tasty.model.FoodItemCard
 import com.bugrahankaramollaoglu.tasty.util.CanvasHeader
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
 import com.bugrahankaramollaoglu.tasty.viewModel.AuthViewModel
@@ -100,8 +99,7 @@ fun FoodsScreen(authViewModel: AuthViewModel, navController: NavController) {
                 contentPadding = PaddingValues(bottom = 100.dp)
             ) {
                 items(filteredFoods) { food ->
-                    FoodItem(food = food) {
-                        Log.d("mesaj", "clicked on: ${food.id}")
+                    FoodItemCard(food = food, authViewModel.loggedInUsername!!, foodViewModel) {
                         navController.navigate("details/${food.id}")
                     }
                 }
