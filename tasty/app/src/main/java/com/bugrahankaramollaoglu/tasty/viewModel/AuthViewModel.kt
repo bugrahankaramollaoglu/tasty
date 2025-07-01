@@ -49,6 +49,7 @@ class AuthViewModel(
     init {
         if (prefManager.isLoggedIn()) {
             loggedInUsername = prefManager.getUsername()
+            prefManager.setUsername(loggedInUsername.toString())
             loginState = LoginState.Success("Welcome back, $loggedInUsername")
         }
     }
@@ -69,9 +70,10 @@ class AuthViewModel(
             loginState = if (result.isSuccess) {
                 // eğer giriş yapmışsa girişYapti flagini true yap
                 prefManager.setLoggedIn(true)
+                val usernameFinal = username.substringBefore("@")
                 // giriş yapan kullanıcının bilgisini kaydet
-                prefManager.setUsername(username)
-                loggedInUsername = username
+                prefManager.setUsername(usernameFinal)
+                loggedInUsername = usernameFinal
                 Log.d("mesaj", "basarili")
                 LoginState.Success(result.getOrNull()?.message ?: "Logged in")
             } else {
@@ -93,7 +95,9 @@ class AuthViewModel(
                 )
                 if (response.isSuccessful) {
                     prefManager.setLoggedIn(true)
-                    prefManager.setUsername(username ?: email)
+                    val usernameFinal = username.substringBefore("@")
+                    prefManager.setUsername(usernameFinal)
+                    loggedInUsername = usernameFinal
                     _registerState.value = RegisterState.Success("Registration successful")
                 } else {
                     val errorBody = response.errorBody()?.string()
@@ -120,7 +124,6 @@ class AuthViewModel(
         loginState = LoginState.Idle
     }
 }
-
 
 sealed class RegisterState {
     object Idle : RegisterState()

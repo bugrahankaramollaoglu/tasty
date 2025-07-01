@@ -36,11 +36,12 @@ import androidx.navigation.NavController
 import com.bugrahankaramollaoglu.tasty.model.FoodItem
 import com.bugrahankaramollaoglu.tasty.util.CanvasHeader
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
+import com.bugrahankaramollaoglu.tasty.viewModel.AuthViewModel
 import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun FoodsScreen(navController: NavController) {
+fun FoodsScreen(authViewModel: AuthViewModel, navController: NavController) {
 
     val foodViewModel: FoodViewModel = viewModel()
     val foods by foodViewModel.foods.collectAsState()
@@ -52,6 +53,8 @@ fun FoodsScreen(navController: NavController) {
     val filteredFoods = foods.filter { it ->
         it.name.contains(searchQuery, ignoreCase = true)
     }
+
+    val username = authViewModel.loggedInUsername
 
     Column(
         modifier = Modifier.Companion
@@ -69,7 +72,8 @@ fun FoodsScreen(navController: NavController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp),
-            placeholder = { Text("Search foods...") },
+//            placeholder = { Text("Search foods...") },
+            placeholder = { Text(username.toString()) },
             shape = RoundedCornerShape(12.dp),
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = CustomColors.CustomWhite2,

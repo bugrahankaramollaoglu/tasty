@@ -78,7 +78,7 @@ fun ScreenContent(
     authViewModel: AuthViewModel,
 ) {
     when (selectedIndex) {
-        0 -> FoodsScreen(navController) // foods degistir
+        0 -> FoodsScreen(authViewModel, navController) // foods degistir
         1 -> FavouritesScreen()
         2 -> BasketScreen()
         3 -> SettingsScreen(authViewModel, navController)
