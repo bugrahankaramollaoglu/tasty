@@ -14,6 +14,7 @@ import com.bugrahankaramollaoglu.tasty.retrofit.RetrofitInstance
 import com.bugrahankaramollaoglu.tasty.ui.theme.TastyTheme
 import com.bugrahankaramollaoglu.tasty.viewModel.AuthViewModel
 import com.bugrahankaramollaoglu.tasty.viewModel.AuthViewModelFactory
+import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
 
 class MainActivity : ComponentActivity() {
 
@@ -29,11 +30,13 @@ class MainActivity : ComponentActivity() {
             AuthViewModelFactory(authRepository, prefManager)
         }
 
+        val foodViewModel = FoodViewModel()
+
         setContent {
             TastyTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     // navigation mekanizmasi buradan oluyor
-                    AppNavigation(authViewModel)
+                    AppNavigation(authViewModel, foodViewModel)
                 }
             }
         }
