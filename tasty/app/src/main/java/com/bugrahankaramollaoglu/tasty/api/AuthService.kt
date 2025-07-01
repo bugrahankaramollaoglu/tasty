@@ -32,7 +32,6 @@ data class LoginResponse(
 
 
 data class RegisterRequest(
-    val username: String,
     val email: String,
     val password: String,
     val password2: String
@@ -55,7 +54,6 @@ Think of it like a menu in a restaurant. The menu shows the dishes
 (functions), but doesn’t cook them — the kitchen (Retrofit) does that.
 So AuthService is a menu of API calls your app wants to make.*/
 interface AuthService {
-
 
     // Your app sends a request to the internet.
     // One of the most common ways to do this is with the HTTP protocol:

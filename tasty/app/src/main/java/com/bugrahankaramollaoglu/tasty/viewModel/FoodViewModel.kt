@@ -3,9 +3,11 @@ package com.bugrahankaramollaoglu.tasty.viewModel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bugrahankaramollaoglu.tasty.api.BasketResponse
 import com.bugrahankaramollaoglu.tasty.data.FoodRepository
 import com.bugrahankaramollaoglu.tasty.model.Food
 import com.bugrahankaramollaoglu.tasty.retrofit.FoodsInstance
+import com.squareup.moshi.Moshi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -41,6 +43,20 @@ class FoodViewModel(
         }
     }
 
+    // we need manual parsing BECAUSE
+    // getFoodsAtBasket api does not return a valid empty json body
+    // if basket is empty, it returns totally empty. so, moshi crashes
+    // trying to parse an empty body. so we are manually parsing it
+    inline fun <reified T> safeParse(json: String): T? {
+        return try {
+            val moshi = Moshi.Builder().build()
+            val adapter = moshi.adapter(T::class.java)
+            adapter.fromJson(json)
+        } catch (e: Exception) {
+            null
+        }
+    }
+
 
     fun addFoodToBasket(
         food: Food, quantity: Int, username: String
@@ -72,17 +88,29 @@ class FoodViewModel(
     fun getBasket(username: String) {
         viewModelScope.launch {
             try {
-                val response = FoodsInstance.basketApi.getBasketItems("cemre_kara")
+                val response = FoodsInstance.basketApi.getBasketItems(username)
                 if (response.isSuccessful) {
-                    val basketItems = response.body()?.basketItems
-                   
+                    val body = response.body()?.string()
 
-                    // safe access
+                    if (body.isNullOrBlank()) {
+                        Log.d("mesaj", "BASKET IS EMPTY (no content)")
+                        return@launch
+                    }
+
+                    // 👇 Use your generic safeParse function
+                    val basketResponse = safeParse<BasketResponse>(body)
+
+                    if (basketResponse?.basketItems.isNullOrEmpty()) {
+                        Log.d("mesaj", "BASKET IS EMPTY (parsed empty list)")
+                    } else {
+                        Log.d("mesaj", "Basket Items: ${basketResponse?.basketItems}")
+                    }
+
                 } else {
-                    // handle server error
+                    Log.d("mesaj", "Server Error: ${response.code()}")
                 }
             } catch (e: Exception) {
-                Log.d("mesaj", e.toString())
+                Log.d("mesaj", "Exception: ${e.message}")
             }
         }
     }

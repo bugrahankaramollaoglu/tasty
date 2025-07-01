@@ -91,7 +91,7 @@ class AuthViewModel(
             try {
                 // bir RegisterResponse objesi aliyor
                 val response = RetrofitInstance.authService.registerUser(
-                    RegisterRequest(username, email, password, password2)
+                    RegisterRequest(email, password, password2)
                 )
                 if (response.isSuccessful) {
                     prefManager.setLoggedIn(true)

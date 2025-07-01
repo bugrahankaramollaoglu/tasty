@@ -2,6 +2,7 @@ package com.bugrahankaramollaoglu.tasty.api
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -23,11 +24,16 @@ interface BasketApiService {
         @Field("kullanici_adi") username: String,
     ): Response<AddBasketResponse>
 
+    /*    @FormUrlEncoded
+        @POST("yemekler/sepettekiYemekleriGetir.php")
+        suspend fun getBasketItems(
+            @Field("kullanici_adi") kullaniciAdi: String
+        ): Response<BasketResponse>*/
     @FormUrlEncoded
     @POST("yemekler/sepettekiYemekleriGetir.php")
     suspend fun getBasketItems(
         @Field("kullanici_adi") kullaniciAdi: String
-    ): Response<BasketResponse>
+    ): Response<ResponseBody>
 }
 
 @JsonClass(generateAdapter = true)
