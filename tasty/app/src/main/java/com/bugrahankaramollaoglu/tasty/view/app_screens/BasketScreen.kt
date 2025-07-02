@@ -1,7 +1,9 @@
 package com.bugrahankaramollaoglu.tasty.view.app_screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
@@ -20,11 +23,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.bugrahankaramollaoglu.tasty.R
 import com.bugrahankaramollaoglu.tasty.model.BasketItemCard
 import com.bugrahankaramollaoglu.tasty.util.CanvasHeader
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
@@ -40,8 +45,6 @@ fun BasketScreen(
     val basketItems = foodViewModel.basketItems.collectAsState(emptyList()).value
 //    val basketItems by foodViewModel.basketItems.collectAsState(initial = emptyList())
 
-
-    // ✅ This runs every time the screen is recomposed (like navigation to this screen)
     LaunchedEffect(Unit) {
         foodViewModel.getBasket(authViewModel.loggedInUsername!!)
     }
@@ -70,32 +73,50 @@ fun BasketScreen(
                 foodList.add(food3)*/
 
 
-        LazyColumn(
+        Box(
             modifier = Modifier
-                .height(525.dp)
-                .padding(12.dp),
-            verticalArrangement = Arrangement.spacedBy(6.dp)
+                .fillMaxWidth()
+                .height(520.dp)
         ) {
-            items(basketItems) { item ->
-                BasketItemCard(
-                    foodInBasket = item,
-                    authViewModel = authViewModel,
-                    foodViewModel = foodViewModel
+            if (basketItems.isNullOrEmpty()) {
+
+                Image(
+                    painter = painterResource(id = R.drawable.empty_basket2),
+                    contentDescription = "Basket is empty",
+                    modifier = Modifier
+                        .size(450.dp)  // sets width and height to 200dp
+                        .padding(16.dp)
                 )
+
+            } else {
+                LazyColumn(
+                    modifier = Modifier
+                        .height(550.dp)
+                        .padding(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    items(basketItems) { item ->
+                        BasketItemCard(
+                            foodInBasket = item,
+                            authViewModel = authViewModel,
+                            foodViewModel = foodViewModel
+                        )
+                    }
+                }
             }
         }
 
-        Spacer(Modifier.height(20.dp))
+        Spacer(Modifier.height(30.dp))
 
         Row(
             Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 22.dp),
+                .padding(horizontal = 25.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
                 "Total: ", style = TextStyle(
-                    fontSize = 35.sp,
+                    fontSize = 30.sp,
 
                     fontFamily = myFontJomhuria,
                     color = CustomColors.CustomWhite,
@@ -103,14 +124,14 @@ fun BasketScreen(
             )
             Text(
                 "410 ₺", style = TextStyle(
-                    fontSize = 25.sp,
+                    fontSize = 22.sp,
                     fontWeight = FontWeight.ExtraBold,
                     color = CustomColors.CustomYellow,
                 )
             )
         }
 
-        Spacer(Modifier.height(15.dp))
+        Spacer(Modifier.height(7.dp))
 
         Button(
             onClick = { /* tıklama işlemi */ },
@@ -132,7 +153,4 @@ fun BasketScreen(
 
     }
 }
-
-
-
 
