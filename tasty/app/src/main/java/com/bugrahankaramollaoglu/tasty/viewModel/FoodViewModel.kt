@@ -67,33 +67,62 @@ class FoodViewModel(
         }
     }
 
-
     fun addFoodToBasket(
         food: Food, quantity: Int, username: String
     ) {
-
         viewModelScope.launch {
             try {
-                val response = FoodsInstance.basketApi.addFoodToBasket(
-                    food.name, food.imageName, food.price, quantity, username
-                )
-                if (response.isSuccessful) {
-                    val basketResponse = response.body()
-                    if (basketResponse != null) {
-                        if (basketResponse.success == 1) {
-                            Log.d("mesaj", "Added ${food.name} to basket")
-                        } else {
-                            Log.d("mesaj", basketResponse.message)
-                        }
+                // Step 1: Check if food already exists in the basket
+                val existingItem = _basketItems.value.find { it.name == food.name }
+
+                if (existingItem != null) {
+                    // Step 2: Combine quantities
+                    val updatedQuantity = (existingItem.quantity.toIntOrNull() ?: 0) + quantity
+
+                    // Step 3: Delete the old item
+                    FoodsInstance.basketApi.deleteFromBasket(
+                        existingItem.basketFoodId.toInt(),
+                        username
+                    )
+
+                    // Step 4: Add again with updated quantity
+                    val response = FoodsInstance.basketApi.addFoodToBasket(
+                        food.name,
+                        food.imageName,
+                        food.price,
+                        updatedQuantity,
+                        username
+                    )
+                    if (response.isSuccessful) {
+                        Log.d("mesaj", "Updated quantity of ${food.name} to $updatedQuantity")
+                        getBasket(username) // refresh
+                    } else {
+                        Log.d("mesaj", "Failed to update ${food.name}")
                     }
+
                 } else {
-                    Log.d("mesaj", "HATA: ${response.code()}")
+                    // If it doesn't exist, add normally
+                    val response = FoodsInstance.basketApi.addFoodToBasket(
+                        food.name,
+                        food.imageName,
+                        food.price,
+                        quantity,
+                        username
+                    )
+                    if (response.isSuccessful) {
+                        Log.d("mesaj", "Added ${food.name} to basket")
+                        getBasket(username) // refresh
+                    } else {
+                        Log.d("mesaj", "Failed to add ${food.name}")
+                    }
                 }
+
             } catch (e: Exception) {
                 Log.d("mesaj", "Exception: ${e.localizedMessage}")
             }
         }
     }
+
 
     fun deleteBasketItem(basketFoodId: Int, username: String) {
 
@@ -133,8 +162,8 @@ class FoodViewModel(
                         Log.d("mesaj", "BASKET IS EMPTY (parsed empty list)")
                         _basketItems.value = emptyList()
                     } else {
-                        Log.d("mesaj", "Basket Items: ${basketResponse?.basketItems}")
                         _basketItems.value = basketResponse.basketItems
+                        Log.d("mesaj", "sepeting: ${basketResponse?.basketItems}")
                     }
 
                 } else {

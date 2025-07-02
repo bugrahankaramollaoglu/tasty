@@ -104,6 +104,9 @@ fun BasketItemCard(
                         foodInBasket.basketFoodId.toInt(),
                         authViewModel.loggedInUsername!!
                     )
+
+                    foodViewModel.getBasket(authViewModel.loggedInUsername!!)
+
                 }) {
                     Icon(
                         imageVector = Icons.Default.Delete,

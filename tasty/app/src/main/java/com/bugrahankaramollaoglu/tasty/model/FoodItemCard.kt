@@ -47,7 +47,7 @@ import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
 fun FoodItemCard(
     food: Food,
     username: String,
-    viewModel: FoodViewModel,
+    foodViewModel: FoodViewModel,
     onClick: () -> Unit
 ) {
     val imageUrl = "http://kasimadalan.pe.hu/yemekler/resimler/${food.imageName}"
@@ -137,7 +137,7 @@ fun FoodItemCard(
                             Toast.LENGTH_SHORT
                         ).show()
 
-                        viewModel.addFoodToBasket(
+                        foodViewModel.addFoodToBasket(
                             food,
                             1,
                             username
