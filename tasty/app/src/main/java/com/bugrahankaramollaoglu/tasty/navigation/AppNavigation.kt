@@ -13,11 +13,16 @@ import com.bugrahankaramollaoglu.tasty.view.login_screens.LoginScreen
 import com.bugrahankaramollaoglu.tasty.view.login_screens.SignInScreen
 import com.bugrahankaramollaoglu.tasty.view.login_screens.SignUpScreen
 import com.bugrahankaramollaoglu.tasty.viewModel.AuthViewModel
+import com.bugrahankaramollaoglu.tasty.viewModel.FavouriteViewModel
 import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
 
 // page routingleri düzenleyen fonksiyon
 @Composable
-fun AppNavigation(authViewModel: AuthViewModel, foodViewModel: FoodViewModel) {
+fun AppNavigation(
+    authViewModel: AuthViewModel,
+    favouriteViewModel: FavouriteViewModel,
+    foodViewModel: FoodViewModel
+) {
     val navController = rememberNavController()
 
     val startDestination = if (authViewModel.isLoggedIn()) "home" else "login"
@@ -61,7 +66,7 @@ fun AppNavigation(authViewModel: AuthViewModel, foodViewModel: FoodViewModel) {
         }
 
         composable("home") {
-            HomeScreen(authViewModel, foodViewModel, navController)
+            HomeScreen(authViewModel, foodViewModel, favouriteViewModel, navController)
         }
 
         composable("courier") {

@@ -1,31 +1,39 @@
 package com.bugrahankaramollaoglu.tasty.view.app_screens.BottomNavScreens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import com.bugrahankaramollaoglu.tasty.R
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.sp
+import com.bugrahankaramollaoglu.tasty.util.CanvasHeader
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
+import com.bugrahankaramollaoglu.tasty.viewModel.FavouriteViewModel
 
 @Composable
-fun FavouritesScreen() {
-    Box(
-        modifier = Modifier
+fun FavouritesScreen(favouriteViewModel: FavouriteViewModel) {
+
+    val favourites = favouriteViewModel.favourites
+
+    Column(
+        modifier = Modifier.Companion
             .fillMaxSize()
             .background(CustomColors.CustomRed)
     ) {
-        Column() {
-            Image(
+        CanvasHeader()
 
-                painter = painterResource(id = R.drawable.login_logo),
-
-                contentDescription = null
-
-            )
+        if (favourites.isNullOrEmpty()) {
+            Text(text = "favourites boşş", style = TextStyle(fontSize = 40.sp))
+        } else {
+            LazyColumn {
+                items(favourites) { fav ->
+                    Text(text = "ajsndkasndfav.name", style = TextStyle(fontSize = 40.sp))
+                }
+            }
         }
     }
 

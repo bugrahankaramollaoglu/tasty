@@ -19,6 +19,7 @@ import com.bugrahankaramollaoglu.tasty.util.CustomColors
 import com.bugrahankaramollaoglu.tasty.view.app_screens.BottomNavScreens.FavouritesScreen
 import com.bugrahankaramollaoglu.tasty.view.app_screens.BottomNavScreens.FoodsScreen
 import com.bugrahankaramollaoglu.tasty.viewModel.AuthViewModel
+import com.bugrahankaramollaoglu.tasty.viewModel.FavouriteViewModel
 import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
 import com.rahad.riobottomnavigation.composables.RioBottomNavItemData
 import com.rahad.riobottomnavigation.composables.RioBottomNavigation
@@ -27,6 +28,7 @@ import com.rahad.riobottomnavigation.composables.RioBottomNavigation
 fun HomeScreen(
     authViewModel: AuthViewModel,
     foodViewModel: FoodViewModel,
+    favouriteViewModel: FavouriteViewModel,
     navController: NavHostController
 ) {
     val items = listOf(
@@ -69,8 +71,9 @@ fun HomeScreen(
             selectedIndex.intValue,
             modifier = Modifier.padding(innerPadding),
             foodViewModel,
-            navController,
             authViewModel,
+            favouriteViewModel,
+            navController,
         )
     }
 }
@@ -80,12 +83,13 @@ fun ScreenContent(
     selectedIndex: Int,
     modifier: Modifier,
     foodViewModel: FoodViewModel,
-    navController: NavHostController,
     authViewModel: AuthViewModel,
+    favouriteViewModel: FavouriteViewModel,
+    navController: NavHostController,
 ) {
     when (selectedIndex) {
         0 -> FoodsScreen(authViewModel, navController) // foods degistir
-        1 -> FavouritesScreen()
+        1 -> FavouritesScreen(favouriteViewModel)
         2 -> BasketScreen(navController, authViewModel, foodViewModel)
         3 -> SettingsScreen(authViewModel, navController)
     }

@@ -1,6 +1,8 @@
 package com.bugrahankaramollaoglu.tasty.view.app_screens.BottomNavScreens
 
+import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -36,6 +38,7 @@ import com.bugrahankaramollaoglu.tasty.model.FoodItemCard
 import com.bugrahankaramollaoglu.tasty.util.CanvasHeader
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
 import com.bugrahankaramollaoglu.tasty.viewModel.AuthViewModel
+import com.bugrahankaramollaoglu.tasty.viewModel.FavouriteViewModel
 import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -43,6 +46,7 @@ import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
 fun FoodsScreen(authViewModel: AuthViewModel, navController: NavController) {
 
     val foodViewModel: FoodViewModel = viewModel()
+    val favouriteViewModel: FavouriteViewModel = viewModel()
     val foods by foodViewModel.foods.collectAsState()
     val isLoading by foodViewModel.isLoading.collectAsState()
     val errorMessage by foodViewModel.errorMessage.collectAsState()
@@ -53,6 +57,8 @@ fun FoodsScreen(authViewModel: AuthViewModel, navController: NavController) {
         it.name.contains(searchQuery, ignoreCase = true)
     }
 
+    val favorutes = favouriteViewModel.favourites
+
     val username = authViewModel.loggedInUsername
 
     Column(
@@ -61,7 +67,10 @@ fun FoodsScreen(authViewModel: AuthViewModel, navController: NavController) {
             .background(CustomColors.CustomRed)
     ) {
 
-        CanvasHeader()
+        CanvasHeader(
+            modifier = Modifier.clickable {
+                Log.d("mesaj", "${favorutes.size}")
+            })
 
         Spacer(Modifier.height(10.dp))
 
@@ -79,8 +88,7 @@ fun FoodsScreen(authViewModel: AuthViewModel, navController: NavController) {
                 focusedLabelColor = CustomColors.CustomYellow
             ),
             singleLine = true,
-            leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search Icon") }
-        )
+            leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search Icon") })
 
         Spacer(Modifier.height(20.dp))
 
@@ -99,7 +107,12 @@ fun FoodsScreen(authViewModel: AuthViewModel, navController: NavController) {
                 contentPadding = PaddingValues(bottom = 100.dp)
             ) {
                 items(filteredFoods) { food ->
-                    FoodItemCard(food = food, authViewModel.loggedInUsername!!, foodViewModel) {
+                    FoodItemCard(
+                        food = food,
+                        authViewModel.loggedInUsername!!,
+                        foodViewModel,
+                        favouriteViewModel
+                    ) {
                         navController.navigate("details/${food.id}")
                     }
                 }

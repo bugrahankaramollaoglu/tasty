@@ -63,3 +63,4 @@ data class FoodInBasket(
     @Json(name = "kullanici_adi") val username: String
 )
 
+

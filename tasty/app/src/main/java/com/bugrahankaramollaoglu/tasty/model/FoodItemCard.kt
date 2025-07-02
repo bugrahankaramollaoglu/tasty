@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
 import com.bugrahankaramollaoglu.tasty.util.myFontJomhuria
+import com.bugrahankaramollaoglu.tasty.viewModel.FavouriteViewModel
 import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
 
 
@@ -49,10 +50,11 @@ fun FoodItemCard(
     food: Food,
     username: String,
     foodViewModel: FoodViewModel,
+    favouriteViewModel: FavouriteViewModel,
     onClick: () -> Unit
 ) {
     val imageUrl = "http://kasimadalan.pe.hu/yemekler/resimler/${food.imageName}"
-    var isFavorite by remember { mutableStateOf(false) }
+    val isFavourite = favouriteViewModel.isFavourite(food.id)
     var context = LocalContext.current
 
     var showDialog by remember { mutableStateOf(false) }
@@ -85,11 +87,22 @@ fun FoodItemCard(
                     ), modifier = Modifier.padding(top = 10.dp)
                 )
 
-                IconButton(onClick = { isFavorite = !isFavorite }) {
+                IconButton(onClick = {
+                    if (isFavourite) {
+
+                        favouriteViewModel.removeFavourite(
+                            FavouriteFood(food.id, food.name, food.imageName, food.price)
+                        )
+                    } else {
+                        favouriteViewModel.addFavourite(
+                            FavouriteFood(food.id, food.name, food.imageName, food.price)
+                        )
+                    }
+                }) {
                     Icon(
-                        imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                        contentDescription = if (isFavorite) "Remove from Favorites" else "Add to Favorites",
-                        tint = if (isFavorite) Color.Red else CustomColors.CustomBlack
+                        imageVector = if (isFavourite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                        contentDescription = if (isFavourite) "Remove from Favorites" else "Add to Favorites",
+                        tint = if (isFavourite) Color.Red else CustomColors.CustomBlack
                     )
                 }
 

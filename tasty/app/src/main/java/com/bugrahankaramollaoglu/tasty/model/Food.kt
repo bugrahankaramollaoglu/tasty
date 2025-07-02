@@ -21,3 +21,12 @@ data class Food(
     @Json(name = "yemek_resim_adi") val imageName: String,
     @Json(name = "yemek_fiyat") val price: Int
 )
+
+data class FavouriteFood(
+    val id: Int,
+    val name: String,
+    val imageName: String,
+    val price: Int,
+
+
+    )
