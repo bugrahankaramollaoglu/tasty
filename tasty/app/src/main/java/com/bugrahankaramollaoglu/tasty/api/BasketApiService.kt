@@ -12,6 +12,21 @@ data class AddBasketResponse(
     val success: Int, val message: String
 )
 
+data class DeleteBasketResponse(
+    val success: Int, val message: String
+)
+
+// get basket response
+@JsonClass(generateAdapter = true)
+data class BasketResponse(
+    @Json(name = "sepet_yemekler")
+    val basketItems: List<FoodInBasket>?,
+
+    @Json(name = "success")
+    val success: Int
+)
+
+
 interface BasketApiService {
 
     @FormUrlEncoded
@@ -24,11 +39,13 @@ interface BasketApiService {
         @Field("kullanici_adi") username: String,
     ): Response<AddBasketResponse>
 
-    /*    @FormUrlEncoded
-        @POST("yemekler/sepettekiYemekleriGetir.php")
-        suspend fun getBasketItems(
-            @Field("kullanici_adi") kullaniciAdi: String
-        ): Response<BasketResponse>*/
+    @FormUrlEncoded
+    @POST("yemekler/sepettenYemekSil.php")
+    suspend fun deleteFromBasket(
+        @Field("sepet_yemek_id") basketItemId: Int,
+        @Field("kullanici_adi") username: String,
+    ): Response<DeleteBasketResponse>
+
     @FormUrlEncoded
     @POST("yemekler/sepettekiYemekleriGetir.php")
     suspend fun getBasketItems(
@@ -41,16 +58,8 @@ data class FoodInBasket(
     @Json(name = "sepet_yemek_id") val basketFoodId: String,
     @Json(name = "yemek_adi") val name: String,
     @Json(name = "yemek_resim_adi") val imageName: String,
-    @Json(name = "yemek_fiyat") val price: String,
-    @Json(name = "yemek_siparis_adet") val quantity: String,
+    @Json(name = "yemek_fiyat") val price: String, // TODO inte cevir
+    @Json(name = "yemek_siparis_adet") val quantity: String, // TODO inte cevir
     @Json(name = "kullanici_adi") val username: String
 )
 
-@JsonClass(generateAdapter = true)
-data class BasketResponse(
-    @Json(name = "sepet_yemekler")
-    val basketItems: List<FoodInBasket>?,
-
-    @Json(name = "success")
-    val success: Int
-)

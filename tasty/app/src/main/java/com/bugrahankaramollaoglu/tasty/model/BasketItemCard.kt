@@ -1,5 +1,6 @@
 package com.bugrahankaramollaoglu.tasty.model
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -95,8 +96,14 @@ fun BasketItemCard(
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 IconButton(onClick = {
+
+                    Log.d("mesaj", "id: ${foodInBasket.basketFoodId}")
+
                     // Delete item from basket
-//                    foodViewModel.deleteBasketItem(foodInBasket.basketFoodId, authViewModel.loggedInUsername!!)
+                    foodViewModel.deleteBasketItem(
+                        foodInBasket.basketFoodId.toInt(),
+                        authViewModel.loggedInUsername!!
+                    )
                 }) {
                     Icon(
                         imageVector = Icons.Default.Delete,

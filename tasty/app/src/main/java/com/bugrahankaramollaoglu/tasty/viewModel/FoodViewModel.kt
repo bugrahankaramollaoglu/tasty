@@ -95,6 +95,24 @@ class FoodViewModel(
         }
     }
 
+    fun deleteBasketItem(basketFoodId: Int, username: String) {
+
+        viewModelScope.launch {
+            try {
+                val response = FoodsInstance.basketApi.deleteFromBasket(basketFoodId, username)
+                if (response.isSuccessful) {
+                    Log.d("mesaj", "DELETED")
+                    getBasket(username)
+                } else {
+
+                }
+            } catch (e: Exception) {
+
+            }
+        }
+
+    }
+
     fun getBasket(username: String) {
         viewModelScope.launch {
             try {
