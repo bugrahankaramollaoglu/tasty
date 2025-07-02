@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bugrahankaramollaoglu.tasty.api.BasketResponse
+import com.bugrahankaramollaoglu.tasty.api.FoodInBasket
 import com.bugrahankaramollaoglu.tasty.data.FoodRepository
 import com.bugrahankaramollaoglu.tasty.model.Food
 import com.bugrahankaramollaoglu.tasty.retrofit.FoodsInstance
@@ -24,6 +25,15 @@ class FoodViewModel(
 
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage: StateFlow<String?> = _errorMessage
+
+
+    /* *********************** */
+
+    private val _basketItems = MutableStateFlow<List<FoodInBasket>>(emptyList())
+    val basketItems: StateFlow<List<FoodInBasket>> = _basketItems
+
+
+    /* *********************** */
 
     init {
         fetchFoods()
@@ -94,6 +104,7 @@ class FoodViewModel(
 
                     if (body.isNullOrBlank()) {
                         Log.d("mesaj", "BASKET IS EMPTY (no content)")
+                        _basketItems.value = emptyList()
                         return@launch
                     }
 
@@ -102,15 +113,19 @@ class FoodViewModel(
 
                     if (basketResponse?.basketItems.isNullOrEmpty()) {
                         Log.d("mesaj", "BASKET IS EMPTY (parsed empty list)")
+                        _basketItems.value = emptyList()
                     } else {
                         Log.d("mesaj", "Basket Items: ${basketResponse?.basketItems}")
+                        _basketItems.value = basketResponse.basketItems
                     }
 
                 } else {
                     Log.d("mesaj", "Server Error: ${response.code()}")
+                    _basketItems.value = emptyList()
                 }
             } catch (e: Exception) {
                 Log.d("mesaj", "Exception: ${e.message}")
+                _basketItems.value = emptyList()
             }
         }
     }

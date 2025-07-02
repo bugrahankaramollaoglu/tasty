@@ -17,6 +17,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -24,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.bugrahankaramollaoglu.tasty.api.FoodInBasket
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
 import com.bugrahankaramollaoglu.tasty.util.myFontJomhuria
 import com.bugrahankaramollaoglu.tasty.viewModel.AuthViewModel
@@ -32,11 +34,13 @@ import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun BasketItemCard(
-    food: Food,
+    foodInBasket: FoodInBasket,
     authViewModel: AuthViewModel,
-    foodViewModel: FoodViewModel,
+    foodViewModel: FoodViewModel
 ) {
-    val imageUrl = "http://kasimadalan.pe.hu/yemekler/resimler/${food.imageName}"
+    val imageUrl = "http://kasimadalan.pe.hu/yemekler/resimler/${foodInBasket.imageName}"
+    val price = foodInBasket.price.toIntOrNull() ?: 0
+    val quantity = foodInBasket.quantity.toIntOrNull() ?: 0
 
     Card(
         modifier = Modifier
@@ -48,13 +52,14 @@ fun BasketItemCard(
     ) {
         Row(
             modifier = Modifier
-                .padding(12.dp)
+                .padding(8.dp)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-
             AsyncImage(
-                model = imageUrl, contentDescription = food.name, modifier = Modifier.size(80.dp)
+                model = imageUrl,
+                contentDescription = foodInBasket.name,
+                modifier = Modifier.size(70.dp)
             )
 
             Column(
@@ -64,8 +69,9 @@ fun BasketItemCard(
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
                 Text(
-                    text = food.name, style = TextStyle(
-                        fontSize = 45.sp,
+                    text = foodInBasket.name,
+                    style = TextStyle(
+                        fontSize = 35.sp,
                         fontFamily = myFontJomhuria,
                         fontWeight = FontWeight.Bold,
                     )
@@ -74,20 +80,23 @@ fun BasketItemCard(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = "Price: ${food.price} ₺", style = TextStyle(fontSize = 17.sp)
+                    text = "Price: $price ₺",
+                    style = TextStyle(fontSize = 14.sp)
                 )
 
                 Text(
-                    text = "Quantity: 3", style = TextStyle(fontSize = 17.sp)
+                    text = "Quantity: $quantity",
+                    style = TextStyle(fontSize = 14.sp)
                 )
             }
 
             Column(
-                horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
+                horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 IconButton(onClick = {
-                    // TODO: Delete logic
+                    // Delete item from basket
+//                    foodViewModel.deleteBasketItem(foodInBasket.basketFoodId, authViewModel.loggedInUsername!!)
                 }) {
                     Icon(
                         imageVector = Icons.Default.Delete,
@@ -99,11 +108,14 @@ fun BasketItemCard(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "Total: ${food.price * 3}₺", style = TextStyle(
-                        fontSize = 16.sp, fontWeight = FontWeight.Bold
+                    text = "Total: ${price * quantity} ₺",
+                    style = TextStyle(
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
                     )
                 )
             }
         }
     }
 }
+
