@@ -1,6 +1,5 @@
 package com.bugrahankaramollaoglu.tasty.model
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
@@ -18,6 +18,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
@@ -53,6 +54,8 @@ fun FoodItemCard(
     val imageUrl = "http://kasimadalan.pe.hu/yemekler/resimler/${food.imageName}"
     var isFavorite by remember { mutableStateOf(false) }
     var context = LocalContext.current
+
+    var showDialog by remember { mutableStateOf(false) }
 
     Card(
         modifier = Modifier
@@ -131,19 +134,47 @@ fun FoodItemCard(
                     ), onClick = {
 
 
-                        Toast.makeText(
-                            context,
-                            "You clicked on item: ${food.id} of ${food.name}",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        showDialog = true
 
-                        foodViewModel.addFoodToBasket(
+                        /*foodViewModel.addFoodToBasket(
                             food,
                             1,
                             username
-                        )
+                        )*/
 
                     }) {
+
+                    if (showDialog) {
+                        AddFoodDialog(
+                            onDismissRequest = { showDialog = false },
+                            onConfirm = {
+
+                                // Here you can call your ViewModel's addFoodToBasket or any action
+                                foodViewModel.addFoodToBasket(food, 1, username)
+                                showDialog = false
+                            },
+                            onCancel = { showDialog = false },
+                            title = {
+                                Text(
+                                    "Add Food", style = TextStyle(
+                                        fontFamily = myFontJomhuria,
+                                        fontSize = 40.sp,
+
+                                        )
+                                )
+                            },
+                            text = {
+                                Text(
+                                    "Do you want to add \"${food.name}\"\nto your basket?",
+                                    style = TextStyle(
+                                        fontSize = 18.sp,
+                                        color = Color.Black,
+                                    )
+                                )
+                            }
+                        )
+                    }
+
                     Text(
                         text = "+", style = TextStyle(
                             fontSize = 15.sp,
@@ -154,4 +185,44 @@ fun FoodItemCard(
             }
         }
     }
+}
+
+@Composable
+fun AddFoodDialog(
+    onDismissRequest: () -> Unit,
+    onConfirm: () -> Unit,
+    onCancel: () -> Unit,
+    title: @Composable () -> Unit,
+    text: @Composable () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        title = title,
+        text = text,
+        contentColor = Color.Black,
+        shape = RoundedCornerShape(15.dp),
+        backgroundColor = CustomColors.CustomYellow,
+        confirmButton = {
+            TextButton(
+                onClick = onConfirm, colors = ButtonDefaults.textButtonColors(
+                    backgroundColor = CustomColors.CustomRed,
+                    contentColor = Color.White
+                ),
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.padding(7.dp)
+            ) {
+                Text("OK")
+            }
+
+        },
+        dismissButton = {
+            TextButton(
+                onClick = onCancel, colors = ButtonDefaults.textButtonColors(
+                    contentColor = Color.Black
+                ), modifier = Modifier.padding(7.dp)
+            ) {
+                Text("Cancel")
+            }
+        }
+    )
 }
