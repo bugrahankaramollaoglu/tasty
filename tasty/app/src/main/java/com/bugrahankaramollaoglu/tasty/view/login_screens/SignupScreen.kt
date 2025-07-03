@@ -47,6 +47,7 @@ import com.bugrahankaramollaoglu.tasty.util.CustomButton
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
 import com.bugrahankaramollaoglu.tasty.util.CustomTextField
 import com.bugrahankaramollaoglu.tasty.util.myFontJomhuria
+import com.bugrahankaramollaoglu.tasty.util.myFontWhoa
 import com.bugrahankaramollaoglu.tasty.viewModel.AuthViewModel
 import com.bugrahankaramollaoglu.tasty.viewModel.RegisterState
 import kotlinx.coroutines.delay
@@ -292,11 +293,11 @@ fun SignUpScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "TASTY NOW",
-                    fontSize = 60.sp,
+                    text = "TASTY",
+                    fontSize = 65.sp,
                     textAlign = TextAlign.Center,
                     color = CustomColors.CustomRed,
-                    fontFamily = myFontJomhuria,
+                    fontFamily = myFontWhoa,
                     modifier = Modifier.padding(top = 60.dp)
                 )
 

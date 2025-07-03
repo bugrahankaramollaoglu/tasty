@@ -36,6 +36,7 @@ import com.bugrahankaramollaoglu.tasty.util.CustomColors
 import com.bugrahankaramollaoglu.tasty.util.CustomDivider
 import com.bugrahankaramollaoglu.tasty.util.SocialMediaButton
 import com.bugrahankaramollaoglu.tasty.util.myFontJomhuria
+import com.bugrahankaramollaoglu.tasty.util.myFontWhoa
 
 
 @Composable
@@ -177,11 +178,11 @@ fun LoginScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "TASTY APP",
-                    fontSize = 75.sp,
+                    text = "TASTY",
+                    fontSize = 65.sp,
                     textAlign = TextAlign.Center,
                     color = CustomColors.CustomRed,
-                    fontFamily = myFontJomhuria,
+                    fontFamily = myFontWhoa,
                     modifier = Modifier.padding(top = 60.dp)
                 )
 

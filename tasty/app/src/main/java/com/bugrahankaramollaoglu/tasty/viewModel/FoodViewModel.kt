@@ -70,19 +70,29 @@ class FoodViewModel(
         food: Food, quantity: Int, username: String
     ) {
         viewModelScope.launch {
+
             try {
+
+                // ✅ Force update local basket cache before proceeding
+                getBasket(username)
+
+                // 🔁 Add a small delay to give time for _basketItems to update (only if needed)
+//                kotlinx.coroutines.delay(300)
+                
                 // Step 1: Check if food already exists in the basket
                 val existingItem = _basketItems.value.find { it.name == food.name }
 
                 if (existingItem != null) {
                     // Step 2: Combine quantities
-                    val updatedQuantity = (existingItem.quantity.toIntOrNull() ?: 0) + quantity
+                    val updatedQuantity = (existingItem.quantity ?: 0) + quantity
 
                     // Step 3: Delete the old item
                     FoodsInstance.basketApi.deleteFromBasket(
                         existingItem.basketFoodId.toInt(),
                         username
                     )
+
+//                    existingItem.quantity = 0
 
                     // Step 4: Add again with updated quantity
                     val response = FoodsInstance.basketApi.addFoodToBasket(
@@ -92,6 +102,7 @@ class FoodViewModel(
                         updatedQuantity,
                         username
                     )
+
                     if (response.isSuccessful) {
                         Log.d("mesaj", "Updated quantity of ${food.name} to $updatedQuantity")
                         getBasket(username) // refresh
@@ -131,6 +142,8 @@ class FoodViewModel(
                 val response = FoodsInstance.basketApi.deleteFromBasket(basketFoodId, username)
                 if (response.isSuccessful) {
                     Log.d("mesaj", "DELETED")
+                    _basketItems.value =
+                        _basketItems.value.filterNot { it.basketFoodId == basketFoodId.toString() }
                     getBasket(username)
                 } else {
 
@@ -138,9 +151,11 @@ class FoodViewModel(
             } catch (e: Exception) {
 
             }
+
         }
 
     }
+
 
     fun getBasket(username: String) {
         viewModelScope.launch {

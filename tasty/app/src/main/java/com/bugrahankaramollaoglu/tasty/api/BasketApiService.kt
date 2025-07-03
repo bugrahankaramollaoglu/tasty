@@ -58,8 +58,8 @@ data class FoodInBasket(
     @Json(name = "sepet_yemek_id") val basketFoodId: String,
     @Json(name = "yemek_adi") val name: String,
     @Json(name = "yemek_resim_adi") val imageName: String,
-    @Json(name = "yemek_fiyat") val price: String, // TODO inte cevir
-    @Json(name = "yemek_siparis_adet") var quantity: String, // TODO inte cevir
+    @Json(name = "yemek_fiyat") val price: Int, // TODO inte cevir
+    @Json(name = "yemek_siparis_adet") var quantity: Int, // TODO inte cevir
     @Json(name = "kullanici_adi") val username: String
 )
 

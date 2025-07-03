@@ -40,8 +40,8 @@ fun BasketItemCard(
     foodViewModel: FoodViewModel
 ) {
     val imageUrl = "http://kasimadalan.pe.hu/yemekler/resimler/${foodInBasket.imageName}"
-    val price = foodInBasket.price.toIntOrNull() ?: 0
-    val quantity = foodInBasket.quantity.toIntOrNull() ?: 0
+    val price = foodInBasket.price ?: 0
+    val quantity = foodInBasket.quantity ?: 0
 
     Card(
         modifier = Modifier
