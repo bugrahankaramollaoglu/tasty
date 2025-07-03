@@ -20,7 +20,7 @@ import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
 class MainActivity : ComponentActivity() {
 
     val favouriteViewModel: FavouriteViewModel by viewModels()
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -34,8 +34,6 @@ class MainActivity : ComponentActivity() {
         }
 
         val foodViewModel = FoodViewModel()
-//        val favouriteViewModel = FavouriteViewModel()
-
 
         setContent {
             TastyTheme {
