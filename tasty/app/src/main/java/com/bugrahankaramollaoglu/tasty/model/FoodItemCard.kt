@@ -34,8 +34,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -185,10 +188,22 @@ fun FoodItemCard(
                             )
                         }, text = {
                             Text(
-                                "Do you want to add \"${food.name}\"\nto your basket?",
+                                buildAnnotatedString {
+                                    append("Do you want to add ")
+                                    withStyle(
+                                        style = SpanStyle(
+                                            fontSize = 20.sp,
+                                            color = CustomColors.CustomRed,
+                                            fontWeight = FontWeight.ExtraBold
+                                        )
+                                    ) { // Change color to whatever you want
+                                        append(food.name)
+                                    }
+                                    append(" to your basket?")
+                                },
                                 style = TextStyle(
                                     fontSize = 18.sp,
-                                    color = Color.Black,
+                                    color = Color.Black, // This will be the default color for the rest of the text
                                 )
                             )
                         })
