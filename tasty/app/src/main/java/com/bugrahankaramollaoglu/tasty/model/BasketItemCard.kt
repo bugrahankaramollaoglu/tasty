@@ -105,6 +105,8 @@ fun BasketItemCard(
                         authViewModel.loggedInUsername!!
                     )
 
+//                    foodInBasket.quantity = 0
+
                     foodViewModel.getBasket(authViewModel.loggedInUsername!!)
 
                 }) {

@@ -81,19 +81,37 @@ fun BasketScreen(
         ) {
             if (!basketItems.isNullOrEmpty()) {
 
-                LazyColumn(
-                    modifier = Modifier
-                        .height(550.dp)
-                        .padding(12.dp),
-                    verticalArrangement = Arrangement.spacedBy(6.dp)
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    items(basketItems) { item ->
-                        BasketItemCard(
-                            foodInBasket = item,
-                            authViewModel = authViewModel,
-                            foodViewModel = foodViewModel
+                    Spacer(Modifier.height(10.dp))
+
+                    Text(
+                        text = "Basket", style = TextStyle(
+                            fontFamily = myFontJomhuria,
+                            fontSize = 50.sp,
+                            color = CustomColors.CustomWhite2
                         )
+                    )
+
+                    Spacer(Modifier.height(10.dp))
+
+                    LazyColumn(
+                        modifier = Modifier
+                            .height(550.dp)
+                            .padding(12.dp),
+                        verticalArrangement = Arrangement.spacedBy(6.dp)
+                    ) {
+                        items(basketItems) { item ->
+                            BasketItemCard(
+                                foodInBasket = item,
+                                authViewModel = authViewModel,
+                                foodViewModel = foodViewModel
+                            )
+                        }
                     }
+
                 }
 
             } else {
@@ -164,7 +182,6 @@ fun BasketScreen(
             Text(
                 text = "CHECKOUT", style = TextStyle(
                     fontSize = 40.sp, fontFamily = myFontJomhuria,
-//                    fontWeight = FontWeight.Bold,
                     color = CustomColors.CustomBlack,
                 )
             )

@@ -126,6 +126,7 @@ class FoodViewModel(
     fun deleteBasketItem(basketFoodId: Int, username: String) {
 
         viewModelScope.launch {
+
             try {
                 val response = FoodsInstance.basketApi.deleteFromBasket(basketFoodId, username)
                 if (response.isSuccessful) {

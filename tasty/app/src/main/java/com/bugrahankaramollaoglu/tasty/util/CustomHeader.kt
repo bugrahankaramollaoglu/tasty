@@ -73,7 +73,7 @@ fun CanvasHeader(modifier: Modifier = Modifier) {
                     fontFamily = myFontJomhuria,
                     fontSize = 40.sp,
                     fontWeight = FontWeight.Bold
-                ), modifier = Modifier.padding(top = 40.dp, start = 50.dp)
+                ), modifier = Modifier.padding(top = 40.dp, start = 70.dp)
             )
             Row(
                 modifier = Modifier.padding(end = 40.dp, top = 50.dp)
