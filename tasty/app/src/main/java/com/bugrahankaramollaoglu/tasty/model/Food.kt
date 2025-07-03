@@ -3,6 +3,7 @@ package com.bugrahankaramollaoglu.tasty.model
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
+
 // food modeli
 @JsonClass(generateAdapter = true) // otomatik adapter yaratiyor moshi
 data class Food(
@@ -21,12 +22,3 @@ data class Food(
     @Json(name = "yemek_resim_adi") val imageName: String,
     @Json(name = "yemek_fiyat") val price: Int
 )
-
-data class FavouriteFood(
-    val id: Int,
-    val name: String,
-    val imageName: String,
-    val price: Int,
-
-
-    )

@@ -1,5 +1,7 @@
 package com.bugrahankaramollaoglu.tasty.model
 
+import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -39,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
 import com.bugrahankaramollaoglu.tasty.util.myFontJomhuria
+import com.bugrahankaramollaoglu.tasty.viewModel.FavouriteFood
 import com.bugrahankaramollaoglu.tasty.viewModel.FavouriteViewModel
 import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
 
@@ -93,9 +96,16 @@ fun FoodItemCard(
                         favouriteViewModel.removeFavourite(
                             FavouriteFood(food.id, food.name, food.imageName, food.price)
                         )
+                        Log.d(
+                            "mesaj",
+                            "${food.name} with ${food.id} has been removed from favouritess."
+                        )
                     } else {
                         favouriteViewModel.addFavourite(
                             FavouriteFood(food.id, food.name, food.imageName, food.price)
+                        )
+                        Log.d(
+                            "mesaj", "${food.name} with ${food.id} has been added to favouritess."
                         )
                     }
                 }) {
@@ -115,9 +125,11 @@ fun FoodItemCard(
                 contentDescription = food.name,
                 modifier = Modifier
                     .height(100.dp)
+                    .clickable {
+                        Log.d("mesaj", "${favouriteViewModel.favourites}")
+                    }
                     .fillMaxWidth(),
-                contentScale = ContentScale.Crop
-            )
+                contentScale = ContentScale.Crop)
 
             Spacer(modifier = Modifier.height(15.dp))
 
@@ -158,34 +170,28 @@ fun FoodItemCard(
                     }) {
 
                     if (showDialog) {
-                        AddFoodDialog(
-                            onDismissRequest = { showDialog = false },
-                            onConfirm = {
+                        AddFoodDialog(onDismissRequest = { showDialog = false }, onConfirm = {
 
-                                // Here you can call your ViewModel's addFoodToBasket or any action
-                                foodViewModel.addFoodToBasket(food, 1, username)
-                                showDialog = false
-                            },
-                            onCancel = { showDialog = false },
-                            title = {
-                                Text(
-                                    "Add Food", style = TextStyle(
-                                        fontFamily = myFontJomhuria,
-                                        fontSize = 40.sp,
+                            // Here you can call your ViewModel's addFoodToBasket or any action
+                            foodViewModel.addFoodToBasket(food, 1, username)
+                            showDialog = false
+                        }, onCancel = { showDialog = false }, title = {
+                            Text(
+                                "Add Food", style = TextStyle(
+                                    fontFamily = myFontJomhuria,
+                                    fontSize = 40.sp,
 
-                                        )
-                                )
-                            },
-                            text = {
-                                Text(
-                                    "Do you want to add \"${food.name}\"\nto your basket?",
-                                    style = TextStyle(
-                                        fontSize = 18.sp,
-                                        color = Color.Black,
                                     )
+                            )
+                        }, text = {
+                            Text(
+                                "Do you want to add \"${food.name}\"\nto your basket?",
+                                style = TextStyle(
+                                    fontSize = 18.sp,
+                                    color = Color.Black,
                                 )
-                            }
-                        )
+                            )
+                        })
                     }
 
                     Text(
@@ -218,11 +224,8 @@ fun AddFoodDialog(
         confirmButton = {
             TextButton(
                 onClick = onConfirm, colors = ButtonDefaults.textButtonColors(
-                    backgroundColor = CustomColors.CustomRed,
-                    contentColor = Color.White
-                ),
-                shape = RoundedCornerShape(12.dp),
-                modifier = Modifier.padding(7.dp)
+                    backgroundColor = CustomColors.CustomRed, contentColor = Color.White
+                ), shape = RoundedCornerShape(12.dp), modifier = Modifier.padding(7.dp)
             ) {
                 Text("OK")
             }
@@ -236,6 +239,5 @@ fun AddFoodDialog(
             ) {
                 Text("Cancel")
             }
-        }
-    )
+        })
 }

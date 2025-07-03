@@ -11,3 +11,10 @@ val myFontJomhuria = FontFamily(
     Font(R.font.jomhuria, FontWeight.Bold)
 
 )
+
+val myFontWhoa = FontFamily(
+
+    Font(R.font.whoa),
+    Font(R.font.whoa, FontWeight.Normal)
+
+)

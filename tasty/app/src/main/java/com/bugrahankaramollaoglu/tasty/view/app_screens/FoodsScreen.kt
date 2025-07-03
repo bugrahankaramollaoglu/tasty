@@ -1,8 +1,6 @@
 package com.bugrahankaramollaoglu.tasty.view.app_screens.BottomNavScreens
 
-import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -43,10 +41,13 @@ import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun FoodsScreen(authViewModel: AuthViewModel, navController: NavController) {
+fun FoodsScreen(
+    authViewModel: AuthViewModel,
+    favouriteViewModel: FavouriteViewModel,
+    navController: NavController
+) {
 
     val foodViewModel: FoodViewModel = viewModel()
-    val favouriteViewModel: FavouriteViewModel = viewModel()
     val foods by foodViewModel.foods.collectAsState()
     val isLoading by foodViewModel.isLoading.collectAsState()
     val errorMessage by foodViewModel.errorMessage.collectAsState()
@@ -57,8 +58,6 @@ fun FoodsScreen(authViewModel: AuthViewModel, navController: NavController) {
         it.name.contains(searchQuery, ignoreCase = true)
     }
 
-    val favorutes = favouriteViewModel.favourites
-
     val username = authViewModel.loggedInUsername
 
     Column(
@@ -67,10 +66,7 @@ fun FoodsScreen(authViewModel: AuthViewModel, navController: NavController) {
             .background(CustomColors.CustomRed)
     ) {
 
-        CanvasHeader(
-            modifier = Modifier.clickable {
-                Log.d("mesaj", "${favorutes.size}")
-            })
+        CanvasHeader()
 
         Spacer(Modifier.height(10.dp))
 

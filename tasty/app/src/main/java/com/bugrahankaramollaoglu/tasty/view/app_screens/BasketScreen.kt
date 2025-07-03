@@ -34,6 +34,7 @@ import com.bugrahankaramollaoglu.tasty.model.BasketItemCard
 import com.bugrahankaramollaoglu.tasty.util.CanvasHeader
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
 import com.bugrahankaramollaoglu.tasty.util.myFontJomhuria
+import com.bugrahankaramollaoglu.tasty.util.myFontWhoa
 import com.bugrahankaramollaoglu.tasty.viewModel.AuthViewModel
 import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
 
@@ -42,13 +43,13 @@ fun BasketScreen(
     navController: NavController, authViewModel: AuthViewModel, foodViewModel: FoodViewModel
 ) {
 
-    val basketItems = foodViewModel.basketItems.collectAsState(emptyList()).value
+//    val basketItems = foodViewModel.basketItems.collectAsState(emptyList()).value
+    val basketItems = foodViewModel.basketItems.collectAsState(initial = null).value
 //    val basketItems by foodViewModel.basketItems.collectAsState(initial = emptyList())
 
     LaunchedEffect(Unit) {
         foodViewModel.getBasket(authViewModel.loggedInUsername!!)
     }
-
 
     Column(
         modifier = Modifier
@@ -78,17 +79,8 @@ fun BasketScreen(
                 .fillMaxWidth()
                 .height(520.dp)
         ) {
-            if (basketItems.isNullOrEmpty()) {
+            if (!basketItems.isNullOrEmpty()) {
 
-                Image(
-                    painter = painterResource(id = R.drawable.empty_basket2),
-                    contentDescription = "Basket is empty",
-                    modifier = Modifier
-                        .size(450.dp)  // sets width and height to 200dp
-                        .padding(16.dp)
-                )
-
-            } else {
                 LazyColumn(
                     modifier = Modifier
                         .height(550.dp)
@@ -103,6 +95,33 @@ fun BasketScreen(
                         )
                     }
                 }
+
+            } else {
+
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.empty_basket2),
+                        contentDescription = "Basket is empty",
+                        modifier = Modifier
+                            .size(400.dp)  // sets width and height to 200dp
+                            .padding(horizontal = 16.dp)
+                    )
+
+                    Text(
+                        "EMPTY", style = TextStyle(
+
+                            fontFamily = myFontWhoa,
+                            color = CustomColors.CustomYellow,
+                            fontSize = 60.sp
+
+                        )
+                    )
+                }
+
+
             }
         }
 
