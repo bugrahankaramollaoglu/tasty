@@ -54,6 +54,7 @@ fun FoodsScreen(
 
     var searchQuery by remember { mutableStateOf("") }
 
+
     val filteredFoods = foods.filter { it ->
         it.name.contains(searchQuery, ignoreCase = true)
     }

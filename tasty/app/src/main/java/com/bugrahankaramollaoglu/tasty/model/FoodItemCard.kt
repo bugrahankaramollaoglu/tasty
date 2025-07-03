@@ -200,10 +200,9 @@ fun FoodItemCard(
                                         append(food.name)
                                     }
                                     append(" to your basket?")
-                                },
-                                style = TextStyle(
+                                }, style = TextStyle(
                                     fontSize = 18.sp,
-                                    color = Color.Black, // This will be the default color for the rest of the text
+                                    color = Color.Black,
                                 )
                             )
                         })
