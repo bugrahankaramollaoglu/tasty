@@ -70,16 +70,6 @@ fun SignUpScreen(
 
     /* ---------- Observe sign‑up outcome ---------- *//*
 
-    LaunchedEffect(signUpResult) {
-        signUpResult?.let { result ->
-            if (result.isSuccess) {
-                message = "Sign‑up successful!"
-                onSignUpSuccess()
-            } else {
-                message = "Error: ${result.exceptionOrNull()?.message ?: "Unknown error"}"
-            }
-        }
-    }
 
 *//* ---------- Bottom‑sheet scaffold ---------- */
     val scaffoldState = rememberBottomSheetScaffoldState()
@@ -215,7 +205,7 @@ fun SignUpScreen(
 
                                 password != confirmPassword -> message = "Passwords do not match"
                                 else -> {
-                                    viewModel.register(email, email, password, password)
+                                    viewModel.register(email, password, password)
                                 } // değiştir as signup()
                             }
                         },

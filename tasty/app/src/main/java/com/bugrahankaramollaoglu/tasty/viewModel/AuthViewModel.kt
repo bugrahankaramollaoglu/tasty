@@ -84,7 +84,7 @@ class AuthViewModel(
     }
 
     // Register function
-    fun register(username: String, email: String, password: String, password2: String) {
+    fun register(email: String, password: String, password2: String) {
         _registerState.value = RegisterState.Loading
 
         viewModelScope.launch {
@@ -95,7 +95,7 @@ class AuthViewModel(
                 )
                 if (response.isSuccessful) {
                     prefManager.setLoggedIn(true)
-                    val usernameFinal = username.substringBefore("@")
+                    val usernameFinal = email.substringBefore("@")
                     prefManager.setUsername(usernameFinal)
                     loggedInUsername = usernameFinal
                     _registerState.value = RegisterState.Success("Registration successful")

@@ -13,6 +13,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         fields = ('username', 'email', 'password', 'password2')
         extra_kwargs = {
             'email': {'required': True},
+            'username': {'required': False},  # Make username optional
         }
 
     def validate(self, attrs):
@@ -22,7 +23,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = User.objects.create(
-            username=validated_data['username'],
+            username=validated_data.get('username', validated_data['email']),  # Default to email
             email=validated_data['email']
         )
         user.set_password(validated_data['password'])
