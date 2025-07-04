@@ -44,6 +44,7 @@ import com.bugrahankaramollaoglu.tasty.util.CanvasHeader
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
 import com.bugrahankaramollaoglu.tasty.util.CustomRatingBar
 import com.bugrahankaramollaoglu.tasty.util.myFontJomhuria
+import com.bugrahankaramollaoglu.tasty.viewModel.FavouriteFood
 import com.bugrahankaramollaoglu.tasty.viewModel.FavouriteViewModel
 import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
 
@@ -63,6 +64,7 @@ fun DetailsScreen(
 
         // pe.hu free hosting servis url adresidir
         val imageUrl = "http://kasimadalan.pe.hu/yemekler/resimler/${food.imageName}"
+
 
         Column(
             modifier = Modifier
@@ -101,6 +103,38 @@ fun DetailsScreen(
 
                 IconButton(onClick = {
 
+                    /* data class FavouriteFood(
+                        val id: Int,
+                        val name: String,
+                        val imageName: String,
+                        val price: Int,
+                    )*/
+
+                    if (isFavourite) {
+                        favouriteViewModel.removeFavourite(
+                            FavouriteFood(
+                                food.id,
+                                food.name,
+                                food.imageName,
+                                food.price
+                            )
+                        )
+                    } else {
+
+                        favouriteViewModel.addFavourite(
+                            FavouriteFood(
+                                food.id,
+                                food.name,
+                                food.imageName,
+                                food.price
+                            )
+                        )
+
+                    }
+
+//                    Log.d("mesaj", "foodid: ${food.id}")
+//                    Log.d("mesaj", "foodid: ${food.name}")
+//                    Log.d("mesaj", "foodid: ${isFavourite}")
 
                 }) {
                     Icon(
@@ -119,7 +153,6 @@ fun DetailsScreen(
                 rating = rating, onRatingChanged = {
                     rating = it
                 })
-
 
             Box(
                 modifier = Modifier.size(250.dp)

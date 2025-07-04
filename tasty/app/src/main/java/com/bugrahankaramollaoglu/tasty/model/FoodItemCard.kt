@@ -32,7 +32,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -60,7 +59,6 @@ fun FoodItemCard(
 ) {
     val imageUrl = "http://kasimadalan.pe.hu/yemekler/resimler/${food.imageName}"
     val isFavourite = favouriteViewModel.isFavourite(food.id)
-    var context = LocalContext.current
 
     var showDialog by remember { mutableStateOf(false) }
 
