@@ -36,6 +36,7 @@ import com.bugrahankaramollaoglu.tasty.model.FoodItemCard
 import com.bugrahankaramollaoglu.tasty.util.CanvasHeader
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
 import com.bugrahankaramollaoglu.tasty.viewModel.AuthViewModel
+import com.bugrahankaramollaoglu.tasty.viewModel.BasketViewModel
 import com.bugrahankaramollaoglu.tasty.viewModel.FavouriteViewModel
 import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
 
@@ -44,6 +45,7 @@ import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
 fun FoodsScreen(
     authViewModel: AuthViewModel,
     favouriteViewModel: FavouriteViewModel,
+    basketViewModel: BasketViewModel,
     navController: NavController
 ) {
 
@@ -108,7 +110,8 @@ fun FoodsScreen(
                         food = food,
                         authViewModel.loggedInUsername!!,
                         foodViewModel,
-                        favouriteViewModel
+                        favouriteViewModel,
+                        basketViewModel,
                     ) {
                         navController.navigate("details/${food.id}")
                     }

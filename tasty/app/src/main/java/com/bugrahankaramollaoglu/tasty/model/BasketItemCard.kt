@@ -1,6 +1,5 @@
 package com.bugrahankaramollaoglu.tasty.model
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,6 +29,7 @@ import com.bugrahankaramollaoglu.tasty.api.FoodInBasket
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
 import com.bugrahankaramollaoglu.tasty.util.myFontJomhuria
 import com.bugrahankaramollaoglu.tasty.viewModel.AuthViewModel
+import com.bugrahankaramollaoglu.tasty.viewModel.BasketViewModel
 import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -37,7 +37,8 @@ import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
 fun BasketItemCard(
     foodInBasket: FoodInBasket,
     authViewModel: AuthViewModel,
-    foodViewModel: FoodViewModel
+    foodViewModel: FoodViewModel,
+    basketViewModel: BasketViewModel,
 ) {
     val imageUrl = "http://kasimadalan.pe.hu/yemekler/resimler/${foodInBasket.imageName}"
     val price = foodInBasket.price ?: 0
@@ -70,8 +71,7 @@ fun BasketItemCard(
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
                 Text(
-                    text = foodInBasket.name,
-                    style = TextStyle(
+                    text = foodInBasket.name, style = TextStyle(
                         fontSize = 35.sp,
                         fontFamily = myFontJomhuria,
                         fontWeight = FontWeight.Bold,
@@ -81,13 +81,11 @@ fun BasketItemCard(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = "Price: $price ₺",
-                    style = TextStyle(fontSize = 14.sp)
+                    text = "Price: $price ₺", style = TextStyle(fontSize = 14.sp)
                 )
 
                 Text(
-                    text = "Quantity: $quantity",
-                    style = TextStyle(fontSize = 14.sp)
+                    text = "Quantity: $quantity", style = TextStyle(fontSize = 14.sp)
                 )
             }
 
@@ -97,15 +95,13 @@ fun BasketItemCard(
             ) {
                 IconButton(onClick = {
 
-                    Log.d("mesaj", "id: ${foodInBasket.basketFoodId}")
-
                     // Delete item from basket
                     foodViewModel.deleteBasketItem(
-                        foodInBasket.basketFoodId.toInt(),
-                        authViewModel.loggedInUsername!!
+                        foodInBasket.basketFoodId.toInt(), authViewModel.loggedInUsername!!
                     )
 
-//                    foodInBasket.quantity = 0
+
+                    basketViewModel.extractBasketAmount(price * quantity)
 
                     foodViewModel.getBasket(authViewModel.loggedInUsername!!)
 
@@ -120,10 +116,8 @@ fun BasketItemCard(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "Total: ${price * quantity} ₺",
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold
+                    text = "Total: ${price * quantity} ₺", style = TextStyle(
+                        fontSize = 16.sp, fontWeight = FontWeight.Bold
                     )
                 )
             }

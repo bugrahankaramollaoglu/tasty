@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
 import com.bugrahankaramollaoglu.tasty.util.myFontJomhuria
+import com.bugrahankaramollaoglu.tasty.viewModel.BasketViewModel
 import com.bugrahankaramollaoglu.tasty.viewModel.FavouriteFood
 import com.bugrahankaramollaoglu.tasty.viewModel.FavouriteViewModel
 import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
@@ -55,6 +56,7 @@ fun FoodItemCard(
     username: String,
     foodViewModel: FoodViewModel,
     favouriteViewModel: FavouriteViewModel,
+    basketViewModel: BasketViewModel,
     onClick: () -> Unit
 ) {
     val imageUrl = "http://kasimadalan.pe.hu/yemekler/resimler/${food.imageName}"
@@ -165,6 +167,7 @@ fun FoodItemCard(
 
                             // Here you can call your ViewModel's addFoodToBasket or any action
                             foodViewModel.addFoodToBasket(food, 1, username)
+                            basketViewModel.addBasketAmount(food.price)
                             showDialog = false
                         }, onCancel = { showDialog = false }, title = {
                             Text(

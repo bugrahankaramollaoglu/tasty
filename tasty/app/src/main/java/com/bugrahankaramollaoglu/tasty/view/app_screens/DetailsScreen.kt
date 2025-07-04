@@ -1,5 +1,6 @@
 package com.bugrahankaramollaoglu.tasty.view.app_screens
 
+import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -54,16 +55,19 @@ import com.bugrahankaramollaoglu.tasty.util.CustomColors
 import com.bugrahankaramollaoglu.tasty.util.CustomRatingBar
 import com.bugrahankaramollaoglu.tasty.util.myFontJomhuria
 import com.bugrahankaramollaoglu.tasty.viewModel.AuthViewModel
+import com.bugrahankaramollaoglu.tasty.viewModel.BasketViewModel
 import com.bugrahankaramollaoglu.tasty.viewModel.FavouriteFood
 import com.bugrahankaramollaoglu.tasty.viewModel.FavouriteViewModel
 import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun DetailsScreen(
     foodId: Int?,
     navController: NavController,
     authViewModel: AuthViewModel,
     foodViewModel: FoodViewModel,
+    basketViewModel: BasketViewModel,
     favouriteViewModel: FavouriteViewModel
 ) {
     val foods by foodViewModel.foods.collectAsState()
@@ -271,10 +275,9 @@ fun DetailsScreen(
 
                             // Here you can call your ViewModel's addFoodToBasket or any action
                             foodViewModel.addFoodToBasket(
-                                food,
-                                quantity,
-                                authViewModel.loggedInUsername!!
+                                food, quantity, authViewModel.loggedInUsername!!
                             )
+                            basketViewModel.addBasketAmount(food.price * quantity)
                             Toast.makeText(context, "${food.name} is added!", Toast.LENGTH_SHORT)
                                 .show()
                             showDialog = false
@@ -328,7 +331,7 @@ fun DetailsScreen(
                     modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = "410", style = TextStyle(
+                        text = "${basketViewModel.basketAmount.value}", style = TextStyle(
                             fontSize = 60.sp,
                             fontWeight = FontWeight.ExtraBold,
                             fontFamily = myFontJomhuria,

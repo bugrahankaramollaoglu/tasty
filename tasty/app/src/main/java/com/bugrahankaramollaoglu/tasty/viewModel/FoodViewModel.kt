@@ -78,7 +78,7 @@ class FoodViewModel(
 
                 // 🔁 Add a small delay to give time for _basketItems to update (only if needed)
 //                kotlinx.coroutines.delay(300)
-                
+
                 // Step 1: Check if food already exists in the basket
                 val existingItem = _basketItems.value.find { it.name == food.name }
 

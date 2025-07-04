@@ -20,6 +20,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,16 +37,19 @@ import com.bugrahankaramollaoglu.tasty.util.CustomColors
 import com.bugrahankaramollaoglu.tasty.util.myFontJomhuria
 import com.bugrahankaramollaoglu.tasty.util.myFontWhoa
 import com.bugrahankaramollaoglu.tasty.viewModel.AuthViewModel
+import com.bugrahankaramollaoglu.tasty.viewModel.BasketViewModel
 import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
 
 @Composable
 fun BasketScreen(
-    navController: NavController, authViewModel: AuthViewModel, foodViewModel: FoodViewModel
+    navController: NavController,
+    basketViewModel: BasketViewModel,
+    authViewModel: AuthViewModel,
+    foodViewModel: FoodViewModel
 ) {
 
-//    val basketItems = foodViewModel.basketItems.collectAsState(emptyList()).value
     val basketItems = foodViewModel.basketItems.collectAsState(initial = null).value
-//    val basketItems by foodViewModel.basketItems.collectAsState(initial = emptyList())
+    val basketAmount by basketViewModel.basketAmount.collectAsState()
 
     LaunchedEffect(Unit) {
         foodViewModel.getBasket(authViewModel.loggedInUsername!!)
@@ -107,7 +111,8 @@ fun BasketScreen(
                             BasketItemCard(
                                 foodInBasket = item,
                                 authViewModel = authViewModel,
-                                foodViewModel = foodViewModel
+                                foodViewModel = foodViewModel,
+                                basketViewModel = basketViewModel
                             )
                         }
                     }
@@ -160,10 +165,10 @@ fun BasketScreen(
                 )
             )
             Text(
-                "410 ₺", style = TextStyle(
-                    fontSize = 22.sp,
+                "$basketAmount ₺", style = TextStyle(
+                    fontSize = 20.sp,
                     fontWeight = FontWeight.ExtraBold,
-                    color = CustomColors.CustomYellow,
+                    color = CustomColors.CustomWhite,
                 )
             )
         }
@@ -171,7 +176,9 @@ fun BasketScreen(
         Spacer(Modifier.height(7.dp))
 
         Button(
-            onClick = { /* tıklama işlemi */ },
+            onClick = {
+
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 25.dp),

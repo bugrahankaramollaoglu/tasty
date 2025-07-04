@@ -14,6 +14,8 @@ import com.bugrahankaramollaoglu.tasty.retrofit.RetrofitInstance
 import com.bugrahankaramollaoglu.tasty.ui.theme.TastyTheme
 import com.bugrahankaramollaoglu.tasty.viewModel.AuthViewModel
 import com.bugrahankaramollaoglu.tasty.viewModel.AuthViewModelFactory
+import com.bugrahankaramollaoglu.tasty.viewModel.BasketViewModel
+import com.bugrahankaramollaoglu.tasty.viewModel.BasketViewModelFactory
 import com.bugrahankaramollaoglu.tasty.viewModel.FavouriteViewModel
 import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
 
@@ -35,11 +37,15 @@ class MainActivity : ComponentActivity() {
 
         val foodViewModel = FoodViewModel()
 
+        val basketViewModel: BasketViewModel by viewModels {
+            BasketViewModelFactory(application)
+        }
+
         setContent {
             TastyTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     // navigation mekanizmasi buradan oluyor
-                    AppNavigation(authViewModel, favouriteViewModel, foodViewModel)
+                    AppNavigation(authViewModel, favouriteViewModel, basketViewModel, foodViewModel)
                 }
             }
         }

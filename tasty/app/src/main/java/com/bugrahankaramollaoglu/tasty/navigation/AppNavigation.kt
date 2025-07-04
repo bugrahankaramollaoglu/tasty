@@ -13,6 +13,7 @@ import com.bugrahankaramollaoglu.tasty.view.login_screens.LoginScreen
 import com.bugrahankaramollaoglu.tasty.view.login_screens.SignInScreen
 import com.bugrahankaramollaoglu.tasty.view.login_screens.SignUpScreen
 import com.bugrahankaramollaoglu.tasty.viewModel.AuthViewModel
+import com.bugrahankaramollaoglu.tasty.viewModel.BasketViewModel
 import com.bugrahankaramollaoglu.tasty.viewModel.FavouriteViewModel
 import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
 
@@ -21,6 +22,7 @@ import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
 fun AppNavigation(
     authViewModel: AuthViewModel,
     favouriteViewModel: FavouriteViewModel,
+    basketViewModel: BasketViewModel,
     foodViewModel: FoodViewModel
 ) {
     val navController = rememberNavController()
@@ -66,12 +68,15 @@ fun AppNavigation(
                 navController = navController,
                 authViewModel,
                 foodViewModel,
+                basketViewModel,
                 favouriteViewModel
             )
         }
 
         composable("home") {
-            HomeScreen(authViewModel, foodViewModel, favouriteViewModel, navController)
+            HomeScreen(
+                authViewModel, foodViewModel, basketViewModel, favouriteViewModel, navController
+            )
         }
 
         composable("courier") {
