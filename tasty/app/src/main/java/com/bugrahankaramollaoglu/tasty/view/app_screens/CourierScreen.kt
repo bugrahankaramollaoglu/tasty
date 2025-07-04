@@ -48,6 +48,7 @@ import com.bugrahankaramollaoglu.tasty.R
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
 import com.bugrahankaramollaoglu.tasty.util.RequestLocationPermission
 import com.bugrahankaramollaoglu.tasty.util.myFontJomhuria
+import com.bugrahankaramollaoglu.tasty.viewModel.BasketViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.android.gms.location.LocationCallback
@@ -69,7 +70,7 @@ import com.google.maps.android.compose.rememberCameraPositionState
 @SuppressLint("MissingPermission")
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun CourierScreen(navController: NavController) {
+fun CourierScreen(navController: NavController, basketViewModel: BasketViewModel) {
     val locationPermissionState =
         rememberPermissionState(android.Manifest.permission.ACCESS_FINE_LOCATION)
     val context = LocalContext.current
@@ -201,11 +202,11 @@ fun CourierScreen(navController: NavController) {
                         painter = painterResource(R.drawable.courier_avatar),
                         contentDescription = "Avatar",
                         modifier = Modifier
-                            .size(75.dp)
+                            .size(70.dp)
                             .clip(CircleShape)
                             .background(CustomColors.CustomYellow)
                     )
-                    Spacer(Modifier.height(10.dp))
+                    Spacer(Modifier.height(15.dp))
                     Row(
                         modifier = Modifier.width(width = 200.dp),
                         horizontalArrangement = Arrangement.SpaceBetween
@@ -213,7 +214,7 @@ fun CourierScreen(navController: NavController) {
 
                         Text(
                             "Order Status:", style = TextStyle(
-                                fontSize = 22.sp, fontFamily = myFontJomhuria
+                                fontSize = 25.sp, fontFamily = myFontJomhuria
                             )
                         )
                         Text("On the way")
@@ -227,10 +228,10 @@ fun CourierScreen(navController: NavController) {
 
                         Text(
                             "Total Amount:", style = TextStyle(
-                                fontSize = 22.sp, fontFamily = myFontJomhuria
+                                fontSize = 25.sp, fontFamily = myFontJomhuria
                             )
                         )
-                        Text("153 ₺")
+                        Text(text = "${basketViewModel.basketAmount.value} ₺")
 
                     }
                 }

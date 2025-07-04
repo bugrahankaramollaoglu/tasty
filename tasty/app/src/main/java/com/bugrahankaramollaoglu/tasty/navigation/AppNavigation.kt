@@ -85,7 +85,7 @@ fun AppNavigation(
         }
 
         composable("courier") {
-            CourierScreen(navController)
+            CourierScreen(navController, basketViewModel)
         }
     }
 }
