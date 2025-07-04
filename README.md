@@ -1,6 +1,6 @@
 # 🍔 Tasty – E-Commerce App (Jetpack Compose)
 
-**Tasty** is a Yemeksepeti clone I wrote for the final project in Kasim Adalan's Android bootcamp. It relies on Django backend and uses a wide range of mobile technologies. This project is completed as part of the Kasım Adalan Bootcamp in 2025.
+**Tasty** is a Yemeksepeti clone I wrote for the final project in Kasim Adalan's Android bootcamp. It relies on Django backend and uses a wide range of mobile technologies. 
 
 ## Screenshots
 
