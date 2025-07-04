@@ -350,7 +350,6 @@ fun DetailsScreen(
                             fontSize = 40.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = myFontJomhuria,
-                            color = CustomColors.CustomBlack,
                         )
                     )
 

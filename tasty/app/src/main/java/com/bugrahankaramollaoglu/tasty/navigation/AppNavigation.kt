@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.bugrahankaramollaoglu.tasty.view.app_screens.BottomNavScreens.CourierScreen
+import com.bugrahankaramollaoglu.tasty.view.app_screens.CheckoutScreen
 import com.bugrahankaramollaoglu.tasty.view.app_screens.DetailsScreen
 import com.bugrahankaramollaoglu.tasty.view.app_screens.HomeScreen
 import com.bugrahankaramollaoglu.tasty.view.login_screens.LoginScreen
@@ -77,6 +78,10 @@ fun AppNavigation(
             HomeScreen(
                 authViewModel, foodViewModel, basketViewModel, favouriteViewModel, navController
             )
+        }
+
+        composable("checkout") {
+            CheckoutScreen(navController)
         }
 
         composable("courier") {

@@ -51,6 +51,9 @@ fun BasketScreen(
     val basketItems = foodViewModel.basketItems.collectAsState(initial = null).value
     val basketAmount by basketViewModel.basketAmount.collectAsState()
 
+    // Add a loading state
+    val isLoading = basketItems == null
+
     LaunchedEffect(Unit) {
         foodViewModel.getBasket(authViewModel.loggedInUsername!!)
     }
@@ -66,85 +69,83 @@ fun BasketScreen(
 
         Spacer(Modifier.height(10.dp))
 
-        /*        val food1 = Food(1, "ayran", "ayran.png", 40)
-                val food2 = Food(2, "su", "su.png", 10)
-                val food3 = Food(3, "pizza", "pizza.png", 150)
-
-        //        val foodList: List<Food> = listOf(food1, food2, food3)
-
-                val foodList = mutableListOf<Food>()
-                foodList.add(food1)
-                foodList.add(food2)
-                foodList.add(food3)*/
-
-
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(520.dp)
         ) {
-            if (!basketItems.isNullOrEmpty()) {
-
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Spacer(Modifier.height(10.dp))
-
-                    Text(
-                        text = "Basket", style = TextStyle(
-                            fontFamily = myFontJomhuria,
-                            fontSize = 50.sp,
-                            color = CustomColors.CustomWhite2
-                        )
-                    )
-
-                    Spacer(Modifier.height(10.dp))
-
-                    LazyColumn(
-                        modifier = Modifier
-                            .height(550.dp)
-                            .padding(12.dp),
-                        verticalArrangement = Arrangement.spacedBy(6.dp)
+            when {
+                // Show loading state instead of empty state initially
+                isLoading -> {
+                    // You can show a loading indicator here
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
                     ) {
-                        items(basketItems) { item ->
-                            BasketItemCard(
-                                foodInBasket = item,
-                                authViewModel = authViewModel,
-                                foodViewModel = foodViewModel,
-                                basketViewModel = basketViewModel
+                        // Optional: Add a CircularProgressIndicator or just leave empty
+                        // CircularProgressIndicator(color = CustomColors.CustomWhite)
+                    }
+                }
+
+                // Show content when data is loaded and not empty
+                basketItems?.isNotEmpty() == true -> {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Spacer(Modifier.height(10.dp))
+
+                        Text(
+                            text = "Basket", style = TextStyle(
+                                fontFamily = myFontJomhuria,
+                                fontSize = 50.sp,
+                                color = CustomColors.CustomWhite2
                             )
+                        )
+
+                        Spacer(Modifier.height(10.dp))
+
+                        LazyColumn(
+                            modifier = Modifier
+                                .height(550.dp)
+                                .padding(12.dp),
+                            verticalArrangement = Arrangement.spacedBy(6.dp)
+                        ) {
+                            items(basketItems) { item ->
+                                BasketItemCard(
+                                    foodInBasket = item,
+                                    authViewModel = authViewModel,
+                                    foodViewModel = foodViewModel,
+                                    basketViewModel = basketViewModel
+                                )
+                            }
                         }
                     }
-
                 }
 
-            } else {
-
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.empty_basket2),
-                        contentDescription = "Basket is empty",
-                        modifier = Modifier
-                            .size(400.dp)  // sets width and height to 200dp
-                            .padding(horizontal = 16.dp)
-                    )
-
-                    Text(
-                        "EMPTY", style = TextStyle(
-
-                            fontFamily = myFontWhoa,
-                            color = CustomColors.CustomYellow,
-                            fontSize = 60.sp
-
+                // Show empty state only when data is loaded and empty
+                else -> {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.empty_basket2),
+                            contentDescription = "Basket is empty",
+                            modifier = Modifier
+                                .size(400.dp)
+                                .padding(horizontal = 16.dp)
                         )
-                    )
+
+                        Text(
+                            "EMPTY", style = TextStyle(
+                                fontFamily = myFontWhoa,
+                                color = CustomColors.CustomYellow,
+                                fontSize = 60.sp
+                            )
+                        )
+                    }
                 }
-
-
             }
         }
 
@@ -159,7 +160,6 @@ fun BasketScreen(
             Text(
                 "Total: ", style = TextStyle(
                     fontSize = 30.sp,
-
                     fontFamily = myFontJomhuria,
                     color = CustomColors.CustomWhite,
                 )
@@ -178,22 +178,24 @@ fun BasketScreen(
         Button(
             onClick = {
 
+                navController.navigate("checkout")
+
             },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 25.dp),
             colors = ButtonDefaults.buttonColors(
-                backgroundColor = CustomColors.CustomYellow, contentColor = Color.White
+                backgroundColor = CustomColors.CustomYellow,
+                contentColor = Color.White
             )
         ) {
             Text(
                 text = "CHECKOUT", style = TextStyle(
-                    fontSize = 40.sp, fontFamily = myFontJomhuria,
+                    fontSize = 40.sp,
+                    fontFamily = myFontJomhuria,
                     color = CustomColors.CustomBlack,
                 )
             )
         }
-
     }
 }
-
