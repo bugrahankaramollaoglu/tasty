@@ -56,13 +56,14 @@ fun AppNavigation(
         }
 
         composable(
-            route = "details/{foodId}",
-            arguments = listOf(navArgument("foodId") {
+            route = "details/{foodId}", arguments = listOf(navArgument("foodId") {
                 type = NavType.IntType  // <-- Important: specify argument type as Int
             })
         ) { backStackEntry ->
             val foodId = backStackEntry.arguments?.getInt("foodId") ?: 0
-            DetailsScreen(foodId = foodId, navController = navController)
+            DetailsScreen(
+                foodId = foodId, navController = navController, foodViewModel, favouriteViewModel
+            )
         }
 
         composable("home") {

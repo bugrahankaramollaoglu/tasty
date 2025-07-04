@@ -1,7 +1,6 @@
 package com.bugrahankaramollaoglu.tasty.model
 
 import android.util.Log
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -128,18 +127,14 @@ fun FoodItemCard(
                 contentDescription = food.name,
                 modifier = Modifier
                     .height(100.dp)
-                    .clickable {
-                        Log.d("mesaj", "${favouriteViewModel.favourites}")
-                    }
                     .fillMaxWidth(),
-                contentScale = ContentScale.Crop)
+                contentScale = ContentScale.Crop
+            )
 
             Spacer(modifier = Modifier.height(15.dp))
 
             Row(
-
                 modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
-
             ) {
                 Column {
                     Text(

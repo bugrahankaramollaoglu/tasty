@@ -27,34 +27,37 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.bugrahankaramollaoglu.tasty.util.CanvasHeader
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
 import com.bugrahankaramollaoglu.tasty.util.CustomRatingBar
 import com.bugrahankaramollaoglu.tasty.util.myFontJomhuria
+import com.bugrahankaramollaoglu.tasty.viewModel.FavouriteViewModel
 import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
 
 @Composable
 fun DetailsScreen(
-    foodId: Int?, navController: NavController, foodViewModel: FoodViewModel = viewModel()
+    foodId: Int?,
+    navController: NavController,
+    foodViewModel: FoodViewModel,
+    favouriteViewModel: FavouriteViewModel
 ) {
     val foods by foodViewModel.foods.collectAsState()
     val food = foods.find { it.id == foodId }
+    var isFavourite = favouriteViewModel.isFavourite(foodId ?: 0)
+
 
     food?.let { food ->
 
@@ -75,7 +78,6 @@ fun DetailsScreen(
             Row(
                 modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-
                 IconButton(
                     onClick = {
                         navController.popBackStack()
@@ -83,7 +85,7 @@ fun DetailsScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Close,
-                        tint = Color.Black,
+                        tint = CustomColors.CustomYellow,
                         modifier = Modifier.size(30.dp),
                         contentDescription = "Go Back"
                     )
@@ -93,16 +95,19 @@ fun DetailsScreen(
                     text = "Food Details", style = TextStyle(
                         fontSize = 40.sp,
                         fontFamily = myFontJomhuria,
-                        color = Color.Black,
+                        color = CustomColors.CustomYellow,
                     ), modifier = Modifier.padding(top = 5.dp)
                 )
 
-                var isFavorite by remember { mutableStateOf(false) }
-                IconButton(onClick = { isFavorite = !isFavorite }) {
+                IconButton(onClick = {
+
+
+                }) {
                     Icon(
                         modifier = Modifier.size(30.dp),
-                        imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                        contentDescription = if (isFavorite) "Remove from Favorites" else "Add to Favorites",
+                        tint = CustomColors.CustomYellow,
+                        imageVector = if (isFavourite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                        contentDescription = if (isFavourite) "Remove from Favourites" else "Add to Favourites",
                     )
                 }
             }

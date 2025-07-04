@@ -20,7 +20,6 @@ data class FavouriteFood(
     val price: Int,
 )
 
-
 class FavouriteViewModel(application: Application) : AndroidViewModel(application) {
 
     // Make this public so Composables can observe changes
@@ -59,7 +58,6 @@ class FavouriteViewModel(application: Application) : AndroidViewModel(applicatio
             }
         }
     }
-
 
     fun addFavourite(food: FavouriteFood) {
         if (!_favourites.any { it.id == food.id }) {
