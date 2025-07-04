@@ -1,5 +1,6 @@
 package com.bugrahankaramollaoglu.tasty.view.app_screens
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -27,23 +28,32 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.bugrahankaramollaoglu.tasty.model.AddFoodDialog
 import com.bugrahankaramollaoglu.tasty.util.CanvasHeader
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
 import com.bugrahankaramollaoglu.tasty.util.CustomRatingBar
 import com.bugrahankaramollaoglu.tasty.util.myFontJomhuria
+import com.bugrahankaramollaoglu.tasty.viewModel.AuthViewModel
 import com.bugrahankaramollaoglu.tasty.viewModel.FavouriteFood
 import com.bugrahankaramollaoglu.tasty.viewModel.FavouriteViewModel
 import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
@@ -52,19 +62,22 @@ import com.bugrahankaramollaoglu.tasty.viewModel.FoodViewModel
 fun DetailsScreen(
     foodId: Int?,
     navController: NavController,
+    authViewModel: AuthViewModel,
     foodViewModel: FoodViewModel,
     favouriteViewModel: FavouriteViewModel
 ) {
     val foods by foodViewModel.foods.collectAsState()
     val food = foods.find { it.id == foodId }
     var isFavourite = favouriteViewModel.isFavourite(foodId ?: 0)
+    val context = LocalContext.current
+    var quantity by rememberSaveable { mutableIntStateOf(0) }
+    var showDialog by remember { mutableStateOf(false) }
 
 
     food?.let { food ->
 
         // pe.hu free hosting servis url adresidir
         val imageUrl = "http://kasimadalan.pe.hu/yemekler/resimler/${food.imageName}"
-
 
         Column(
             modifier = Modifier
@@ -113,20 +126,14 @@ fun DetailsScreen(
                     if (isFavourite) {
                         favouriteViewModel.removeFavourite(
                             FavouriteFood(
-                                food.id,
-                                food.name,
-                                food.imageName,
-                                food.price
+                                food.id, food.name, food.imageName, food.price
                             )
                         )
                     } else {
 
                         favouriteViewModel.addFavourite(
                             FavouriteFood(
-                                food.id,
-                                food.name,
-                                food.imageName,
-                                food.price
+                                food.id, food.name, food.imageName, food.price
                             )
                         )
 
@@ -191,7 +198,11 @@ fun DetailsScreen(
                         .align(Alignment.CenterVertically), colors = ButtonDefaults.buttonColors(
                         backgroundColor = CustomColors.CustomYellow,
                         contentColor = CustomColors.CustomBlack
-                    ), onClick = {}, shape = RoundedCornerShape(12.dp)
+                    ), onClick = {
+                        if (quantity > 0) {
+                            quantity--
+                        }
+                    }, shape = RoundedCornerShape(12.dp)
                 ) {
                     Text(
                         text = "-", style = TextStyle(
@@ -204,11 +215,10 @@ fun DetailsScreen(
                 Spacer(Modifier.width(20.dp))
 
                 Text(
-                    text = "2", style = TextStyle(
+                    text = quantity.toString(), style = TextStyle(
                         fontSize = 80.sp, fontFamily = myFontJomhuria
                     ), modifier = Modifier.padding(horizontal = 10.dp)
                 )
-
 
                 Spacer(Modifier.width(20.dp))
 
@@ -220,7 +230,9 @@ fun DetailsScreen(
                         .align(Alignment.CenterVertically), colors = ButtonDefaults.buttonColors(
                         backgroundColor = CustomColors.CustomYellow,
                         contentColor = CustomColors.CustomBlack
-                    ), onClick = {}, shape = RoundedCornerShape(12.dp)
+                    ), onClick = {
+                        quantity++
+                    }, shape = RoundedCornerShape(12.dp)
                 ) {
                     Text(
                         text = "+", style = TextStyle(
@@ -246,8 +258,59 @@ fun DetailsScreen(
                         .align(Alignment.CenterHorizontally), colors = ButtonDefaults.buttonColors(
                         backgroundColor = CustomColors.CustomBlack,
                         contentColor = CustomColors.CustomWhite2
-                    ), onClick = {}, shape = RoundedCornerShape(6.dp)
+                    ), onClick = {
+                        if (quantity > 0) {
+                            showDialog = true
+                        }
+
+                    }, shape = RoundedCornerShape(6.dp)
                 ) {
+
+                    if (showDialog) {
+                        AddFoodDialog(onDismissRequest = { showDialog = false }, onConfirm = {
+
+                            // Here you can call your ViewModel's addFoodToBasket or any action
+                            foodViewModel.addFoodToBasket(
+                                food,
+                                quantity,
+                                authViewModel.loggedInUsername!!
+                            )
+                            Toast.makeText(context, "${food.name} is added!", Toast.LENGTH_SHORT)
+                                .show()
+                            showDialog = false
+                            quantity = 0
+                        }, onCancel = { showDialog = false }, title = {
+                            Text(
+                                "Add Food", style = TextStyle(
+                                    fontFamily = myFontJomhuria,
+                                    fontSize = 40.sp,
+
+                                    )
+                            )
+                        }, text = {
+                            Text(
+                                buildAnnotatedString {
+                                    append("Do you want to add ")
+                                    withStyle(
+                                        style = SpanStyle(
+                                            fontSize = 20.sp,
+                                            color = CustomColors.CustomRed,
+                                            fontWeight = FontWeight.ExtraBold
+                                        )
+                                    ) { // Change color to whatever you want
+                                        append("$quantity ")
+                                        append(food.name)
+                                    }
+                                    append(" to your basket?")
+                                }, style = TextStyle(
+                                    fontSize = 18.sp,
+                                    color = Color.Black,
+                                )
+                            )
+                        })
+                    }
+
+
                     Text(
                         text = "Add to Basket", style = TextStyle(
                             fontSize = 35.sp,

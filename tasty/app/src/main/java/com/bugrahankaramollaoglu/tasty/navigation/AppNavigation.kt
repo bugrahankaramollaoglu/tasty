@@ -62,7 +62,11 @@ fun AppNavigation(
         ) { backStackEntry ->
             val foodId = backStackEntry.arguments?.getInt("foodId") ?: 0
             DetailsScreen(
-                foodId = foodId, navController = navController, foodViewModel, favouriteViewModel
+                foodId = foodId,
+                navController = navController,
+                authViewModel,
+                foodViewModel,
+                favouriteViewModel
             )
         }
 

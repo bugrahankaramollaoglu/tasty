@@ -157,11 +157,6 @@ fun FoodItemCard(
 
                         showDialog = true
 
-                        /*foodViewModel.addFoodToBasket(
-                            food,
-                            1,
-                            username
-                        )*/
 
                     }) {
 
