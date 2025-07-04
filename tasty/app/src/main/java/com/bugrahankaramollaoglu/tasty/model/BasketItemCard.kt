@@ -100,7 +100,6 @@ fun BasketItemCard(
                         foodInBasket.basketFoodId.toInt(), authViewModel.loggedInUsername!!
                     )
 
-
                     basketViewModel.extractBasketAmount(price * quantity)
 
                     foodViewModel.getBasket(authViewModel.loggedInUsername!!)

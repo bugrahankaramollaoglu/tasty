@@ -44,11 +44,8 @@ fun HomeScreen(
         "Foods", "Favourite", "Basket", "Settings"
     )
 
-    // Use rememberSaveable to retain state across configuration changes
     var selectedIndex = rememberSaveable { mutableIntStateOf(0) }
 
-
-    // Create RioBottomNavItemData for the bottom navigation buttons
     val buttons = items.mapIndexed { index, iconData ->
         RioBottomNavItemData(
             imageVector = ImageVector.vectorResource(iconData),

@@ -25,6 +25,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -326,36 +327,61 @@ fun DetailsScreen(
 
                 Spacer(Modifier.height(20.dp))
 
+                HorizontalDivider(
+                    Modifier
+                        .width(300.dp)
+                        .align(Alignment.CenterHorizontally),
+                    color = CustomColors.CustomYellow,
+
+                    )
+
+                Spacer(Modifier.height(20.dp))
 
                 Row(
-                    modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center
+                    modifier = Modifier
+                        .fillMaxWidth()
+
+                        .padding(horizontal = 50.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
+
                     Text(
-                        text = "${basketViewModel.basketAmount.value}", style = TextStyle(
-                            fontSize = 60.sp,
-                            fontWeight = FontWeight.ExtraBold,
+                        text = "Current Basket:", style = TextStyle(
+                            fontSize = 40.sp,
+                            fontWeight = FontWeight.Bold,
                             fontFamily = myFontJomhuria,
-                            color = CustomColors.CustomYellow,
-                            shadow = Shadow(
-                                color = CustomColors.CustomYellow.copy(alpha = 0.7f),
-                                offset = Offset(0f, 0f),
-                                blurRadius = 20f
-                            )
+                            color = CustomColors.CustomBlack,
                         )
                     )
-                    Text(
-                        text = " ₺",
-                        style = TextStyle(
-                            fontSize = 40.sp,
-                            fontWeight = FontWeight.ExtraBold,
-                            color = CustomColors.CustomYellow,
-                            shadow = Shadow(
-                                color = CustomColors.CustomYellow.copy(alpha = 0.7f),
-                                offset = Offset(0f, 0f),
-                                blurRadius = 20f
+
+                    Row(modifier = Modifier.padding(horizontal = 10.dp)) {
+                        Text(
+                            text = "${basketViewModel.basketAmount.value}", style = TextStyle(
+                                fontSize = 40.sp,
+                                fontWeight = FontWeight.ExtraBold,
+                                fontFamily = myFontJomhuria,
+                                color = CustomColors.CustomYellow,
+                                shadow = Shadow(
+                                    color = CustomColors.CustomYellow.copy(alpha = 0.7f),
+                                    offset = Offset(0f, 0f),
+                                    blurRadius = 20f
+                                )
                             )
-                        ),
-                    )
+                        )
+                        Text(
+                            text = " ₺",
+                            style = TextStyle(
+                                fontSize = 25.sp,
+                                fontWeight = FontWeight.ExtraBold,
+                                color = CustomColors.CustomYellow,
+                                shadow = Shadow(
+                                    color = CustomColors.CustomYellow.copy(alpha = 0.7f),
+                                    offset = Offset(0f, 0f),
+                                    blurRadius = 20f
+                                )
+                            ),
+                        )
+                    }
                 }
 
 

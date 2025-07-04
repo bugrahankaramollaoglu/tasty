@@ -46,7 +46,7 @@ fun FavouriteItemCard(
             .fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
         elevation = 8.dp,
-        backgroundColor = CustomColors.CustomWhite2
+        backgroundColor = CustomColors.CustomWhite
     ) {
         Row(
             modifier = Modifier

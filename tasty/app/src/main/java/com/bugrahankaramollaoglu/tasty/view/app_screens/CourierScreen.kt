@@ -3,14 +3,22 @@ package com.bugrahankaramollaoglu.tasty.view.app_screens.BottomNavScreens
 import android.annotation.SuppressLint
 import android.os.Looper
 import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -19,6 +27,7 @@ import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -31,11 +40,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.bugrahankaramollaoglu.tasty.R
 import com.bugrahankaramollaoglu.tasty.util.CustomColors
 import com.bugrahankaramollaoglu.tasty.util.RequestLocationPermission
+import com.bugrahankaramollaoglu.tasty.util.myFontJomhuria
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.android.gms.location.LocationCallback
@@ -111,8 +123,7 @@ fun CourierScreen(navController: NavController) {
     ) {
         if (locationPermissionGranted && userLocation != null) {
             GoogleMap(
-                modifier = Modifier
-                    .fillMaxSize(),
+                modifier = Modifier.fillMaxSize(),
 //                    .statusBarsPadding(), // Add padding for status bar (top)
 //                    .navigationBarsPadding(), // Add padding for navigation bar (bottom)
                 cameraPositionState = cameraPositionState,
@@ -126,11 +137,9 @@ fun CourierScreen(navController: NavController) {
                     customIcon =
                         BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)
                     isMapLoaded = true
-                }
-            ) {
+                }) {
                 Marker(
-                    state = MarkerState(position = userLocation!!),
-                    title = "You are here"
+                    state = MarkerState(position = userLocation!!), title = "You are here"
                 )
 
                 if (customIcon != null) {
@@ -155,13 +164,93 @@ fun CourierScreen(navController: NavController) {
                         userLocation?.let {
                             cameraPositionState.position = CameraPosition.fromLatLngZoom(it, 15f)
                         }
-                    },
-                contentAlignment = Alignment.Center
+                    }, contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = Icons.Default.LocationOn,
                     contentDescription = "My Location",
                     tint = CustomColors.CustomWhite
+                )
+            }
+
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .padding(bottom = 50.dp, start = 20.dp)
+                    .wrapContentSize()
+                    .border(
+                        width = 3.dp,
+                        color = CustomColors.CustomRed,
+                        shape = RoundedCornerShape(8.dp)
+                    )
+                    .clip(RoundedCornerShape(8.dp))
+                    .shadow(elevation = 4.dp)
+                    .background(CustomColors.CustomWhite.copy(alpha = 0.9f))
+                    .clickable {
+                        userLocation?.let {
+                            cameraPositionState.position = CameraPosition.fromLatLngZoom(it, 15f)
+                        }
+                    }, contentAlignment = Alignment.Center
+            ) {
+                Column(
+                    modifier = Modifier
+                        .padding(15.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.courier_avatar),
+                        contentDescription = "Avatar",
+                        modifier = Modifier
+                            .size(75.dp)
+                            .clip(CircleShape)
+                            .background(CustomColors.CustomYellow)
+                    )
+                    Spacer(Modifier.height(10.dp))
+                    Row(
+                        modifier = Modifier.width(width = 200.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+
+                        Text(
+                            "Order Status:", style = TextStyle(
+                                fontSize = 22.sp, fontFamily = myFontJomhuria
+                            )
+                        )
+                        Text("On the way")
+
+                    }
+                    Spacer(Modifier.height(10.dp))
+                    Row(
+                        modifier = Modifier.width(width = 200.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+
+                        Text(
+                            "Total Amount:", style = TextStyle(
+                                fontSize = 22.sp, fontFamily = myFontJomhuria
+                            )
+                        )
+                        Text("153 ₺")
+
+                    }
+                }
+            }
+
+            Box(
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .padding(top = 50.dp)
+                    .clickable {
+                        userLocation?.let {
+                            cameraPositionState.position = CameraPosition.fromLatLngZoom(it, 15f)
+                        }
+                    }, contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    "Courier State", style = TextStyle(
+                        fontFamily = myFontJomhuria,
+                        fontSize = 30.sp,
+                    )
                 )
             }
 
@@ -183,8 +272,7 @@ fun CourierScreen(navController: NavController) {
                         .clickable {
                             val currentZoom = cameraPositionState.position.zoom
                             cameraPositionState.position = CameraPosition.fromLatLngZoom(
-                                cameraPositionState.position.target,
-                                currentZoom + 1f
+                                cameraPositionState.position.target, currentZoom + 1f
                             )
                         },
                     tint = CustomColors.CustomWhite
@@ -204,8 +292,7 @@ fun CourierScreen(navController: NavController) {
                         .clickable {
                             val currentZoom = cameraPositionState.position.zoom
                             cameraPositionState.position = CameraPosition.fromLatLngZoom(
-                                cameraPositionState.position.target,
-                                currentZoom - 1f
+                                cameraPositionState.position.target, currentZoom - 1f
                             )
                         },
                     tint = CustomColors.CustomWhite
@@ -215,8 +302,7 @@ fun CourierScreen(navController: NavController) {
 
         if (!isMapLoaded) {
             Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
+                modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator(color = CustomColors.CustomWhite)
             }
@@ -232,8 +318,7 @@ fun CourierScreen(navController: NavController) {
                 .background(CustomColors.CustomRed)
                 .clickable {
                     navController.popBackStack()
-                },
-            contentAlignment = Alignment.Center
+                }, contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = Icons.Default.KeyboardArrowLeft,
