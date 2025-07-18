@@ -26,7 +26,6 @@ class FoodViewModel(
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage: StateFlow<String?> = _errorMessage
 
-
     /* *********** sepetteki ürünler ************ */
 
     private val _basketItems = MutableStateFlow<List<FoodInBasket>>(emptyList())

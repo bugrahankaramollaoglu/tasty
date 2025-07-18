@@ -35,7 +35,6 @@ class BasketDataStore(context: Context) {
     }
 }
 
-
 class BasketViewModelFactory(private val application: Application) :
     ViewModelProvider.AndroidViewModelFactory(application) {
 
@@ -67,7 +66,6 @@ class BasketViewModel(application: Application) : AndroidViewModel(application) 
         val newAmount = _basketAmount.value + amount
         updateBasketAmount(newAmount)
     }
-
 
     fun extractBasketAmount(amount: Int) {
         val newAmount = _basketAmount.value - amount

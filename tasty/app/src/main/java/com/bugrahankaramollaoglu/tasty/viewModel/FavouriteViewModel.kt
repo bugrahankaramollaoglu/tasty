@@ -12,7 +12,6 @@ import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-
 data class FavouriteFood(
     val id: Int,
     val name: String,
@@ -23,7 +22,7 @@ data class FavouriteFood(
 class FavouriteViewModel(application: Application) : AndroidViewModel(application) {
 
     // Make this public so Composables can observe changes
-//    val favourites = mutableStateListOf<FavouriteFood>()
+    //  val favourites = mutableStateListOf<FavouriteFood>()
 
     private val _favourites = mutableStateListOf<FavouriteFood>()
     val favourites: MutableList<FavouriteFood> get() = _favourites

@@ -5,7 +5,6 @@ import retrofit2.http.GET
 
 // retrofit is a famous http client for android
 
-
 // bu arayüz backendden yemeklerin bilgisini alan bir API
 // cagrısını temsil ediyor. bu arayüz sayesinde uygulaman
 // internetle iletisime geciyor.

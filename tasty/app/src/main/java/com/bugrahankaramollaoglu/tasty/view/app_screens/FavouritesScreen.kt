@@ -35,7 +35,6 @@ fun FavouritesScreen(favouriteViewModel: FavouriteViewModel) {
 
 //    val favouriteViewModel2: FavouriteViewModel = viewModel()
 
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -100,4 +99,3 @@ fun FavouritesScreen(favouriteViewModel: FavouriteViewModel) {
     }
 
 }
-
