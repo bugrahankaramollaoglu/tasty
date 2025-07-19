@@ -69,7 +69,7 @@ object FoodsInstance {
 object RetrofitInstance {
 
     // Android emulator!
-    private const val BASE_URL = "http://10.0.2.2:8000/"
+    private const val BASE_URL = "http://157.230.109.22"
 
     // if you are using physical device, run server with:
     // python manage.py runserver 0.0.0.0:8000
